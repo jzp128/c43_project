@@ -3,6 +3,15 @@ CREATE DATABASE IF NOT EXISTS airbnb;
 -- SHOW DATABASES;
 USE airbnb;
 -- SELECT DATABASE();
+CREATE TABLE IF NOT EXISTS address(
+	addressID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    city	CHAR(50) NOT NULL,
+    postal_code CHAR(20) NOT NULL,
+    country CHAR(30) NOT NULL,
+    street_name CHAR(50) NOT NULL,
+    building_number char(10) NOT NULL,
+    unit_number char(10)
+);
 
 CREATE TABLE IF NOT EXISTS users (
 	userID		INT UNSIGNED auto_increment primary key,
@@ -11,7 +20,9 @@ CREATE TABLE IF NOT EXISTS users (
     dob 		DATETIME 		NOT NULL,
     occupation 	VARCHAR(100) 	NOT NULL DEFAULT 'NONE',
     loginName	VARCHAR(20) UNIQUE NOT NULL DEFAULT '',
-    loginPW		VARCHAR(20) NOT NULL DEFAULT ''
+    loginPW		VARCHAR(20) NOT NULL DEFAULT '',
+    addressID INT UNSIGNED,
+    FOREIGN KEY (addressID) references address(addressID)
 );
 
 CREATE TABLE IF NOT EXISTS hosters(
@@ -41,8 +52,13 @@ CREATE TABLE IF NOT EXISTS listing (
     longitude DOUBLE NOT NULL DEFAULT '0.0',
     latitude DOUBLE NOT NULL DEFAULT '0.0',
     hosterID INT UNSIGNED,
+    addressID INT UNSIGNED,
     FOREIGN KEY (hosterID)
     REFERENCES hosters(hosterID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+    FOREIGN KEY (addressID)
+    REFERENCES address(addressID)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
@@ -81,3 +97,12 @@ CREATE TABLE IF NOT EXISTS bookings(
     foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+
+CREATE TABLE IF NOT EXISTS reviews(
+	creatorID INT UNSIGNED,
+    receiverID INT UNSIGNED,
+    listingID INT UNSIGNED,
+    content longtext,
+    rating decimal(2,1),
+    reviewType CHAR(1)
+);
