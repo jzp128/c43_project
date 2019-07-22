@@ -1,6 +1,16 @@
 import java.sql.*;
 
 public class Main {
+	public static void main(String[] args) {
+		System.out.println("Booting up...");
+		App application = new App();
+		//application.welcome();
+		application.welcome();
+
+	}
+	
+	
+	/*
 	private static final String dbClassName = "com.mysql.cj.jdbc.Driver";
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/mydb?serverTimezone=America/New_York";
 	
@@ -48,5 +58,5 @@ public class Main {
 			//System.err.println("Connection error occured!");
 			System.out.println(e.toString());
 		}
-	}
+	} */
 }
