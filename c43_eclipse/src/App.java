@@ -149,6 +149,7 @@ public class App {
 						switch (redirect) {
 						case 0:
 							renter.renterPayment();
+							renter.renterPageMenu();
 							break;
 						case 1:
 							host.hostPageMenu();
@@ -157,7 +158,6 @@ public class App {
 					} catch (NumberFormatException e) {
 						usertype = "-1";
 					}
-				renter.renterPageMenu();
 				break;
 			default:
 				break;
