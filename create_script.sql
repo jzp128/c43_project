@@ -23,16 +23,15 @@ CREATE TABLE IF NOT EXISTS listing (
     price DECIMAL(65,2) UNSIGNED NOT NULL DEFAULT '0.00',-- should we have this in here?
     listingType CHAR(10) NOT NULL DEFAULT 'UNKNOWN',
     longitude DOUBLE NOT NULL DEFAULT '0.0',
-    latitude DOUBLE NOT NULL DEFAULT '0.0',
+    latitude DOUBLE NOT NULL DEFAULT '0.0'
     -- start date
     -- end date
-    -- does this work for amendties? or do we need another table
-    FOREIGN KEY fk_amendId(amendID)
-    REFERENCES amendities (amendID)
-    ON UPDATE CASCADE
-    ON DELETE SET NULL
 );
 
+CREATE TABLE IF NOT EXISTS amenditiesList(
+	listingID int UNSIGNED REFERENCES listing(listingID),
+    
+);
 
 
 CREATE TABLE IF NOT EXISTS renters(
