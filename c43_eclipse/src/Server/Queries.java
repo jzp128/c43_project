@@ -3,6 +3,7 @@ package Server;
 import Listings.Listing;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Queries {
 
@@ -148,8 +149,8 @@ public class Queries {
         return id;
     }
 
-    public static Listing[] getListingsForUser(Connection c, int userID) {
-        Listing[] ret = {};
+    public static ArrayList<Listing> getListingsForUser(Connection c, int userID) {
+        ArrayList<Listing> ret = new ArrayList<>();
         String q = "select * FROM listing WHERE hosterID = ?";
         try {
             PreparedStatement ps = c.prepareStatement(q);
@@ -159,12 +160,15 @@ public class Queries {
 
                 int id = rs.getInt("listingID");
                 String city = rs.getString("city");
-                String postal_code = rs.getString("");
+                String postal_code = rs.getString("postal_code");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
                 double longitude = rs.getDouble("longitude");
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
-
-//				Listing l = new Listing("", "", "", "", "", "", "");
+                String type = rs.getString("listingType");
+                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                ret.add(l);
             }
             rs.close();
             ps.close();
