@@ -1,6 +1,9 @@
 package Server;
 
+import Listings.Listing;
+
 import java.sql.*;
+import java.util.List;
 
 public class Queries {
 	
@@ -113,7 +116,8 @@ public class Queries {
 			PreparedStatement ps = c.prepareStatement(q);
 			ps.setInt(1, userID);
 			ps.setInt(2, addrID);
-			success = ps.execute();
+			int a = ps.executeUpdate();
+			success = a >= 0;
 			ps.close();
 		} catch (SQLException e) {
 			// TODO: ADD ERROR MESSAGE
@@ -155,7 +159,7 @@ public class Queries {
 		return success;
 	}
 	
-	//USER CREATION
+	//LISTINGS
 	public int create_listing(Connection c, String sin, String userName, java.sql.Date dob, String occupation, String loginName, String pw) {
 		// adds user (no address) and then puts them into the table
 		int id = -1;
@@ -177,5 +181,27 @@ public class Queries {
 		}
 		
 		return id;
+	}
+
+	public Listing[] getListingsForUser(Connection c, int userID){
+		Listing[] ret = {};
+		String q = "select * FROM listing WHERE hosterID = ?";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+
+				int id = rs.getInt("listingID");
+				String city = rs.getString("city");
+				String postal_code = rs.getString("");
+//				Listing l = new Listing("", "", "", "", "", "", "");
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+
+		}
+		return ret;
 	}
 }
