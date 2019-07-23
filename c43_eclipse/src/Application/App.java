@@ -57,10 +57,10 @@ public class App {
 				this.login();
 				break;
 			case 2:
+				disconnect();
 				System.out.println("Exiting...");
 				System.out.println("Goodbye.");
 				System.exit(0);
-				break;
 			default:
 				break;
 			}
@@ -198,9 +198,7 @@ public class App {
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				try {
-					Connection con = connect();
-					user.makeUser(con);
-					
+					user.makeUser(conn);
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
@@ -237,8 +235,6 @@ public class App {
     
 	
     public Connection connect() {
-        // SQLite connection string
-        Connection conn = null;
         try {
             conn = DriverManager.getConnection(CONNECTION,USER,PASS);
         } catch (SQLException e) {
@@ -247,7 +243,14 @@ public class App {
         return conn;
     }
     
+    public Connection getconn() {
+        return conn;
+    }
+    
 	public void disconnect() {
+		if (conn == null) {
+			return;
+		}
 		try {
 			// st.close();
 			conn.close();
