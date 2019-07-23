@@ -40,9 +40,9 @@ public class App {
 		return application;
 	};
 	
-//	public App getAppInstance(){
-//		return application;
-//	};
+	public static App getAppInstance(){
+		return application;
+	};
     
 	public void welcome(){
 		user.setName(null);

@@ -1,5 +1,14 @@
 package Application;
 
+import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
+
+import Listings.Amenity;
+import Listings.Listing;
+import Server.Queries;
+import Users.User;
+
 public class HostPage extends UserPage{
 	public void hostPageMenu(){
 		
@@ -38,7 +47,7 @@ public class HostPage extends UserPage{
 		}
 	}
 	
-	public void makeListingPage(){		
+	public void makeListingPage(){	
 
 		System.out.println("====MAKE A LISTING====");
 
@@ -81,18 +90,19 @@ public class HostPage extends UserPage{
 		//user.country = country;
 		
 		System.out.println("0  Submit.");
-		System.out.println("1. Go Back.");
+		System.out.println("1. Cancel.");
 		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.viewlisting();
-				this.previousListingPage();
+				int id = makelisting();
+				amenitiesPage(id);
+//				this.previousListingPage();
 				break;
 			case 1:
-				this.hostlisting();
+				this.hostPageMenu();
 				break;
 			default:
 				break;
@@ -103,7 +113,63 @@ public class HostPage extends UserPage{
 		
 	}
 	
+	public void amenitiesPage(int listingid){
+		App app = App.getAppInstance();
+		System.out.println("Amenities!" + app.getconn());
+		System.out.println(app.getconn());
+		List<Amenity> amen = Queries.AvailAmend(app.getconn());
+		for (int i = 0; i < amen.size(); i++) {
+			System.out.print(amen.get(i).amendid);
+			System.out.print(amen.get(i).amendName);
+			System.out.print(amen.get(i).amendDescription);
+			System.out.print("Enter [y/n] to confirm. Do you have this amenity?");
+			String option = keyboard.nextLine();
+			try {
+				switch (option) { //Activate the desired functionality
+				case "y":
+					amen.get(i).amendBool = true;
+					confirmamenitiesPage(listingid, amen, app.getconn());
+					//confirm;
+					//Queries.insertAmend(app.getconn(),listingid, amen.get(i).amendid);
+					break;
+				case "n":
+					amen.get(i).amendBool = false;
+					break;
+				default:
+					break;
+				}
+			} catch (NumberFormatException e) {
+				option = "-1";
+			}
+		}
+	}
 	
+	
+	public void confirmamenitiesPage(int listingid, List<Amenity> amen, Connection conn){
+		System.out.print("0.Confirm amenities");
+		System.out.print("1.Restart");
+		String option = keyboard.nextLine();
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				for (int i = 0; i < amen.size(); i++) {
+					if (amen.get(i).amendBool) {
+						Queries.insertAmend(conn,listingid, amen.get(i).amendid);
+					}
+				}
+				break;
+			case 1:
+				amenitiesPage (listingid);
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+
+	}
 	
 
 	public void previousListingPage(){		
