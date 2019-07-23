@@ -65,7 +65,7 @@ public class HostPage extends UserPage{
 	
 	public void currentListingPage(){		
 
-		System.out.println("====FUTURE LISTINGS====");
+		System.out.println("====CURRENT LISTINGS====");
 
 		System.out.print("ENTER the listing number you want to view");
 		String record = keyboard.nextLine();
@@ -161,21 +161,19 @@ public class HostPage extends UserPage{
 	public void viewlisting(){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
-		System.out.println("1. View History");
-		System.out.println("1. Go Back");
-		System.out.println("2. Go Back to the Main Listing Page");
+		System.out.println("0. View History");
+		System.out.println("1. Go Back to the Main Listing Page");
 		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
+				this.bookingPage();
 				break;
 			case 1:
-				this.viewbooking();
-				break;
-			case 2:
 				hostlisting();
+			case 2:
 				break;
 			default:
 				break;
@@ -185,7 +183,7 @@ public class HostPage extends UserPage{
 		}
 	}
 	
-	public void BookingPage(){		
+	public void bookingPage(){		
 
 		System.out.println("====BOOKINGS====");
 
@@ -201,7 +199,7 @@ public class HostPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				this.viewbooking();
-				this.BookingPage();
+				this.bookingPage();
 				//this.welcome();
 				break;
 			case 1:
@@ -216,23 +214,92 @@ public class HostPage extends UserPage{
 		
 	}
 	
-	public void viewbooking(){		
+	public void hostreview(){
 		System.out.println("");
-		System.out.println("=========BOOKING=========");
-		System.out.println("0. Write a Review");
+		System.out.println("=========Review=========");
+		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
+		String review = keyboard.nextLine();
+		System.out.println("0. Submit");
 		System.out.println("1. Go Back");
-		System.out.println("2. Go Back to the Main Booking Page");
+		String option = keyboard.nextLine();
+
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				//try to insert into the db
+				// check if they actually can
+				//if so then
+				System.out.println("Commented!");
+				System.out.println("Going back now!");
+				viewbooking();
+			case 1:
+				viewbooking();
+				break;
+			case 2:
+				viewlisting();
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+	}
+	public void hostrate(){
+		System.out.println("");
+		System.out.println("=========Rating=========");
+		System.out.println("Provide a rating from [0-5]:"); // renters name
+		String review = keyboard.nextLine();
+		System.out.println("0. Submit");
+		System.out.println("1. Go Back");
 		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				
+				//try to insert into the db
+				// check if they actually can
+				//if so then
+				System.out.println("Rated!");
+				System.out.println("Going back now!");
+				viewbooking();
 			case 1:
-				//this.futureBookingPage();
+				viewbooking();
 				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+	}
+	
+	public void viewbooking(){		
+		System.out.println("");
+		System.out.println("=========BOOKING=========");
+		System.out.println("0. Write a Review on the Renter's Profile");
+		System.out.println("1. Rate the Renter's Profile!");
+		System.out.println("2. Go Back");
+		System.out.println("3. Go Back to the Main Booking Page");
+		String option = keyboard.nextLine();
+		
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				// check if they had already reviewed the renter especially for this listing.
+				//check if they can write a review for this renter? check for whether the list is in the past and is recent!
+				hostreview();
+			case 1:
+				// check if they had already rated the renter especially for this listing.
+				//check if they can rate this renter? check for whether the list is in the past and is recent!
+				hostrate();
 			case 2:
+				bookingPage();
+				break;
+			case 3:
 				viewlisting();
 				break;
 			default:
