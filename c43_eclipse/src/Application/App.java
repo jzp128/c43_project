@@ -235,22 +235,6 @@ public class App {
     	System.out.println(input);
     }
     
-	public boolean connect(String[] cred) throws ClassNotFoundException {
-		Class.forName(dbClassName);
-		boolean success = true;
-		String user = cred[0];
-		String pass = cred[1];
-		String connection = CONNECTION + cred[2];
-		try {
-			conn = DriverManager.getConnection(connection, user, pass);
-			st = conn.createStatement();
-		} catch (SQLException e) {
-			success = false;
-			System.err.println("Connection could not be established!");
-			e.printStackTrace();
-		}
-		return success;
-	}
 	
     public Connection connect() {
         // SQLite connection string
@@ -265,13 +249,13 @@ public class App {
     
 	public void disconnect() {
 		try {
-			st.close();
+			// st.close();
 			conn.close();
 		} catch (SQLException e) {
 			System.err.println("Exception occured while disconnecting!");
 			e.printStackTrace();
 		} finally {
-			st = null;
+			//st = null;
 			conn = null;
 		}
 	}
