@@ -1,4 +1,4 @@
-package Application;
+package Server;
 
 public class userCreation {
 	public int create_user() {

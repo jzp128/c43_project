@@ -27,7 +27,7 @@ public class User {
 	  }
 	  
 	  public void makeUser(Connection c) {
-		  Application.Queries queries = new Application.Queries();  
+		  Server.Queries queries = new Server.Queries();  
 		  queries.create_user(c,sin,name,dob,job, username,password);
 		  
 	  }
