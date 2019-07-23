@@ -161,14 +161,79 @@ public class HostPage extends UserPage{
 	public void viewlisting(){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
-		System.out.println("0. Go Back");
-				String option = keyboard.nextLine();
+		System.out.println("1. View History");
+		System.out.println("1. Go Back");
+		System.out.println("2. Go Back to the Main Listing Page");
+		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
+				break;
+			case 1:
+				this.viewbooking();
+				break;
+			case 2:
+				hostlisting();
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+	}
+	
+	public void BookingPage(){		
+
+		System.out.println("====BOOKINGS====");
+
+		System.out.print("ENTER the booking number you want to view");
+		String record = keyboard.nextLine();
+
+		System.out.println("0  Submit.");
+		System.out.println("1. Go Back.");
+		String option = keyboard.nextLine();
+		
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				this.viewbooking();
+				this.BookingPage();
+				//this.welcome();
+				break;
+			case 1:
+				this.viewlisting();
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+		
+	}
+	
+	public void viewbooking(){		
+		System.out.println("");
+		System.out.println("=========BOOKING=========");
+		System.out.println("0. Write a Review");
+		System.out.println("1. Go Back");
+		System.out.println("2. Go Back to the Main Booking Page");
+		String option = keyboard.nextLine();
+		
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				
+			case 1:
 				//this.futureBookingPage();
+				break;
+			case 2:
+				viewlisting();
 				break;
 			default:
 				break;

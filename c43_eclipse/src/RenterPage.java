@@ -89,6 +89,8 @@ public class RenterPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome();
+				this.viewbooking();
+				this.historyBookingPage();
 				break;
 			case 1:
 				this.renterbooking();
@@ -117,6 +119,8 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
+				this.viewbooking();
+				this.futureBookingPage();
 				//this.welcome();
 				break;
 			case 1:
@@ -146,6 +150,8 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
+				this.viewbooking();
+				this.canceledBookingPage();
 				//this.welcome();
 				break;
 			case 1:
@@ -199,7 +205,8 @@ public class RenterPage extends UserPage{
 		System.out.println("");
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Go Back");
-				String option = keyboard.nextLine();
+		System.out.println("1. Go Back to the Main Booking Page");
+		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
@@ -207,13 +214,14 @@ public class RenterPage extends UserPage{
 			case 0:
 				//this.futureBookingPage();
 				break;
+			case 1:
+				renterbooking();
+				break;
 			default:
 				break;
 			}
 		} catch (NumberFormatException e) {
 			option = "-1";
 		}
-		
 	}
-
 }
