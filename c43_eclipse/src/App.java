@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import Users.User;
+
 import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,8 +20,10 @@ public class App {
 
 	private Scanner sc = null;
 	
+	User user = new User();
     
 	public void welcome(){
+		user.setName(null);
 		System.out.println("");
 		System.out.println("**************************");
 		System.out.println("*********WELCOME**********");
@@ -108,6 +113,7 @@ public class App {
 		String inpUser = keyboard.nextLine();
 		System.out.print("Password:");
 		String inpPass = keyboard.nextLine();
+		System.out.println("Enter some information about you");
 		System.out.print("First Name:");
 		String firstname = keyboard.nextLine();
 		System.out.print("Last Name:");
