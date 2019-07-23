@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class RenterPage extends UserPage{
 	
 	Scanner keyboard = new Scanner (System.in);
+	App application = new App();
 	
 	public void renterPayment(){
 		System.out.println("Payment Information");
@@ -12,6 +13,29 @@ public class RenterPage extends UserPage{
 		String ccname = keyboard.nextLine();
 		System.out.print("Card Security Code");
 		String ccsecuritr = keyboard.nextLine();
+		System.out.println("==========================");
+		System.out.println("0  Submit.");
+		System.out.println("1. Cancel.");
+		String option = keyboard.nextLine();
+
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				this.renterPageMenu();
+				break;
+			case 1:
+				application.welcome();
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+		
+		
+		
 	}
 	
 	
@@ -22,7 +46,7 @@ public class RenterPage extends UserPage{
 		System.out.println("**************************");
 		System.out.println("");
 		System.out.println("====RENTER'S HOME PAGE====");
-		System.out.println("0  View my Listings.");
+		System.out.println("0  View my Bookings.");
 		System.out.println("1. Delete My Account.");
 		System.out.println("2. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
@@ -138,9 +162,9 @@ public class RenterPage extends UserPage{
 	
 	public void renterbooking(){		
 		System.out.println("");
-		System.out.println("=========HISTORY=========");
+		System.out.println("=========BOOKINGS=========");
 		System.out.println("0  View Future Bookings");
-		System.out.println("1. View Past Bookings.");
+		System.out.println("1. View Previous Bookings.");
 		System.out.println("2. View Canceled Bookings");
 		System.out.println("3. Go Back");
 		
@@ -157,10 +181,10 @@ public class RenterPage extends UserPage{
 				this.historyBookingPage();
 				break;
 			case 2:
-				this.renterbooking();
+				this.canceledBookingPage();
 				break;
 			case 3:
-				this.canceledBookingPage();
+				this.renterPageMenu();
 				break;
 			default:
 				break;
@@ -181,7 +205,7 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.futureBookingPage();
+				//this.futureBookingPage();
 				break;
 			default:
 				break;

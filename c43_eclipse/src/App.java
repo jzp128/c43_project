@@ -25,9 +25,9 @@ public class App {
 		System.out.println("**************************");
 		System.out.println("");
 		System.out.println("=========MENU=========");
-		System.out.println("0. Exit.");
+		System.out.println("0. Sign Up.");
 		System.out.println("1. Log In.");
-		System.out.println("2. Sign Up.");
+		System.out.println("2. Exit.");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
 		
 	    Scanner keyboard = new Scanner (System.in);
@@ -38,15 +38,15 @@ public class App {
 			choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				System.out.println("Exiting...");
-				System.out.println("Goodbye.");
-				System.exit(0);
+				this.signup();
 				break;
 			case 1:
 				this.login();
 				break;
 			case 2:
-				this.signup();
+				System.out.println("Exiting...");
+				System.out.println("Goodbye.");
+				System.exit(0);
 				break;
 			default:
 				break;
@@ -69,8 +69,8 @@ public class App {
 		String inpUser = keyboard.nextLine();
 		System.out.print("Password:");
 		String inpPass = keyboard.nextLine();
-		System.out.println("0. Go Back.");
-		System.out.println("1. Submit.");
+		System.out.println("0. Submit.");
+		System.out.println("1. Go Back.");
 		System.out.print("Choose one of the previous options [0 - 1]: ");
 		String option = keyboard.nextLine();
 		int choice = -1;
@@ -130,8 +130,8 @@ public class App {
 		System.out.println("Indicate if you want to be a [0] renter or [1] host.");
 		String usertype = keyboard.nextLine();
 		System.out.println("By submitting I am declaring that I am at least 18 years old.");
-		System.out.println("0. Go Back.");
-		System.out.println("1. Submit.");
+		System.out.println("0. Submit.");
+		System.out.println("1. Go Back.");
 		System.out.print("Choose one of the previous options [0 - 1]: ");
 		String option = keyboard.nextLine();
 		int choice = -1;
@@ -141,15 +141,13 @@ public class App {
 			choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.welcome();
-				break;
-			case 1:
 				try {
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
 							renter.renterPayment();
 							renter.renterPageMenu();
+
 							break;
 						case 1:
 							host.hostPageMenu();
@@ -160,6 +158,9 @@ public class App {
 					}
 				break;
 			default:
+				break;
+			case 1:
+				this.welcome();
 				break;
 			}
 		} catch (NumberFormatException e) {
