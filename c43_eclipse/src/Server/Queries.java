@@ -178,6 +178,65 @@ public class Queries {
         return ret;
     }
 
+    public static ArrayList<Listing> getListingsForGeoLocation(Connection c, double lat1, double long1) {
+        ArrayList<Listing> ret = new ArrayList<>();
+        String q = "select * FROM listing WHERE hosterID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+//            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id = rs.getInt("listingID");
+                String city = rs.getString("city");
+                String postal_code = rs.getString("postal_code");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                int hostID = rs.getInt("hosterID");
+                String type = rs.getString("listingType");
+                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                ret.add(l);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
+
+    public static ArrayList<Listing> getListingsForPostalCode(Connection c, String pCode) {
+        ArrayList<Listing> ret = new ArrayList<>();
+        String q = "select * FROM listing WHERE postal_code = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setString(1, pCode);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id = rs.getInt("listingID");
+                String city = rs.getString("city");
+                String postal_code = rs.getString("postal_code");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                int hostID = rs.getInt("hosterID");
+                String type = rs.getString("listingType");
+                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                ret.add(l);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
+
+
     public static int addAmentities(Connection c, String name, String description){
         int id = -1;
         String q = "INSERT INTO amenities (amendName, amentDescription) values(?, ?)";

@@ -75,14 +75,14 @@ CREATE TABLE IF NOT EXISTS available(
 
 CREATE TABLE IF NOT EXISTS bookings(
 	bookingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    hostID INT UNSIGNED NOT NULL,
-    renterID INT UNSIGNED NOT NULL,
+    hostID INT UNSIGNED DEFAULT -1,
+    renterID INT UNSIGNED DEFAULT -1,
     isCanceled BOOLEAN NOT NULL DEFAULT (False),
     isHistory BOOLEAN NOT NULL DEFAULT (False),
     fromDate DATE,
     toDate DATE,
-    FOREIGN KEY (hostID) references users(userID) ON UPDATE CASCADE ON DELETE CASCADE,
-    foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (hostID) references users(userID) ON UPDATE CASCADE ON DELETE SET NULL,
+    foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 
