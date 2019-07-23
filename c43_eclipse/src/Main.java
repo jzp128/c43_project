@@ -12,14 +12,14 @@ public class Main {
 	
 	/*
 	private static final String dbClassName = "com.mysql.cj.jdbc.Driver";
-	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/mydb?serverTimezone=America/New_York";
+	private static final String CONNECTION = "jdbc:mysql://localhost:3306/airbnb";
 	
 	public static void main(String[] args) throws ClassNotFoundException {
 		//Register JDBC driver
 		Class.forName(dbClassName);
 		//Database credentials
 		final String USER = "root";
-		final String PASS = "chanja51";
+		final String PASS = "root";
 		System.out.println("Connecting to database...");
 		
 		try {
