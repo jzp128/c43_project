@@ -1,5 +1,6 @@
 package Listings;
 
+import java.sql.Connection;
 
 public class Listing {
     public int id;
@@ -28,5 +29,13 @@ public class Listing {
     public void setPrice(double price){
         this.price = price;
     }
+    
+	  public int makelisting(Connection c) {
+		  Server.Queries queries = new Server.Queries();
+		  int id = queries.create_listing(c,id,city, postal_code, country, street_name, building_number, unit_number);
+		  return id;
+	  }
+    
+    
 }
 

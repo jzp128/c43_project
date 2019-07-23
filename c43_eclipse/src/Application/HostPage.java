@@ -1,5 +1,14 @@
 package Application;
 
+import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
+
+import Listings.Amenity;
+import Listings.Listing;
+import Server.Queries;
+import Users.User;
+
 public class HostPage extends UserPage{
 	public void hostPageMenu(){
 		
@@ -8,9 +17,10 @@ public class HostPage extends UserPage{
 		System.out.println("**************************");
 		System.out.println("");
 		System.out.println("=====HOST'S HOME PAGE=====");
-		System.out.println("0. View my Listings.");
-		System.out.println("1. Delete My Account.");
-		System.out.println("2. Log Out");
+		System.out.println("0. Make a Listing.");
+		System.out.println("1. View my Listings.");
+		System.out.println("2. Delete My Account.");
+		System.out.println("3. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
 		String option = keyboard.nextLine();
 		
@@ -18,12 +28,15 @@ public class HostPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.hostlisting();
+				this.makeListingPage();
 				break;
 			case 1:
-				super.deleteAccount();
+				this.hostlisting();
 				break;
 			case 2:
+				super.deleteAccount();
+				break;
+			case 3:
 				super.logout();
 				break;
 			default:
@@ -33,6 +46,131 @@ public class HostPage extends UserPage{
 			option = "-1";
 		}
 	}
+	
+	public void makeListingPage(){	
+
+		System.out.println("====MAKE A LISTING====");
+
+		System.out.println("ENTER the necessary information");
+		System.out.println("Listing type:");
+		System.out.println("0. Full House:");
+		System.out.println("1. Apartment:");
+		System.out.println("2. Room:");
+		System.out.println("Choose a listing type [0 - 2]");
+		String listingtype = keyboard.nextLine();
+		
+		System.out.println("ENTER the longitude of the location:");
+		String longitude = keyboard.nextLine();
+		
+		System.out.println("ENTER the latitude of the location:");
+		String latitude = keyboard.nextLine();
+		
+		System.out.print("Building Number:");
+		String buildingno = keyboard.nextLine();
+		//user.buildingno = buildingno;
+		
+		System.out.print("Street Name:");
+		String streetname = keyboard.nextLine();
+		//user.streetname = streetname;
+		
+		System.out.print("Unit Number (Optional):");
+		String unitnumber = keyboard.nextLine();
+		//user.unitnumber = unitnumber;
+		
+		System.out.print("Postal Code:");
+		String postalcode = keyboard.nextLine();
+		//user.postalcode = postalcode;
+		
+		System.out.print("City:");
+		String city = keyboard.nextLine();
+		//user.city = city;
+		
+		System.out.print("Country:");
+		String country = keyboard.nextLine();
+		//user.country = country;
+		
+		System.out.println("0  Submit.");
+		System.out.println("1. Cancel.");
+		String option = keyboard.nextLine();
+		
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				int id = makelisting();
+				amenitiesPage(id);
+//				this.previousListingPage();
+				break;
+			case 1:
+				this.hostPageMenu();
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+		
+	}
+	
+	public void amenitiesPage(int listingid){
+		App app = App.getAppInstance();
+		System.out.println("Amenities!" + app.getconn());
+		System.out.println(app.getconn());
+		List<Amenity> amen = Queries.AvailAmend(app.getconn());
+		for (int i = 0; i < amen.size(); i++) {
+			System.out.print(amen.get(i).amendid);
+			System.out.print(amen.get(i).amendName);
+			System.out.print(amen.get(i).amendDescription);
+			System.out.print("Enter [y/n] to confirm. Do you have this amenity?");
+			String option = keyboard.nextLine();
+			try {
+				switch (option) { //Activate the desired functionality
+				case "y":
+					amen.get(i).amendBool = true;
+					confirmamenitiesPage(listingid, amen, app.getconn());
+					//confirm;
+					//Queries.insertAmend(app.getconn(),listingid, amen.get(i).amendid);
+					break;
+				case "n":
+					amen.get(i).amendBool = false;
+					break;
+				default:
+					break;
+				}
+			} catch (NumberFormatException e) {
+				option = "-1";
+			}
+		}
+	}
+	
+	
+	public void confirmamenitiesPage(int listingid, List<Amenity> amen, Connection conn){
+		System.out.print("0.Confirm amenities");
+		System.out.print("1.Restart");
+		String option = keyboard.nextLine();
+		try {
+			int choice = Integer.parseInt(option);
+			switch (choice) { //Activate the desired functionality
+			case 0:
+				for (int i = 0; i < amen.size(); i++) {
+					if (amen.get(i).amendBool) {
+						Queries.insertAmend(conn,listingid, amen.get(i).amendid);
+					}
+				}
+				break;
+			case 1:
+				amenitiesPage (listingid);
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			option = "-1";
+		}
+
+	}
+	
 
 	public void previousListingPage(){		
 

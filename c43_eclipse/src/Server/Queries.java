@@ -1,9 +1,12 @@
 package Server;
 
+import Listings.Amenity;
 import Listings.Listing;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import Application.App;
 
 public class Queries {
 
@@ -292,4 +295,95 @@ public class Queries {
     }
 
 
+		}
+		return ret;
+	}
+	
+	//LISTINGS TODO: error checks???
+	public static int insertAmend(Connection c, int listingID, int amendID) {
+		// adds user (no address) and then puts them into the table
+		int id = -1;
+		String query = "insert into amenditiesList (listingID, amendID) values (?,?)";
+		try {
+			PreparedStatement ps = c.prepareStatement(query);
+			ps.setInt(1, listingID);
+			ps.setInt(2, amendID);
+
+			// TODO: change this to execute query
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+	
+	public static List<Amenity> AvailAmend(Connection c) { //TODO: check this function
+		List<Amenity> amen = null;
+		String query = "SELECT * FROM amendities";
+
+		try {
+			PreparedStatement ps = c.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+
+			// TODO: change this to execute query
+			
+			amen = new ArrayList<>();
+			
+			while (rs.next()) {
+				int amendid = rs.getInt("amendid");
+				String amendName = rs.getString("amendName");
+				String amendDescription = rs.getString("amendDescription");
+				Amenity x = new Amenity(amendid,amendName,amendDescription);
+				amen.add(x);
+			}
+			rs.close();
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		return amen;
+		
+	}
+	
+//	public Listing[] GetAmendities(Connection c, int userID){
+//		Listing[] ret = {};
+//		String q = "select * FROM listing WHERE hosterID = ?";
+//		try {
+//			PreparedStatement ps = c.prepareStatement(q);
+//			ps.setInt(1, userID);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//
+//				int id = rs.getInt("listingID");
+//				String city = rs.getString("city");
+//				String postal_code = rs.getString("");
+////				Listing l = new Listing("", "", "", "", "", "", "");
+//			}
+//			rs.close();
+//			ps.close();
+//		}catch (SQLException e){
+//
+//		}
+//		return ret;
+//	}
+	
+	
+	
+		public static void main(String[] args) {
+			App application = App.createAppInstance();
+			
+			application.connect();
+			//maxAmend(application.getconn());
+			System.out.println(AvailAmend(application.getconn()));
+			//create_listing(application.getconn(),"jacqueline", 123, 123);
+			//add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
+			//linkAddressListing(application.getconn(),1,123);
+			application.disconnect();
+
+		}
 }
