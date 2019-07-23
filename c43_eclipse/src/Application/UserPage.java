@@ -5,12 +5,11 @@ import java.util.Scanner;
 public class UserPage {
 	
 	Scanner keyboard = new Scanner (System.in);
-	App application = new App();
 
 	
 	public void logout(){
 		System.out.println("LOGOUT SUCCESSFUL");
-		application.welcome();
+		App.application.welcome();
 	}
 	
 	
@@ -29,7 +28,7 @@ public class UserPage {
 				break;
 			case 1:
 				System.out.println("ACCOUNT DELETED.");
-				application.welcome();
+				App.application.welcome();
 				break;
 			default:
 				break;

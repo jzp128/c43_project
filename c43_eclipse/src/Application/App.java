@@ -17,6 +17,10 @@ public class App {
      *
      * @param args an array of String arguments to be parsed
      */
+	
+	//Applciation Instance
+	public static App application;
+	
 	//Database credentials
 	final String USER = "root";
 	final String PASS = "chanja51";
@@ -29,6 +33,16 @@ public class App {
 	private Scanner sc = null;
 	
 	User user = new User();
+	
+	
+	public static App createAppInstance(){
+		application = new App();
+		return application;
+	};
+	
+//	public App getAppInstance(){
+//		return application;
+//	};
     
 	public void welcome(){
 		user.setName(null);
@@ -204,7 +218,6 @@ public class App {
 						case 0:
 							renter.renterPayment();
 							renter.renterPageMenu();
-
 							break;
 						case 1:
 							host.hostPageMenu();
@@ -237,6 +250,8 @@ public class App {
     public Connection connect() {
         try {
             conn = DriverManager.getConnection(CONNECTION,USER,PASS);
+        	System.out.println("Database connected! " + conn.toString());
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -248,9 +263,7 @@ public class App {
     }
     
 	public void disconnect() {
-		if (conn == null) {
-			return;
-		}
+    	System.out.println("Database disconnected! " + conn.toString());
 		try {
 			// st.close();
 			conn.close();
