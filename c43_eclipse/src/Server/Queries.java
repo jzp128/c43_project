@@ -5,6 +5,8 @@ import Listings.Listing;
 import java.sql.*;
 import java.util.List;
 
+import Application.App;
+
 public class Queries {
 	
 	//USER CREATION
@@ -159,19 +161,17 @@ public class Queries {
 		return success;
 	}
 	
-	//LISTINGS
-	public int create_listing(Connection c, String sin, String userName, java.sql.Date dob, String occupation, String loginName, String pw) {
+	//LISTINGS TODO: error checks???
+	public static int create_listing(Connection c, String listingType, double longitude, double latitude) {
 		// adds user (no address) and then puts them into the table
 		int id = -1;
-		String query = "insert into users (sin, userName, dob, occupation, loginName, loginPW) values (?,?,?,?,?,?)";
+		String query = "insert into listing (listingType, longitude, latitude) values (?,?,?)";
 		try {
 			PreparedStatement ps = c.prepareStatement(query);
-			ps.setString(1,sin);
-			ps.setString(2, userName);
-			ps.setDate(3, dob);
-			ps.setString(4, occupation);
-			ps.setString(5, loginName);
-			ps.setString(6, pw);
+			ps.setString(1, listingType);
+			ps.setDouble(2, longitude);
+			ps.setDouble(3, latitude);
+
 			// TODO: change this to execute query
 			ps.execute();
 			ps.close();
@@ -181,6 +181,44 @@ public class Queries {
 		}
 		
 		return id;
+	}
+	
+	//TODO: check if this works ...... or it needed
+	public static boolean linkAddressListing(Connection c, int listingID, int addressID) {
+		boolean success = false;
+		String q = "UPDATE listing SET addressID = ? where listingID = ?";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, addressID);
+			ps.setInt(2, listingID);
+			int a = ps.executeUpdate();
+			success = a >= 0;
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
+	
+	
+	//TODO: check if this works ...... 
+	public static boolean linkhostListing(Connection c, int listingID, int hosterID) {
+		boolean success = false;
+		String q = "UPDATE listing SET hosterID = ? where listingID = ?";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hosterID);
+			ps.setInt(2, listingID);
+			int a = ps.executeUpdate();
+			success = a >= 0;
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	public Listing[] getListingsForUser(Connection c, int userID){
@@ -204,4 +242,39 @@ public class Queries {
 		}
 		return ret;
 	}
+	
+//	public Listing[] GetAmendities(Connection c, int userID){
+//		Listing[] ret = {};
+//		String q = "select * FROM listing WHERE hosterID = ?";
+//		try {
+//			PreparedStatement ps = c.prepareStatement(q);
+//			ps.setInt(1, userID);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//
+//				int id = rs.getInt("listingID");
+//				String city = rs.getString("city");
+//				String postal_code = rs.getString("");
+////				Listing l = new Listing("", "", "", "", "", "", "");
+//			}
+//			rs.close();
+//			ps.close();
+//		}catch (SQLException e){
+//
+//		}
+//		return ret;
+//	}
+	
+	
+	
+//		public static void main(String[] args) {
+//			App application = App.createAppInstance();
+//			
+//			application.connect();
+//			create_listing(application.getconn(),"jacqueline", 123, 123);
+//			add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
+//			linkAddressListing(application.getconn(),1,123);
+//			application.disconnect();
+//
+//		}
 }
