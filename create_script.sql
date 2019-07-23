@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS amenitiesList(
     REFERENCES listing(listingID)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
-    FOREIGN KEY (amendID)
-    REFERENCES amenities(amendID)
+    FOREIGN KEY (amentID)
+    REFERENCES amenities(amentID)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
