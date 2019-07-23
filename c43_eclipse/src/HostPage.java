@@ -236,9 +236,6 @@ public class HostPage extends UserPage{
 			case 1:
 				viewbooking();
 				break;
-			case 2:
-				viewlisting();
-				break;
 			default:
 				break;
 			}
