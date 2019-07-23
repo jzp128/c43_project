@@ -294,10 +294,6 @@ public class Queries {
         return r;
     }
 
-
-		}
-		return ret;
-	}
 	
 	//LISTINGS TODO: error checks???
 	public static int insertAmend(Connection c, int listingID, int amendID) {
@@ -320,8 +316,8 @@ public class Queries {
 		return id;
 	}
 	
-	public static List<Amenity> AvailAmend(Connection c) { //TODO: check this function
-		List<Amenity> amen = null;
+	public static ArrayList<Amenity> AvailAmend(Connection c) { //TODO: check this function
+		ArrayList<Amenity> amen = null;
 		String query = "SELECT * FROM amendities";
 
 		try {
