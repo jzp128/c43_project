@@ -1,3 +1,5 @@
+package Application;
+
 import java.util.Scanner;
 
 public class UserPage {

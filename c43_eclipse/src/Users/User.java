@@ -1,21 +1,22 @@
 package Users;
 
+import java.sql.Connection;
+
 public class User {
 	
-	  private String username; 
-	  private String password; 
-//	  private String firstname; 
-//	  private String lastname; 
-//	  private String dob; 
-//	  private String job; 
-//	  private String sin; 
-//	  private String buildingno; 
-//	  private String streetname; 
-//	  private String unitnumber; 
-//	  private String postalcode; 
-//	  private String city; 
-//	  private String country; 
-//	  private String usertype; 
+	  public String username; 
+	  public String password; 
+	  public String name; 
+	  public java.sql.Date dob; 
+	  public String job; 
+	  public String sin; 
+	  public String buildingno; 
+	  public String streetname; 
+	  public String unitnumber; 
+	  public String postalcode; 
+	  public String city; 
+	  public String country; 
+	  public String usertype; 
 
 	  public String getName() {
 	    return username;
@@ -23,6 +24,12 @@ public class User {
 
 	  public void setName(String newName) {
 	    this.username = newName;
+	  }
+	  
+	  public void makeUser(Connection c) {
+		  Application.Queries queries = new Application.Queries();  
+		  queries.create_user(c,sin,name,dob,job, username,password);
+		  
 	  }
 
 }
