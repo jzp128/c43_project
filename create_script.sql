@@ -3,16 +3,6 @@ CREATE DATABASE IF NOT EXISTS airbnb;
 -- SHOW DATABASES;
 USE airbnb;
 -- SELECT DATABASE();
-CREATE TABLE IF NOT EXISTS address(
-	addressID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    city	VARCHAR(50) NOT NULL,
-    postal_code VARCHAR(20) NOT NULL,
-    country VARCHAR(30) NOT NULL,
-    street_name VARCHAR(50) NOT NULL,
-    building_number VARCHAR(10) NOT NULL,
-    unit_number VARCHAR(10)
-);
-
 CREATE TABLE IF NOT EXISTS users (
 	userID		INT UNSIGNED auto_increment primary key,
 	sin			CHAR(9)			NOT NULL,
@@ -21,9 +11,11 @@ CREATE TABLE IF NOT EXISTS users (
     occupation 	VARCHAR(100) 	NOT NULL DEFAULT 'NONE',
     loginName	VARCHAR(20) UNIQUE NOT NULL DEFAULT '',
     loginPW		VARCHAR(20) NOT NULL DEFAULT '',
-    addressID INT UNSIGNED,
-    isHoster BOOL NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (addressID) references address(addressID)
+    address VARCHAR(100) NOT NULL,
+    country VARCHAR(30) NOT NULL DEFAULT '',
+    city VARCHAR(30) NOT NULL DEFAULT '',
+    postal_code VARCHAR(30) NOT NULL DEFAULT '',
+    isHoster BOOL NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS hosters(
@@ -49,13 +41,12 @@ CREATE TABLE IF NOT EXISTS listing (
     longitude DOUBLE NOT NULL DEFAULT '0.0',
     latitude DOUBLE NOT NULL DEFAULT '0.0',
     hosterID INT UNSIGNED,
-    addressID INT UNSIGNED,
+    address VARCHAR(100) NOT NULL,
+    country VARCHAR(30) NOT NULL DEFAULT '',
+    city VARCHAR(30) NOT NULL DEFAULT '',
+    postal_code VARCHAR(30) NOT NULL DEFAULT '',
     FOREIGN KEY (hosterID)
     REFERENCES users(userID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-    FOREIGN KEY (addressID)
-    REFERENCES address(addressID)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
