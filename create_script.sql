@@ -26,10 +26,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS hosters(
-	hosterID INT UNSIGNED PRIMARY KEY REFERENCES users(userID),
-    ccNumber char(16) NOT NULL,
-    ccSecNum char(3) NOT NULL,
-    ccCardName varchar(50) NOT NULL DEFAULT ''
+	hosterID INT UNSIGNED PRIMARY KEY REFERENCES users(userID)
 );
 
 CREATE TABLE IF NOT EXISTS renters(
