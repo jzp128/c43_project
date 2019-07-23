@@ -5,12 +5,12 @@ USE airbnb;
 -- SELECT DATABASE();
 CREATE TABLE IF NOT EXISTS address(
 	addressID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    city	CHAR(50) NOT NULL,
-    postal_code CHAR(20) NOT NULL,
-    country CHAR(30) NOT NULL,
-    street_name CHAR(50) NOT NULL,
-    building_number char(10) NOT NULL,
-    unit_number char(10)
+    city	VARCHAR(50) NOT NULL,
+    postal_code VARCHAR(20) NOT NULL,
+    country VARCHAR(30) NOT NULL,
+    street_name VARCHAR(50) NOT NULL,
+    building_number VARCHAR(10) NOT NULL,
+    unit_number VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
     loginName	VARCHAR(20) UNIQUE NOT NULL DEFAULT '',
     loginPW		VARCHAR(20) NOT NULL DEFAULT '',
     addressID INT UNSIGNED,
+    isHoster BOOL NOT NULL DEFAULT FALSE,
     FOREIGN KEY (addressID) references address(addressID)
 );
 
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS listing (
     hosterID INT UNSIGNED,
     addressID INT UNSIGNED,
     FOREIGN KEY (hosterID)
-    REFERENCES hosters(hosterID)
+    REFERENCES users(userID)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
     FOREIGN KEY (addressID)
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS bookings(
     isHistory BOOLEAN NOT NULL DEFAULT (False),
     fromDate DATE,
     toDate DATE,
-    FOREIGN KEY (hostID) references hosters(hosterID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (hostID) references users(userID) ON UPDATE CASCADE ON DELETE CASCADE,
     foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

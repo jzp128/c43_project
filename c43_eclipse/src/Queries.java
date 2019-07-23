@@ -1,7 +1,8 @@
 import java.sql.*;
 
 public class Queries {
-
+	
+	//USER CREATION
 	public int create_user(Connection c, String sin, String userName, java.sql.Date dob, String occupation, String loginName, String pw) {
 		// adds user (no address) and then puts them into the table
 		int id = -1;
@@ -125,7 +126,7 @@ public class Queries {
 	
 	public boolean addHost(Connection c, int uid) {
 		boolean success = false;
-		String q = "INSERT INTO hosters (hosterID) VALUES(?)";
+		String q = "UPDATE users SET isHoster = TRUE where userID = ?";
 		try {
 			PreparedStatement ps = c.prepareStatement(q);
 			ps.setInt(1, uid);
