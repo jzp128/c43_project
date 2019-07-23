@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS renters(
     ccCardName varchar(50) NOT NULL DEFAULT ''
 );
 
-CREATE TABLE IF NOT EXISTS amendities(
+CREATE TABLE IF NOT EXISTS amenities(
 	amentID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     amentName VARCHAR(100),
     amentDescription VARCHAR(500)
