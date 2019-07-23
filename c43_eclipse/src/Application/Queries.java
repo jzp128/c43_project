@@ -140,4 +140,28 @@ public class Queries {
 		}
 		return success;
 	}
+	
+	//USER CREATION
+	public int create_listing(Connection c, String sin, String userName, java.sql.Date dob, String occupation, String loginName, String pw) {
+		// adds user (no address) and then puts them into the table
+		int id = -1;
+		String query = "insert into users (sin, userName, dob, occupation, loginName, loginPW) values (?,?,?,?,?,?)";
+		try {
+			PreparedStatement ps = c.prepareStatement(query);
+			ps.setString(1,sin);
+			ps.setString(2, userName);
+			ps.setDate(3, dob);
+			ps.setString(4, occupation);
+			ps.setString(5, loginName);
+			ps.setString(6, pw);
+			// TODO: change this to execute query
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
 }
