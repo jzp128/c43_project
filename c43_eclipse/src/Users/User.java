@@ -1,6 +1,7 @@
 package Users;
 
 import java.sql.Connection;
+import Server.Queries;
 
 public class User {
 	
@@ -10,9 +11,7 @@ public class User {
 	  public java.sql.Date dob; 
 	  public String job; 
 	  public String sin; 
-	  public String buildingno; 
-	  public String streetname; 
-	  public String unitnumber; 
+	  public String address;
 	  public String postalcode; 
 	  public String city; 
 	  public String country; 
@@ -27,9 +26,7 @@ public class User {
 	  }
 	  
 	  public void makeUser(Connection c) {
-		  Server.Queries queries = new Server.Queries();  
-		  queries.create_user(c,sin,name,dob,job, username,password);
-		  
+		  Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
 	  }
 
 }
