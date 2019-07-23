@@ -78,10 +78,13 @@ public class App {
 			choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.welcome();
+				//this.welcome(); //TODO:
+				RenterPage renter = new RenterPage();
+				HostPage host = new HostPage();
+				renter.renterPageMenu();
 				break;
 			case 1:
-				this.welcome();
+				this.welcome();  //TODO:
 				break;
 			default:
 				break;
