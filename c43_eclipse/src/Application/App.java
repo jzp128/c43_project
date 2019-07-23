@@ -171,17 +171,8 @@ public class App {
 		String sin = keyboard.nextLine();
 		user.sin = sin;
 		
-		System.out.print("Building Number:");
-		String buildingno = keyboard.nextLine();
-		user.buildingno = buildingno;
-		
-		System.out.print("Street Name:");
-		String streetname = keyboard.nextLine();
-		user.streetname = streetname;
-		
-		System.out.print("Unit Number (Optional):");
-		String unitnumber = keyboard.nextLine();
-		user.unitnumber = unitnumber;
+		System.out.print("Address:");
+		user.address = keyboard.nextLine();
 		
 		System.out.print("Postal Code:");
 		String postalcode = keyboard.nextLine();

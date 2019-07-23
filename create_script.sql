@@ -29,15 +29,15 @@ CREATE TABLE IF NOT EXISTS renters(
     ccCardName varchar(50) NOT NULL DEFAULT ''
 );
 
-CREATE TABLE IF NOT EXISTS amendities(
-	amendID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    amendName VARCHAR(100),
-    amendDescription VARCHAR(500)
+CREATE TABLE IF NOT EXISTS amenities(
+	amentID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    amentName VARCHAR(100),
+    amentDescription VARCHAR(500)
 );
 
 CREATE TABLE IF NOT EXISTS listing (
 	listingID INT UNSIGNED  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-    listingType CHAR(10) NOT NULL DEFAULT 'UNKNOWN',
+    listingType VARCHAR(10) NOT NULL DEFAULT 'UNKNOWN',
     longitude DOUBLE NOT NULL DEFAULT '0.0',
     latitude DOUBLE NOT NULL DEFAULT '0.0',
     hosterID INT UNSIGNED,
@@ -51,15 +51,15 @@ CREATE TABLE IF NOT EXISTS listing (
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS amenditiesList(
+CREATE TABLE IF NOT EXISTS amenitiesList(
 	listingID int UNSIGNED,
-    amendID INT UNSIGNED,
+    amentID INT UNSIGNED,
     FOREIGN KEY (listingID)
     REFERENCES listing(listingID)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
-    FOREIGN KEY (amendID)
-    REFERENCES amendities(amendID)
+    FOREIGN KEY (amentID)
+    REFERENCES amenities(amentID)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
@@ -75,14 +75,14 @@ CREATE TABLE IF NOT EXISTS available(
 
 CREATE TABLE IF NOT EXISTS bookings(
 	bookingID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    hostID INT UNSIGNED NOT NULL,
-    renterID INT UNSIGNED NOT NULL,
+    hostID INT UNSIGNED DEFAULT -1,
+    renterID INT UNSIGNED DEFAULT -1,
     isCanceled BOOLEAN NOT NULL DEFAULT (False),
     isHistory BOOLEAN NOT NULL DEFAULT (False),
     fromDate DATE,
     toDate DATE,
-    FOREIGN KEY (hostID) references users(userID) ON UPDATE CASCADE ON DELETE CASCADE,
-    foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (hostID) references users(userID) ON UPDATE CASCADE ON DELETE SET NULL,
+    foreign key (renterID) references renters(renterID) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 
