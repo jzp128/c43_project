@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class RenterPage extends UserPage{
 	
 	Scanner keyboard = new Scanner (System.in);
-	App application = new App();
+	//App application = new App();
 	
 	public void renterPayment(){
 		System.out.println("Payment Information");
@@ -26,7 +26,7 @@ public class RenterPage extends UserPage{
 				this.renterPageMenu();
 				break;
 			case 1:
-				application.welcome();
+				App.application.welcome();
 				break;
 			default:
 				break;

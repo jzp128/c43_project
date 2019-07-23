@@ -17,6 +17,10 @@ public class App {
      *
      * @param args an array of String arguments to be parsed
      */
+	
+	//Applciation Instance
+	public static App application;
+	
 	//Database credentials
 	final String USER = "root";
 	final String PASS = "chanja51";
@@ -29,6 +33,16 @@ public class App {
 	private Scanner sc = null;
 	
 	User user = new User();
+	
+	
+	public static App createAppInstance(){
+		application = new App();
+		return application;
+	};
+	
+//	public App getAppInstance(){
+//		return application;
+//	};
     
 	public void welcome(){
 		user.setName(null);
@@ -57,10 +71,10 @@ public class App {
 				this.login();
 				break;
 			case 2:
+				disconnect();
 				System.out.println("Exiting...");
 				System.out.println("Goodbye.");
 				System.exit(0);
-				break;
 			default:
 				break;
 			}
@@ -198,15 +212,12 @@ public class App {
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				try {
-					Connection con = connect();
-					user.makeUser(con);
-					
+					user.makeUser(conn);
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
 							renter.renterPayment();
 							renter.renterPageMenu();
-
 							break;
 						case 1:
 							host.hostPageMenu();
@@ -237,17 +248,22 @@ public class App {
     
 	
     public Connection connect() {
-        // SQLite connection string
-        Connection conn = null;
         try {
             conn = DriverManager.getConnection(CONNECTION,USER,PASS);
+        	System.out.println("Database connected! " + conn.toString());
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return conn;
     }
     
+    public Connection getconn() {
+        return conn;
+    }
+    
 	public void disconnect() {
+    	System.out.println("Database disconnected! " + conn.toString());
 		try {
 			// st.close();
 			conn.close();
