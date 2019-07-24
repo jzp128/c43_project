@@ -5,6 +5,7 @@ import Server.Helpers;
 
 import java.util.Scanner;
 
+import Checkers.CheckersGeneric;
 import Users.Renter;
 import Users.User;
 
@@ -25,6 +26,9 @@ public class App {
 	//Applciation Instance
 	public static App application;
 	
+	//Checker Instance
+	CheckersGeneric checker = new CheckersGeneric();
+	
 	//Database credentials
 	final String USER = "root";
 	final String PASS = "chanja51";
@@ -36,7 +40,7 @@ public class App {
 
 	private Scanner sc = null;
 	
-	User user = new User();
+	User user = null;
 	
 	
 	public static App createAppInstance(){
@@ -59,14 +63,21 @@ public class App {
 		System.out.println("0. Sign Up.");
 		System.out.println("1. Log In.");
 		System.out.println("2. Exit.");
-		System.out.print("Choose one of the previous options [0 - 2]: ");
-		
-	    Scanner keyboard = new Scanner (System.in);
-		String option = keyboard.nextLine();
-
+		String option;
 		int choice = -1;
+		boolean optionb = false;
+		while(!optionb){
+			System.out.print("Choose one of the previous options [0 - 2]: ");
+		    Scanner keyboard = new Scanner (System.in);
+			option = keyboard.nextLine();
+			try {
+				choice = Integer.parseInt(option);
+				optionb = CheckersGeneric.range(0,2,choice);
+			} catch (Exception e) {
+				System.out.println("Invalid Option!");
+			}
+		}
 		try {
-			choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				this.signup();
@@ -112,6 +123,12 @@ public class App {
 				//this.welcome(); //TODO:
 				
 				if (Server.Helpers.login(conn,inpUser,inpPass)){
+					// set up user variable
+					// check to see whether renter or not
+					
+					
+					
+					
 					RenterPage renter = new RenterPage();
 					renter.renterPageMenu();
 				} else {
@@ -135,7 +152,7 @@ public class App {
 	public void signup(){
 
 	    Scanner keyboard = new Scanner (System.in);
-	    User user = new User ();
+	    User user = null;
 
 		System.out.println("");
 		System.out.println("**********SIGNUP***********");
@@ -147,7 +164,7 @@ public class App {
 		while (incorrectuser) {
 			System.out.print("Username:");
 			String inpUser = keyboard.nextLine();
-			user.username = inpUser;
+			user.loginname = inpUser;
 			if (!user.checkusername(conn)){
 				incorrectuser= false;
 			} else {

@@ -2,6 +2,7 @@ package Server;
 
 import Listings.Amenity;
 import Listings.Listing;
+import Users.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -413,6 +414,44 @@ public class Queries {
 //		return ret;
 //	}
 	
+    public static User getUser(Connection c, String loginname) {
+        User ret = new User();
+        String q = "select * FROM users WHERE loginName = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setString(1, loginname);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int userid = rs.getInt("userID");
+                String sin = rs.getString("sin");
+                String userName = rs.getString("userName");
+                java.sql.Date dob = rs.getDate("dob");
+                String job = rs.getString("occupation");
+                String loginName = rs.getString("loginName");
+                String loginPW = rs.getString("loginPW");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
+                String city = rs.getString("city");
+                String postal_code = rs.getString("postal_code");
+                String isHoster = rs.getString("isHoster");
+                ret = new User(loginName, loginPW, userName, dob, job, sin, address, postal_code, city, country, isHoster);
+                //
+                
+                /*
+                 * User(int idt, String usernamet, String passwordt,  String namet,  java.sql.Date dobt, 
+			  String jobt,  String sint, String addresst, String postalcodet, String cityt, 
+			  String countryt, String usertypet){
+                 */
+                //
+                ret.id = userid;
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
 	
 	
 		public static void main(String[] args) {
