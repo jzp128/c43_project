@@ -16,7 +16,7 @@ public class User {
 	  public String postalcode; 
 	  public String city; 
 	  public String country; 
-	  public String usertype; 
+	  public int isHost; 
 	  
 	  public String ccnumber;
 	  public String ccsec;
@@ -25,7 +25,7 @@ public class User {
 	  
 	  public User(String loginnamet, String passwordt,  String namet,  java.sql.Date dobt, 
 			  String jobt,  String sint, String addresst, String postalcodet, String cityt, 
-			  String countryt, String usertypet){
+			  String countryt, int isHost){
 		  this.loginname = loginnamet;
 		  this.password = passwordt;
 		  this.name = namet;
@@ -36,7 +36,7 @@ public class User {
 		  this.postalcode = postalcodet;
 		  this.city = cityt;
 		  this.country = countryt;
-		  this.usertype = usertypet;
+		  this.isHost = isHost;
 	  }
 	  
 	  public User(){
@@ -77,6 +77,8 @@ public class User {
     	  boolean success = Queries.checkUserNameTaken( c, loginname);
     	  return success;
       }
+      
+      
       
       
       

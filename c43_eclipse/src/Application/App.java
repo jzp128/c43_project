@@ -29,6 +29,9 @@ public class App {
 	//Checker Instance
 	CheckersGeneric checker = new CheckersGeneric();
 	
+	//queries
+	Server.Queries queries = new Server.Queries();
+	
 	//Database credentials
 	final String USER = "root";
 	final String PASS = "chanja51";
@@ -40,7 +43,7 @@ public class App {
 
 	private Scanner sc = null;
 	
-	User user = null;
+	User user = new User();
 	
 	
 	public static App createAppInstance(){
@@ -125,20 +128,21 @@ public class App {
 				if (Server.Helpers.login(conn,inpUser,inpPass)){
 					// set up user variable
 					// check to see whether renter or not
-					
-					
-					
-					
-					RenterPage renter = new RenterPage();
-					renter.renterPageMenu();
+					user = queries.getUser(conn, inpUser);
+					if (user.isHost == 0) {
+						RenterPage renter = new RenterPage();
+						renter.renterPageMenu(user);
+					} else {
+						HostPage host = new HostPage();
+						host.hostPageMenu(user);  //TODO:
+					}
 				} else {
 					System.out.println("Incorrect Login Credentials!");
 					login();
 				}
 				break;
 			case 1:
-				HostPage host = new HostPage();
-				host.hostPageMenu(user);  //TODO:
+				this.welcome();
 				break;
 			default:
 				break;
@@ -152,7 +156,7 @@ public class App {
 	public void signup(){
 
 	    Scanner keyboard = new Scanner (System.in);
-	    User user = null;
+	    User user = new User();
 
 		System.out.println("");
 		System.out.println("**********SIGNUP***********");
@@ -162,7 +166,7 @@ public class App {
 		
 		boolean incorrectuser = true;
 		while (incorrectuser) {
-			System.out.print("Username:");
+			System.out.print("Username (20 chars max!):");
 			String inpUser = keyboard.nextLine();
 			user.loginname = inpUser;
 			if (!user.checkusername(conn)){
@@ -172,7 +176,7 @@ public class App {
 			}
 		}
 		
-		System.out.print("Password:");
+		System.out.print("Password (20 chars max!):");
 		String inpPass = keyboard.nextLine();
 		user.password = inpPass;
 		
@@ -229,7 +233,6 @@ public class App {
 		
 		System.out.println("Indicate if you want to be a [0] renter or [1] host.");
 		String usertype = keyboard.nextLine();
-		user.usertype = usertype;
 		
 		String cc = "";
 		String ccname = "";
@@ -241,6 +244,7 @@ public class App {
 		int choice = -1;
 		try {
 			choice = Integer.parseInt(usertype);
+			user.isHost = choice;
 			switch (choice) {
 			case 0:
 				System.out.println("Payment Information:");
@@ -283,14 +287,14 @@ public class App {
 						switch (redirect) {
 						case 0:
 							success = user.makeRenter(conn);
-							renter.renterPageMenu();
+							renter.renterPageMenu(user);
 							break;
 						case 1:
 							success = user.makeHost(conn);
 							host.hostPageMenu(user);
 							break;
 						}
-					} catch (NumberFormatException e) {
+					} catch (Exception e) {
 						usertype = "-1";
 					}
 				break;
@@ -300,7 +304,7 @@ public class App {
 				this.welcome();
 				break;
 			}
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			option = "-1";
 		}
 	}

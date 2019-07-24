@@ -1,7 +1,11 @@
 package Application;
 import java.util.Scanner;
 
+import Users.User;
+
 public class RenterPage extends UserPage{
+	
+	User user = new User();
 	
 	Scanner keyboard = new Scanner (System.in);
 	//App application = new App();
@@ -38,7 +42,8 @@ public class RenterPage extends UserPage{
 	
 	
 	
-	public void renterPageMenu(){		
+	public void renterPageMenu(User u){	
+		user = u;
 		System.out.println("**************************");
 		System.out.println("******ACCESS GRANTED******");
 		System.out.println("**************************");
@@ -188,7 +193,7 @@ public class RenterPage extends UserPage{
 				this.canceledBookingPage();
 				break;
 			case 3:
-				this.renterPageMenu();
+				this.renterPageMenu(user);
 				break;
 			default:
 				break;
