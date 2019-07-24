@@ -148,7 +148,7 @@ public class App {
 			System.out.print("Username:");
 			String inpUser = keyboard.nextLine();
 			user.username = inpUser;
-			if (user.checkusername(conn)){
+			if (!user.checkusername(conn)){
 				incorrectuser= false;
 			} else {
 				System.out.println("Please enter a different username!");

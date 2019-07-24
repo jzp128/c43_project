@@ -70,7 +70,7 @@ public class Queries {
 
     public static boolean checkUserNameTaken(Connection c, String userName) {
         boolean contains = false;
-        String q = "SELECT EXISTS(SELECT * FROM users WHERE loginName = " + userName +")";
+        String q = "SELECT EXISTS(SELECT * FROM users WHERE loginName = '" + userName +"')";
         try {
             PreparedStatement ps = c.prepareStatement(q);
             //ps.setString(1, userName);
