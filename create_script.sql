@@ -95,8 +95,8 @@ CREATE TABLE IF NOT EXISTS reviews(
     reviewType CHAR(1)
 );
 
--- set up the amendities table
-INSERT INTO amendities (amendName, amendDescription)
+-- set up the amenities table
+INSERT INTO amenities (amentName, amentDescription)
 VALUES
 ('Essentials', 'Towels, bed sheets, soap, toilet paper, and pillows'),
 ('Wifi', 'Free or paid wifi available'),

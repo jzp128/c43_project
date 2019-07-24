@@ -7,7 +7,6 @@ public class Main {
 		System.out.println("Booting up...");
 		App application = App.createAppInstance();
 		application.connect();
-		//application.welcome();
 		application.welcome();
 		application.disconnect();
 

@@ -1,19 +1,19 @@
 package Listings;
 
 public class Amenity {
-    public int amendid;
-    public String amendName;
-    public String amendDescription;
-    public boolean amendBool;
+    public int amenid;
+    public String amenName;
+    public String amenDescription;
+    public boolean amenBool;
     
-    public Amenity(int amendidP, String amendNameP,String amendDescriptionP){
-         amendid = amendidP;
-         amendName = amendNameP;
-         amendDescription = amendDescriptionP;    	
+    public Amenity(int amenidP, String amenNameP,String amenDescriptionP){
+         amenid = amenidP;
+         amenName = amenNameP;
+         amenDescription = amenDescriptionP;    	
     }
     
     public void setamendBool(boolean a){
-        amendBool = a;
+        amenBool = a;
     }
 }
 
