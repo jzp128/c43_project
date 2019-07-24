@@ -11,9 +11,6 @@ import java.util.List;
 import Application.App;
 
 public class Queries {
-		
-	
-
 
     //USER CREATION
     public static int create_user(Connection c, String sin, String userName, java.sql.Date dob,
@@ -50,6 +47,25 @@ public class Queries {
         }
 
         return id;
+    }
+
+    public static String fetchPW(Connection c, String userName){
+        String pw = null;
+        String q = "SELECT loginPW FROM users WHERE loginName = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setString(1, userName);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                pw = rs.getString("loginPW");
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return pw;
     }
 
     public static boolean checkUserNameTaken(Connection c, String userName) {
@@ -302,6 +318,16 @@ public class Queries {
         return r;
     }
 
+	
+	//LISTINGS TODO: error checks???
+	public static int insertAmend(Connection c, int listingID, int amendID) {
+		// adds user (no address) and then puts them into the table
+		int id = -1;
+		String query = "insert into amenditiesList (listingID, amendID) values (?,?)";
+		try {
+			PreparedStatement ps = c.prepareStatement(query);
+			ps.setInt(1, listingID);
+			ps.setInt(2, amendID);
 
 
 	//TODO: check if this works ...... 

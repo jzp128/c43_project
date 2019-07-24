@@ -29,6 +29,7 @@ public class User {
 	  public void makeUser(Connection c) {
 	      Server.Queries queries = new Server.Queries();
 		  id = Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
+		  //Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
 	  }
 
 }
