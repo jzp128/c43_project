@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS available(
 	availDate DATE NOT NULL,
     price	DECIMAL(65,2),
     listingID INT UNSIGNED,
+    isBooked BOOL DEFAULT FALSE,
     FOREIGN KEY (listingID) REFERENCES listing(listingID)
     ON UPDATE CASCADE
     ON DELETE CASCADE
