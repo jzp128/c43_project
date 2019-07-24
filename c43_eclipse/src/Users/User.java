@@ -42,6 +42,31 @@ public class User {
 	      boolean success = Queries.addRenter( c, id, ccnumber, ccsec, ccName);
 		  return success;
 	
+      }
+      
+      public boolean makeHost(Connection c){
+	      Server.Queries queries = new Server.Queries();
+	      boolean success = Queries.addHost( c, id);
+		  return success;
+	
 		}
+      
+      public boolean checkusername(Connection c){
+    	  Server.Queries queries = new Server.Queries();
+    	  boolean success = Queries.checkUserNameTaken( c, username);
+    	  return success;
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
 }

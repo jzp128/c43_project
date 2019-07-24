@@ -142,9 +142,18 @@ public class App {
 		System.out.println("");
 		System.out.println("=========MENU=========");
 		System.out.println("Enter a username and a password:");
-		System.out.print("Username:");
-		String inpUser = keyboard.nextLine();
-		user.username = inpUser;
+		
+		boolean incorrectuser = true;
+		while (incorrectuser) {
+			System.out.print("Username:");
+			String inpUser = keyboard.nextLine();
+			user.username = inpUser;
+			if (user.checkusername(conn)){
+				incorrectuser= false;
+			} else {
+				System.out.println("Please enter a different username!");
+			}
+		}
 		
 		System.out.print("Password:");
 		String inpPass = keyboard.nextLine();
@@ -252,13 +261,15 @@ public class App {
 			case 0:
 				user.makeUser(conn);
 				try {
+					boolean success;
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
-							boolean success = user.makeRenter(conn);
+							success = user.makeRenter(conn);
 							renter.renterPageMenu();
 							break;
 						case 1:
+							success = user.makeHost(conn);
 							host.hostPageMenu(user);
 							break;
 						}
