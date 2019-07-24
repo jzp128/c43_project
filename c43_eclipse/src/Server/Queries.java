@@ -175,7 +175,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -204,7 +205,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -233,7 +235,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -298,6 +301,8 @@ public class Queries {
         }
         return r;
     }
+
+
 
 	//TODO: check if this works ...... 
 	public static boolean linkhostListing(Connection c, int listingID, int hosterID) {

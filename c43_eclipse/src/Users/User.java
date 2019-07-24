@@ -5,6 +5,7 @@ import Server.Queries;
 
 public class User {
 	
+	  public int id; 
 	  public String username; 
 	  public String password; 
 	  public String name; 
@@ -27,7 +28,7 @@ public class User {
 	  
 	  public void makeUser(Connection c) {
 	      Server.Queries queries = new Server.Queries();
-		  Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
+		  id = Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
 	  }
 
 }

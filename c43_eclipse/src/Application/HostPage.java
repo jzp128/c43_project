@@ -10,7 +10,10 @@ import Server.Queries;
 import Users.User;
 
 public class HostPage extends UserPage{
-	public void hostPageMenu(){
+	User user = new User();
+
+	public void hostPageMenu(User u){
+		this.user = u;
 		
 		System.out.println("**************************");
 		System.out.println("******ACCESS GRANTED******");
@@ -60,22 +63,17 @@ public class HostPage extends UserPage{
 		String listingtype = keyboard.nextLine();
 		
 		System.out.println("ENTER the longitude of the location:");
-		String longitude = keyboard.nextLine();
+		String longitudestring = keyboard.nextLine();
+		Double longitude = Double.parseDouble(longitudestring);
 		
 		System.out.println("ENTER the latitude of the location:");
-		String latitude = keyboard.nextLine();
+		String latitudestring = keyboard.nextLine();
+		Double latitude = Double.parseDouble(latitudestring);
+
 		
-		System.out.print("Building Number:");
-		String buildingno = keyboard.nextLine();
-		//user.buildingno = buildingno;
-		
-		System.out.print("Street Name:");
-		String streetname = keyboard.nextLine();
-		//user.streetname = streetname;
-		
-		System.out.print("Unit Number (Optional):");
-		String unitnumber = keyboard.nextLine();
-		//user.unitnumber = unitnumber;
+		System.out.print("Address:");
+		String address = keyboard.nextLine();
+
 		
 		System.out.print("Postal Code:");
 		String postalcode = keyboard.nextLine();
@@ -97,12 +95,16 @@ public class HostPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				int id = makelisting();
+				App app = App.getAppInstance();
+				Listing list = new Listing(city, postalcode, country, address,latitude, longitude, user.id, listingtype);
+				int id = list.makelisting(app.getconn());
 				amenitiesPage(id);
+				System.out.println("Listing Added!");
+				hostPageMenu(user);
 //				this.previousListingPage();
 				break;
 			case 1:
-				this.hostPageMenu();
+				this.hostPageMenu(user);
 				break;
 			default:
 				break;
@@ -119,10 +121,10 @@ public class HostPage extends UserPage{
 		System.out.println(app.getconn());
 		List<Amenity> amen = Queries.AvailAmend(app.getconn());
 		for (int i = 0; i < amen.size(); i++) {
-			System.out.print(amen.get(i).amendid);
-			System.out.print(amen.get(i).amendName);
-			System.out.print(amen.get(i).amendDescription);
-			System.out.print("Enter [y/n] to confirm. Do you have this amenity?");
+			System.out.print(amen.get(i).amendid + ". ");
+			System.out.println(amen.get(i).amendName);
+			System.out.println("Description: " + amen.get(i).amendDescription);
+			System.out.println("Enter [y/n] to confirm. Do you have this amenity?");
 			String option = keyboard.nextLine();
 			try {
 				switch (option) { //Activate the desired functionality
@@ -146,8 +148,8 @@ public class HostPage extends UserPage{
 	
 	
 	public void confirmamenitiesPage(int listingid, List<Amenity> amen, Connection conn){
-		System.out.print("0.Confirm amenities");
-		System.out.print("1.Restart");
+		System.out.println("0.Confirm amenities");
+		System.out.println("1.Restart");
 		String option = keyboard.nextLine();
 		try {
 			int choice = Integer.parseInt(option);
@@ -286,7 +288,7 @@ public class HostPage extends UserPage{
 				this.canceledListingPage();
 				break;
 			case 3:
-				this.hostPageMenu();
+				this.hostPageMenu(user);
 				break;
 			default:
 				break;

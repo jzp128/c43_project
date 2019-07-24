@@ -107,11 +107,11 @@ public class App {
 			case 0:
 				//this.welcome(); //TODO:
 				RenterPage renter = new RenterPage();
-				HostPage host = new HostPage();
 				renter.renterPageMenu();
 				break;
 			case 1:
-				this.welcome();  //TODO:
+				HostPage host = new HostPage();
+				host.hostPageMenu(user);  //TODO:
 				break;
 			default:
 				break;
@@ -211,7 +211,7 @@ public class App {
 							renter.renterPageMenu();
 							break;
 						case 1:
-							host.hostPageMenu();
+							host.hostPageMenu(user);
 							break;
 						}
 					} catch (NumberFormatException e) {

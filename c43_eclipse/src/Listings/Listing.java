@@ -14,8 +14,7 @@ public class Listing {
     public double price;
     public String type;
 
-    public Listing(int id, String city, String postal_code, String country, String address, double latitude, double longitude, int hostid, String type){
-        this.id = id;
+    public Listing(String city, String postal_code, String country, String address, double latitude, double longitude, int hostid, String type){
         this.city = city;
         this.postal_code = postal_code;
         this.country = country;
@@ -32,8 +31,8 @@ public class Listing {
     
 	  public int makelisting(Connection c) {
 		  Server.Queries queries = new Server.Queries();
-		  int id = queries.create_listing(c,id,city, postal_code, country, street_name, building_number, unit_number);
-		  return id;
+		  this.id = queries.create_listing(c,this.type,this.longitude,this.latitude, this.hostID, this.address, this.country, this.city, this.postal_code);
+		  return this.id;
 	  }
     
     
