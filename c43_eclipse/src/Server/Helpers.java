@@ -1,5 +1,7 @@
 package Server;
 
+import java.sql.Connection;
+
 public class Helpers {
     public static final double R = 6372.8; // In kilometers
     public static double haversine(double lat1, double lon1, double lat2, double lon2) {
@@ -12,5 +14,10 @@ public class Helpers {
         double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
         double c = 2 * Math.asin(Math.sqrt(a));
         return R * c;
+    }
+
+    public static boolean login(Connection c, String userName, String pw){
+        String dbPW = Queries.fetchPW(c,userName);
+        return pw == dbPW;
     }
 }
