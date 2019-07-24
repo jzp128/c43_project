@@ -159,18 +159,23 @@ public class App {
 		String lastname = keyboard.nextLine();
 		user.name = user.name + "_" + lastname;
 		
-		System.out.print("Date of Birth Format (yyyy-MM-dd):");
-		String dob = keyboard.nextLine();
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-		java.util.Date date;
+		boolean dateCheckfalse = true;
 		
-		
-		try {
-			date = sdf1.parse(dob);
-			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
-			user.dob = sqlStartDate;
-		} catch (ParseException e1) {
-			e1.printStackTrace();
+		while (dateCheckfalse){
+			try {
+				System.out.print("Date of Birth Format (yyyy-MM-dd):");
+				String dob = keyboard.nextLine();
+				SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+				java.util.Date date;
+				date = sdf1.parse(dob);
+				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
+				user.dob = sqlStartDate;
+				dateCheckfalse = false;
+			} catch (ParseException e1) {
+				System.out.println("Incorrect birth day format. Please try again!");
+				dateCheckfalse = true;
+				//e1.printStackTrace();
+			}
 		}
 		
 		System.out.print("Occupation:");
@@ -254,7 +259,6 @@ public class App {
 							renter.renterPageMenu();
 							break;
 						case 1:
-							user.makeUser(conn);
 							host.hostPageMenu(user);
 							break;
 						}
