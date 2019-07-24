@@ -414,7 +414,7 @@ public class Queries {
 //		return ret;
 //	}
 	
-    public static User getUser(Connection c, String loginname) {
+    public User getUser(Connection c, String loginname) {
         User ret = new User();
         String q = "select * FROM users WHERE loginName = ?";
         try {
@@ -433,7 +433,7 @@ public class Queries {
                 String country = rs.getString("country");
                 String city = rs.getString("city");
                 String postal_code = rs.getString("postal_code");
-                String isHoster = rs.getString("isHoster");
+                int isHoster = rs.getInt("isHoster");
                 ret = new User(loginName, loginPW, userName, dob, job, sin, address, postal_code, city, country, isHoster);
                 //
                 
