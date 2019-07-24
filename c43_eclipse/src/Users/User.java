@@ -5,7 +5,8 @@ import Server.Queries;
 
 public class User {
 	
-	  public String username; 
+	  public int id; 
+	  public String loginname; 
 	  public String password; 
 	  public String name; 
 	  public java.sql.Date dob; 
@@ -16,17 +17,77 @@ public class User {
 	  public String city; 
 	  public String country; 
 	  public String usertype; 
+	  
+	  public String ccnumber;
+	  public String ccsec;
+	  public String ccName;
+	  
+	  
+	  public User(String loginnamet, String passwordt,  String namet,  java.sql.Date dobt, 
+			  String jobt,  String sint, String addresst, String postalcodet, String cityt, 
+			  String countryt, String usertypet){
+		  this.loginname = loginnamet;
+		  this.password = passwordt;
+		  this.name = namet;
+		  this.dob = dobt;
+		  this.job = jobt;
+		  this.sin = sint;
+		  this.address = addresst;
+		  this.postalcode = postalcodet;
+		  this.city = cityt;
+		  this.country = countryt;
+		  this.usertype = usertypet;
+	  }
+	  
+	  public User(){
+		  
+	  }
 
 	  public String getName() {
-	    return username;
+	    return loginname;
 	  }
 
 	  public void setName(String newName) {
-	    this.username = newName;
+	    this.loginname = newName;
 	  }
 	  
-	  public void makeUser(Connection c) {
-		  Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
+	  public int makeUser(Connection c) {
+	      Server.Queries queries = new Server.Queries();
+		  id = Queries.create_user(c,sin,name,dob,job, loginname,password, postalcode, country, city, address);
+		  return id;
+		  //Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
 	  }
+	  
+      public boolean makeRenter(Connection c){
+	      Server.Queries queries = new Server.Queries();
+	      boolean success = Queries.addRenter( c, id, ccnumber, ccsec, ccName);
+		  return success;
+	
+      }
+      
+      public boolean makeHost(Connection c){
+	      Server.Queries queries = new Server.Queries();
+	      boolean success = Queries.addHost( c, id);
+		  return success;
+	
+		}
+      
+      public boolean checkusername(Connection c){
+    	  Server.Queries queries = new Server.Queries();
+    	  boolean success = Queries.checkUserNameTaken( c, loginname);
+    	  return success;
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
 }

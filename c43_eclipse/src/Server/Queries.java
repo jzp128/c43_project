@@ -2,9 +2,12 @@ package Server;
 
 import Listings.Amenity;
 import Listings.Listing;
+import Users.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+
 
 import Application.App;
 
@@ -68,10 +71,10 @@ public class Queries {
 
     public static boolean checkUserNameTaken(Connection c, String userName) {
         boolean contains = false;
-        String q = "SELECT EXISTS(SELECT * FROM users WHERE loginName = '?')";
+        String q = "SELECT EXISTS(SELECT * FROM users WHERE loginName = '" + userName +"')";
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ps.setString(1, userName);
+            //ps.setString(1, userName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 contains = rs.getBoolean(1);
@@ -189,7 +192,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -218,7 +222,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -247,7 +252,8 @@ public class Queries {
                 double latitude = rs.getDouble("latitude");
                 int hostID = rs.getInt("hosterID");
                 String type = rs.getString("listingType");
-                Listing l = new Listing(id, city, postal_code, country, address, latitude, longitude, hostID, type);
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
                 ret.add(l);
             }
             rs.close();
@@ -313,6 +319,25 @@ public class Queries {
         return r;
     }
 
+
+	//TODO: check if this works ...... 
+	public static boolean linkhostListing(Connection c, int listingID, int hosterID) {
+		boolean success = false;
+		String q = "UPDATE listing SET hosterID = ? where listingID = ?";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hosterID);
+			ps.setInt(2, listingID);
+			int a = ps.executeUpdate();
+			success = a >= 0;
+			ps.close();
+		} catch (SQLException e) {
+			// TODO: ADD ERROR MESSAGE
+			e.printStackTrace();
+		}
+		return success;
+	}
+
 	
 	//LISTINGS TODO: error checks???
 	public static int insertAmend(Connection c, int listingID, int amendID) {
@@ -335,8 +360,9 @@ public class Queries {
 		return id;
 	}
 	
-	public static ArrayList<Amenity> AvailAmend(Connection c) { //TODO: check this function
-		ArrayList<Amenity> amen = null;
+	
+	public static List<Amenity> AvailAmend(Connection c) { //TODO: check this function
+		List<Amenity> amen = null;
 		String query = "SELECT * FROM amendities";
 
 		try {
@@ -365,6 +391,7 @@ public class Queries {
 		
 	}
 	
+
 //	public Listing[] GetAmendities(Connection c, int userID){
 //		Listing[] ret = {};
 //		String q = "select * FROM listing WHERE hosterID = ?";
@@ -387,6 +414,44 @@ public class Queries {
 //		return ret;
 //	}
 	
+    public static User getUser(Connection c, String loginname) {
+        User ret = new User();
+        String q = "select * FROM users WHERE loginName = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setString(1, loginname);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int userid = rs.getInt("userID");
+                String sin = rs.getString("sin");
+                String userName = rs.getString("userName");
+                java.sql.Date dob = rs.getDate("dob");
+                String job = rs.getString("occupation");
+                String loginName = rs.getString("loginName");
+                String loginPW = rs.getString("loginPW");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
+                String city = rs.getString("city");
+                String postal_code = rs.getString("postal_code");
+                String isHoster = rs.getString("isHoster");
+                ret = new User(loginName, loginPW, userName, dob, job, sin, address, postal_code, city, country, isHoster);
+                //
+                
+                /*
+                 * User(int idt, String usernamet, String passwordt,  String namet,  java.sql.Date dobt, 
+			  String jobt,  String sint, String addresst, String postalcodet, String cityt, 
+			  String countryt, String usertypet){
+                 */
+                //
+                ret.id = userid;
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
 	
 	
 		public static void main(String[] args) {

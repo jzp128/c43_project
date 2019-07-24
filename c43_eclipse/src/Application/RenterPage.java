@@ -6,38 +6,35 @@ public class RenterPage extends UserPage{
 	Scanner keyboard = new Scanner (System.in);
 	//App application = new App();
 	
-	public void renterPayment(){
-		System.out.println("Payment Information");
-		System.out.print("Credit Card Number:");
-		String cc = keyboard.nextLine();
-		System.out.print("Name on the Credit Card:");
-		String ccname = keyboard.nextLine();
-		System.out.print("Card Security Code");
-		String ccsecuritr = keyboard.nextLine();
-		System.out.println("==========================");
-		System.out.println("0  Submit.");
-		System.out.println("1. Cancel.");
-		String option = keyboard.nextLine();
-
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				this.renterPageMenu();
-				break;
-			case 1:
-				App.application.welcome();
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-		
-		
-		
-	}
+//	public void renterPayment(){
+//		System.out.println("Payment Information");
+//		System.out.print("Credit Card Number:");
+//		String cc = keyboard.nextLine();
+//		System.out.print("Name on the Credit Card:");
+//		String ccname = keyboard.nextLine();
+//		System.out.print("Card Security Code");
+//		String ccsecuritr = keyboard.nextLine();
+//		System.out.println("==========================");
+//		System.out.println("0  Submit.");
+//		System.out.println("1. Cancel.");
+//		String option = keyboard.nextLine();
+//
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				this.renterPageMenu(); // TODO: FIX THIS
+//				break;
+//			case 1:
+//				App.application.welcome(); // TODO: FIX THIS
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
 	
 	
 	

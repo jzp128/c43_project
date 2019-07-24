@@ -1,7 +1,12 @@
 package Application;
 
+import Server.Helpers;
+
+
 import java.util.Scanner;
 
+import Checkers.CheckersGeneric;
+import Users.Renter;
 import Users.User;
 
 import java.security.interfaces.RSAKey;
@@ -21,6 +26,9 @@ public class App {
 	//Applciation Instance
 	public static App application;
 	
+	//Checker Instance
+	CheckersGeneric checker = new CheckersGeneric();
+	
 	//Database credentials
 	final String USER = "root";
 	final String PASS = "chanja51";
@@ -32,7 +40,7 @@ public class App {
 
 	private Scanner sc = null;
 	
-	User user = new User();
+	User user = null;
 	
 	
 	public static App createAppInstance(){
@@ -55,14 +63,21 @@ public class App {
 		System.out.println("0. Sign Up.");
 		System.out.println("1. Log In.");
 		System.out.println("2. Exit.");
-		System.out.print("Choose one of the previous options [0 - 2]: ");
-		
-	    Scanner keyboard = new Scanner (System.in);
-		String option = keyboard.nextLine();
-
+		String option;
 		int choice = -1;
+		boolean optionb = false;
+		while(!optionb){
+			System.out.print("Choose one of the previous options [0 - 2]: ");
+		    Scanner keyboard = new Scanner (System.in);
+			option = keyboard.nextLine();
+			try {
+				choice = Integer.parseInt(option);
+				optionb = CheckersGeneric.range(0,2,choice);
+			} catch (Exception e) {
+				System.out.println("Invalid Option!");
+			}
+		}
 		try {
-			choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				this.signup();
@@ -106,12 +121,24 @@ public class App {
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome(); //TODO:
-				RenterPage renter = new RenterPage();
-				HostPage host = new HostPage();
-				renter.renterPageMenu();
+				
+				if (Server.Helpers.login(conn,inpUser,inpPass)){
+					// set up user variable
+					// check to see whether renter or not
+					
+					
+					
+					
+					RenterPage renter = new RenterPage();
+					renter.renterPageMenu();
+				} else {
+					System.out.println("Incorrect Login Credentials!");
+					login();
+				}
 				break;
 			case 1:
-				this.welcome();  //TODO:
+				HostPage host = new HostPage();
+				host.hostPageMenu(user);  //TODO:
 				break;
 			default:
 				break;
@@ -125,16 +152,25 @@ public class App {
 	public void signup(){
 
 	    Scanner keyboard = new Scanner (System.in);
-	    User user = new User ();
+	    User user = null;
 
 		System.out.println("");
 		System.out.println("**********SIGNUP***********");
 		System.out.println("");
 		System.out.println("=========MENU=========");
 		System.out.println("Enter a username and a password:");
-		System.out.print("Username:");
-		String inpUser = keyboard.nextLine();
-		user.username = inpUser;
+		
+		boolean incorrectuser = true;
+		while (incorrectuser) {
+			System.out.print("Username:");
+			String inpUser = keyboard.nextLine();
+			user.loginname = inpUser;
+			if (!user.checkusername(conn)){
+				incorrectuser= false;
+			} else {
+				System.out.println("Please enter a different username!");
+			}
+		}
 		
 		System.out.print("Password:");
 		String inpPass = keyboard.nextLine();
@@ -149,18 +185,23 @@ public class App {
 		String lastname = keyboard.nextLine();
 		user.name = user.name + "_" + lastname;
 		
-		System.out.print("Date of Birth Format (yyyy-MM-dd):");
-		String dob = keyboard.nextLine();
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-		java.util.Date date;
+		boolean dateCheckfalse = true;
 		
-		
-		try {
-			date = sdf1.parse(dob);
-			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
-			user.dob = sqlStartDate;
-		} catch (ParseException e1) {
-			e1.printStackTrace();
+		while (dateCheckfalse){
+			try {
+				System.out.print("Date of Birth Format (yyyy-MM-dd):");
+				String dob = keyboard.nextLine();
+				SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+				java.util.Date date;
+				date = sdf1.parse(dob);
+				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
+				user.dob = sqlStartDate;
+				dateCheckfalse = false;
+			} catch (ParseException e1) {
+				System.out.println("Incorrect birth day format. Please try again!");
+				dateCheckfalse = true;
+				//e1.printStackTrace();
+			}
 		}
 		
 		System.out.print("Occupation:");
@@ -190,28 +231,63 @@ public class App {
 		String usertype = keyboard.nextLine();
 		user.usertype = usertype;
 		
+		String cc = "";
+		String ccname = "";
+		String ccsecuritr = "";
+		
+		
+		/*----------------renters payment---------------------*/
+		
+		int choice = -1;
+		try {
+			choice = Integer.parseInt(usertype);
+			switch (choice) {
+			case 0:
+				System.out.println("Payment Information:");
+				System.out.print("Credit Card Number:");
+				cc = keyboard.nextLine();
+				user.ccnumber = cc;
+				System.out.print("Name on the Credit Card:");
+				ccname = keyboard.nextLine();
+				user.ccName = ccname;
+				System.out.print("Card Security Code");
+				ccsecuritr = keyboard.nextLine();
+				user.ccsec = ccsecuritr;
+				break;
+			case 1:
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			choice = -1;
+		}
+		/*----------------renters payment---------------------*/
+
 		System.out.println("By submitting I am declaring that I am at least 18 years old.");
 		System.out.println("0. Submit.");
 		System.out.println("1. Go Back.");
 		System.out.print("Choose one of the previous options [0 - 1]: ");
 		String option = keyboard.nextLine();
-		int choice = -1;
+		int choice2 = -1;
 		try {
 			RenterPage renter = new RenterPage();
 			HostPage host = new HostPage();
-			choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
+			choice2 = Integer.parseInt(option);
+			switch (choice2) { //Activate the desired functionality
 			case 0:
+				user.makeUser(conn);
 				try {
-					user.makeUser(conn);
+					boolean success;
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
-							renter.renterPayment();
+							success = user.makeRenter(conn);
 							renter.renterPageMenu();
 							break;
 						case 1:
-							host.hostPageMenu();
+							success = user.makeHost(conn);
+							host.hostPageMenu(user);
 							break;
 						}
 					} catch (NumberFormatException e) {

@@ -55,8 +55,8 @@ public class TestQueries {
 
     public static void main(String args[]){
         Connection c = createConn();
-        int i = Queries.add_address(c, "Toronto", "M1T1K4", "Canada", "Lowcrest Blvd", "39", "");
-        System.out.println(i);
+        //int i = Queries.add_address(c, "Toronto", "M1T1K4", "Canada", "Lowcrest Blvd", "39", "");
+        //System.out.println(i);
         try {
             c.close();
         } catch(SQLException e){
