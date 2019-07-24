@@ -17,6 +17,10 @@ public class User {
 	  public String city; 
 	  public String country; 
 	  public String usertype; 
+	  
+	  public String ccnumber;
+	  public String ccsec;
+	  public String ccName;
 
 	  public String getName() {
 	    return username;
@@ -26,10 +30,18 @@ public class User {
 	    this.username = newName;
 	  }
 	  
-	  public void makeUser(Connection c) {
+	  public int makeUser(Connection c) {
 	      Server.Queries queries = new Server.Queries();
 		  id = Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
+		  return id;
 		  //Queries.create_user(c,sin,name,dob,job, username,password, postalcode, country, city, address);
 	  }
+	  
+      public boolean makeRenter(Connection c){
+	      Server.Queries queries = new Server.Queries();
+	      boolean success = Queries.addRenter( c, id, ccnumber, ccsec, ccName);
+		  return success;
+	
+		}
 
 }

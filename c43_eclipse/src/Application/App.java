@@ -5,6 +5,7 @@ import Server.Helpers;
 
 import java.util.Scanner;
 
+import Users.Renter;
 import Users.User;
 
 import java.security.interfaces.RSAKey;
@@ -214,10 +215,13 @@ public class App {
 				System.out.println("Payment Information:");
 				System.out.print("Credit Card Number:");
 				cc = keyboard.nextLine();
+				user.ccnumber = cc;
 				System.out.print("Name on the Credit Card:");
 				ccname = keyboard.nextLine();
+				user.ccName = ccname;
 				System.out.print("Card Security Code");
 				ccsecuritr = keyboard.nextLine();
+				user.ccsec = ccsecuritr;
 				break;
 			case 1:
 				break;
@@ -241,12 +245,12 @@ public class App {
 			choice2 = Integer.parseInt(option);
 			switch (choice2) { //Activate the desired functionality
 			case 0:
+				user.makeUser(conn);
 				try {
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
-							user.makeUser(conn);
-							//renter.renterPayment(); // figure out the order!
+							boolean success = user.makeRenter(conn);
 							renter.renterPageMenu();
 							break;
 						case 1:
