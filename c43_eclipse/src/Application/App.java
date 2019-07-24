@@ -1,5 +1,8 @@
 package Application;
 
+import Server.Helpers;
+
+
 import java.util.Scanner;
 
 import Users.User;
@@ -106,8 +109,14 @@ public class App {
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome(); //TODO:
-				RenterPage renter = new RenterPage();
-				renter.renterPageMenu();
+				
+				if (Server.Helpers.login(conn,inpUser,inpPass)){
+					RenterPage renter = new RenterPage();
+					renter.renterPageMenu();
+				} else {
+					System.out.println("Incorrect Login Credentials!");
+					login();
+				}
 				break;
 			case 1:
 				HostPage host = new HostPage();
@@ -190,27 +199,58 @@ public class App {
 		String usertype = keyboard.nextLine();
 		user.usertype = usertype;
 		
+		String cc = "";
+		String ccname = "";
+		String ccsecuritr = "";
+		
+		
+		/*----------------renters payment---------------------*/
+		
+		int choice = -1;
+		try {
+			choice = Integer.parseInt(usertype);
+			switch (choice) {
+			case 0:
+				System.out.println("Payment Information:");
+				System.out.print("Credit Card Number:");
+				cc = keyboard.nextLine();
+				System.out.print("Name on the Credit Card:");
+				ccname = keyboard.nextLine();
+				System.out.print("Card Security Code");
+				ccsecuritr = keyboard.nextLine();
+				break;
+			case 1:
+				break;
+			default:
+				break;
+			}
+		} catch (NumberFormatException e) {
+			choice = -1;
+		}
+		/*----------------renters payment---------------------*/
+
 		System.out.println("By submitting I am declaring that I am at least 18 years old.");
 		System.out.println("0. Submit.");
 		System.out.println("1. Go Back.");
 		System.out.print("Choose one of the previous options [0 - 1]: ");
 		String option = keyboard.nextLine();
-		int choice = -1;
+		int choice2 = -1;
 		try {
 			RenterPage renter = new RenterPage();
 			HostPage host = new HostPage();
-			choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
+			choice2 = Integer.parseInt(option);
+			switch (choice2) { //Activate the desired functionality
 			case 0:
 				try {
-					user.makeUser(conn);
 					int redirect = Integer.parseInt(usertype);
 						switch (redirect) {
 						case 0:
-							renter.renterPayment();
+							user.makeUser(conn);
+							//renter.renterPayment(); // figure out the order!
 							renter.renterPageMenu();
 							break;
 						case 1:
+							user.makeUser(conn);
 							host.hostPageMenu(user);
 							break;
 						}

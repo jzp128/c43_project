@@ -16,8 +16,8 @@ public class Helpers {
         return R * c;
     }
 
-    public static boolean login(Connection c, String userName, String pw){
-        String dbPW = Queries.fetchPW(c,userName);
-        return pw == dbPW;
+    public static boolean login(Connection c, String loginName, String pw){
+        String dbPW = Queries.fetchPW(c,loginName); // this should be loginName right? TODO:
+        return pw.equals(dbPW);
     }
 }

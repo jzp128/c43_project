@@ -318,17 +318,6 @@ public class Queries {
         return r;
     }
 
-	
-	//LISTINGS TODO: error checks???
-	public static int insertAmend(Connection c, int listingID, int amendID) {
-		// adds user (no address) and then puts them into the table
-		int id = -1;
-		String query = "insert into amenditiesList (listingID, amendID) values (?,?)";
-		try {
-			PreparedStatement ps = c.prepareStatement(query);
-			ps.setInt(1, listingID);
-			ps.setInt(2, amendID);
-
 
 	//TODO: check if this works ...... 
 	public static boolean linkhostListing(Connection c, int listingID, int hosterID) {
