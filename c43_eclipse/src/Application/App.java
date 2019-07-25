@@ -195,7 +195,7 @@ public class App {
 			try {
 				System.out.print("Date of Birth Format (yyyy-MM-dd):");
 				String dob = keyboard.nextLine();
-				SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 				java.util.Date date;
 				date = sdf1.parse(dob);
 				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
