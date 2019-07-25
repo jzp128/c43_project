@@ -42,7 +42,7 @@ VALUES
 ('Apartment','456.12','532.12',1,'123 How','Canada','Toronto','M3C 0C1'),
 ('Apartment','789.12','497.12',21,'123 Are','Canada','Toronto','M3C 0C2'),
 ('Room','23.12','341.12',15,'123 You','Canada','Montreal','M3C 0C3'),
-('Full House','345.12','43.12',9,'123 Military','Quebec City','Toronto','M3C 0E3'),
+('Full House','345.12','43.12',9,'123 Military','Canada','Quebec City','M3C 0E3'),
 ('Room','345.12','54.12',13,'123 Trial','Canada','Toronto','M3C 0E4'),
 ('Apartment','100.12','300.12',25,'123 Jacqueline','Canada','Ottawa','M3C 0H9'),
 ('Full House','213.12','123.12',2,'123 Jimmy','Canada','Ottawa','M3C 0J1'),
