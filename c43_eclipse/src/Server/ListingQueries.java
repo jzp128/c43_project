@@ -4,6 +4,7 @@ import Listings.Listing;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ListingQueries {
     public static ArrayList<Listing> searchRunner(Connection c){
@@ -20,8 +21,19 @@ public class ListingQueries {
         return q;
     }
 
-    public static String searchByLocation(String postcode){
-        String q = String.format("SELECT * FROM listing WHERE postal_code LIKE %s", postcode);
+    public static String searchByLocation(Double latitude, Double longitude){
+
+        String q = String.format("SELECT * FROM listing WHERE postal_code LIKE %s");
+        return q;
+    }
+
+    public static String getListingsByDateRange(Date from, Date to){
+        // get the availabilites first
+        String stringFrom = Helpers.utilDatetoString(from);
+        String stringTo = Helpers.utilDatetoString(to);
+        long range = Helpers.daysInBetween(from, to);
+        String getInDateRange = String.format("SELECT listingID FROM available where availdate BETWEEN '%s' AND '%s' AND isBooked = 0 GROUP BY listingID HAVING COUNT(listingID) = %d", stringFrom, stringTo, range);
+        String q = "SELECT listing.* FROM listing INNER JOIN (" + getInDateRange +") AS b ON listing.listingID = b.listingID";
         return q;
     }
 

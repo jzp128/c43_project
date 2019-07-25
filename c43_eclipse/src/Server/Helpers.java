@@ -1,6 +1,10 @@
 package Server;
 
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Helpers {
     public static final double R = 6372.8; // In kilometers
@@ -19,5 +23,16 @@ public class Helpers {
     public static boolean login(Connection c, String loginName, String pw){
         String dbPW = Queries.fetchPW(c,loginName); // this should be loginName right? TODO:
         return pw.equals(dbPW);
+    }
+
+    public static String utilDatetoString(Date d){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strdate = dateFormat.format(d);
+        return strdate;
+    }
+
+    public static long daysInBetween(Date from, Date to){
+        long diff = to.getTime() - from.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
     }
 }

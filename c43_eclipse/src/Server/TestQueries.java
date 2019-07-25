@@ -54,13 +54,24 @@ public class TestQueries {
     }
 
     public static void main(String args[]){
-        Connection c = createConn();
-        //int i = Queries.add_address(c, "Toronto", "M1T1K4", "Canada", "Lowcrest Blvd", "39", "");
-        //System.out.println(i);
+//        Connection c = createConn();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
-            c.close();
-        } catch(SQLException e){
-            System.out.println("whoops");
+            java.util.Date from = sf.parse("2019-07-01");
+            java.util.Date to = sf.parse("2019-07-02");
+            System.out.println(Helpers.utilDatetoString(from));
+            System.out.println(Helpers.daysInBetween(from, to));
+            String a = ListingQueries.getListingsByDateRange(from, to);
+            System.out.println(a);
+        }catch (Exception e){
+
         }
+
+//        try {
+////            c.close();
+//        } catch(SQLException e){
+//            System.out.println("whoops");
+//        }
     }
 }
