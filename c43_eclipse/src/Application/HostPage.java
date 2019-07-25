@@ -76,7 +76,7 @@ public class HostPage extends UserPage{
 			}
 		}
 		
-		if (housingchoice == 1){
+		if (housingchoice == 0){
 			listingtype = "Full House";
 		} else if (housingchoice == 1){
 			listingtype = "Apartment";
@@ -152,7 +152,6 @@ public class HostPage extends UserPage{
 				switch (option) { //Activate the desired functionality
 				case "y":
 					amen.get(i).amenBool = true;
-					confirmamenitiesPage(listingid, amen, app.getconn());
 					//confirm;
 					//Queries.insertAmend(app.getconn(),listingid, amen.get(i).amendid);
 					break;
@@ -166,6 +165,8 @@ public class HostPage extends UserPage{
 				option = "-1";
 			}
 		}
+		
+		confirmamenitiesPage(listingid, amen, app.getconn());
 	}
 	
 	
