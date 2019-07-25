@@ -33,6 +33,22 @@ VALUES
 ('123456789','Bob-Steve','1993-05-17','Therapist','bobs','circle','6 Military Trial','Canada','Toronto','L8V2R4',0),
 ('123456789','Mister-Chen','1990-02-17','Programmer','misterc','chen','6 Military Trial','Canada','Toronto','L8V2R4',0);
 
+-- set up renters table
+INSERT INTO renters (renterID, ccNumber,ccSecNum, ccCardName)
+VALUES
+(1,1234567812345678, 123,'JACQUELINE'),
+(2,1234567890123456, 123,'CHAN'),
+(4, 083974810927348, 987,'HELLO'),
+(5, 1234098712345678, 358,'KITTY'),
+(6, 0192837465019283, 132,'JO'),
+(9,102974838938391, 923,'SPIDER'),
+(13,1231231232138920, 398,'MAN'),
+(15,1231412313141212, 839, 'FISH'),
+(17,9873648203472838, 109, 'JESSICA'),
+(20,8383929392838288, 098, 'LOVE'),
+(21,1111111111111111, 777, 'SHARMA'),
+(25,999999999999999, 234, 'PANG');
+
 
 
 -- set up the listing table
