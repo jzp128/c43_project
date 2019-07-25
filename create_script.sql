@@ -118,3 +118,39 @@ VALUES
 ('Fire extinguisher', 'This is highly recommended fire safety prevention measure'),
 ('Lock on bedroom door', 'Private room which can be locked for safety and privacy')
 ;
+
+INSERT INTO `airbnb`.`listing`
+(
+`listingType`,
+`longitude`,
+`latitude`,
+`address`,
+`country`,
+`city`,
+`postal_code`)
+VALUES
+('Apartment',0.0,0.0,'36 dab street','nice','africa','yeet'),
+('Apartment',1,1,'37 dab street','nice','africa','beet');
+
+
+INSERT INTO available (availDate, price, listingID)
+VALUES
+('2010-12-01', 24.00, 1),
+('2010-12-02', 24.00, 1),
+('2010-12-03', 24.00, 1),
+('2010-12-04', 24.00, 1),
+('2010-12-05', 24.00, 1),
+('2010-12-06', 24.00, 1),
+('2010-12-07', 24.00, 1),
+('2010-12-08', 24.00, 1),
+('2010-12-09', 24.00, 1),
+('2010-12-10', 24.00, 1),
+('2010-12-01', 24.00, 2),
+('2010-12-02', 24.00, 2),
+('2010-12-03', 24.00, 2),
+('2010-12-04', 24.00, 2),
+('2010-12-05', 24.00, 2),
+('2010-12-06', 24.00, 2),
+('2010-12-07', 24.00, 2),
+('2010-12-09', 24.00, 2),
+('2010-12-10', 24.00, 2);
