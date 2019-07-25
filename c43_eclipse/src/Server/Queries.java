@@ -267,7 +267,7 @@ public class Queries {
 
     public static int addAmentities(Connection c, String name, String description){
         int id = -1;
-        String q = "INSERT INTO amenities (amendName, amentDescription) values(?, ?)";
+        String q = "INSERT INTO amenities (amentName, amentDescription) values(?, ?)";
         try {
             PreparedStatement ps = c.prepareStatement(q, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
@@ -340,14 +340,14 @@ public class Queries {
 
 	
 	//LISTINGS TODO: error checks???
-	public static int insertAmend(Connection c, int listingID, int amendID) {
+	public static int insertAment(Connection c, int listingID, int amentID) {
 		// adds user (no address) and then puts them into the table
 		int id = -1;
-		String query = "insert into amenditiesList (listingID, amendID) values (?,?)";
+		String query = "insert into amenitiesList (listingID, amentID) values (?,?)";
 		try {
 			PreparedStatement ps = c.prepareStatement(query);
 			ps.setInt(1, listingID);
-			ps.setInt(2, amendID);
+			ps.setInt(2, amentID);
 
 			// TODO: change this to execute query
 			ps.execute();
@@ -361,9 +361,9 @@ public class Queries {
 	}
 	
 	
-	public static List<Amenity> AvailAmend(Connection c) { //TODO: check this function
+	public static List<Amenity> AvailAment(Connection c) { //TODO: check this function
 		List<Amenity> amen = null;
-		String query = "SELECT * FROM amendities";
+		String query = "SELECT * FROM amenities";
 
 		try {
 			PreparedStatement ps = c.prepareStatement(query);
@@ -374,10 +374,10 @@ public class Queries {
 			amen = new ArrayList<>();
 			
 			while (rs.next()) {
-				int amendid = rs.getInt("amendid");
-				String amendName = rs.getString("amendName");
-				String amendDescription = rs.getString("amendDescription");
-				Amenity x = new Amenity(amendid,amendName,amendDescription);
+				int amentid = rs.getInt("amentid");
+				String amentName = rs.getString("amentName");
+				String amentDescription = rs.getString("amentDescription");
+				Amenity x = new Amenity(amentid,amentName,amentDescription);
 				amen.add(x);
 			}
 			rs.close();
@@ -392,7 +392,7 @@ public class Queries {
 	}
 	
 
-//	public Listing[] GetAmendities(Connection c, int userID){
+//	public Listing[] GetAmentities(Connection c, int userID){
 //		Listing[] ret = {};
 //		String q = "select * FROM listing WHERE hosterID = ?";
 //		try {
@@ -452,14 +452,49 @@ public class Queries {
         }
         return ret;
     }
-	
+    
+    public boolean deleteUser(Connection c, String loginName){
+        boolean contains = false;        
+        String q = "DELETE FROM users where loginName = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setString(1, loginName);
+            int rs = ps.executeUpdate();
+//            while (rs.next()) {
+//                contains = rs.getBoolean(1);
+//            }
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return contains;
+    }
+    
+    public boolean deleteRenter(Connection c, int renterID){
+        boolean contains = false;        
+        String q = "DELETE FROM renters where renterID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setInt(1, renterID);
+            int rs = ps.executeUpdate();
+//            while (rs.next()) {
+//                contains = rs.getBoolean(1);
+//            }
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return contains;
+    }
 	
 		public static void main(String[] args) {
 			App application = App.createAppInstance();
 			
 			application.connect();
-			//maxAmend(application.getconn());
-			System.out.println(AvailAmend(application.getconn()));
+			//maxAment(application.getconn());
+			System.out.println(AvailAment(application.getconn()));
 			//create_listing(application.getconn(),"jacqueline", 123, 123);
 			//add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
 			//linkAddressListing(application.getconn(),1,123);

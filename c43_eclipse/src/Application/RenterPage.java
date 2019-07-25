@@ -1,4 +1,5 @@
 package Application;
+import java.sql.Connection;
 import java.util.Scanner;
 
 import Users.User;
@@ -42,7 +43,7 @@ public class RenterPage extends UserPage{
 	
 	
 	
-	public void renterPageMenu(User u){	
+	public void renterPageMenu(Connection c, User u){	
 		user = u;
 		System.out.println("**************************");
 		System.out.println("******ACCESS GRANTED******");
@@ -59,10 +60,10 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.renterbooking();
+				this.renterbooking(c);
 				break;
 			case 1:
-				super.deleteAccount();
+				super.deleteAccount(c,u);
 				break;
 			case 2:
 				super.logout();
@@ -76,7 +77,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void historyBookingPage(){		
+	public void historyBookingPage(Connection c){		
 
 		System.out.println("====PREVIOUS BOOKINGS====");
 
@@ -92,11 +93,11 @@ public class RenterPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome();
-				this.viewbooking();
-				this.historyBookingPage();
+				this.viewbooking(c);
+				this.historyBookingPage(c);
 				break;
 			case 1:
-				this.renterbooking();
+				this.renterbooking(c);
 				break;
 			default:
 				break;
@@ -107,7 +108,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void futureBookingPage(){		
+	public void futureBookingPage(Connection c){		
 
 		System.out.println("====FUTURE BOOKINGS====");
 
@@ -122,12 +123,12 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.viewbooking();
-				this.futureBookingPage();
+				this.viewbooking(c);
+				this.futureBookingPage(c);
 				//this.welcome();
 				break;
 			case 1:
-				this.renterbooking();
+				this.renterbooking(c);
 				break;
 			default:
 				break;
@@ -138,7 +139,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void canceledBookingPage(){		
+	public void canceledBookingPage(Connection c){		
 
 		System.out.println("====CANCELED BOOKINGS====");
 
@@ -153,12 +154,12 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.viewbooking();
-				this.canceledBookingPage();
+				this.viewbooking(c);
+				this.canceledBookingPage(c);
 				//this.welcome();
 				break;
 			case 1:
-				this.renterbooking();
+				this.renterbooking(c);
 				break;
 			default:
 				break;
@@ -169,7 +170,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void renterbooking(){		
+	public void renterbooking(Connection c){		
 		System.out.println("");
 		System.out.println("=========BOOKINGS=========");
 		System.out.println("0  View Future Bookings");
@@ -184,16 +185,16 @@ public class RenterPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.futureBookingPage();
+				this.futureBookingPage(c);
 				break;
 			case 1:
-				this.historyBookingPage();
+				this.historyBookingPage(c);
 				break;
 			case 2:
-				this.canceledBookingPage();
+				this.canceledBookingPage(c);
 				break;
 			case 3:
-				this.renterPageMenu(user);
+				this.renterPageMenu(c,user);
 				break;
 			default:
 				break;
@@ -204,7 +205,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void renterreviewhost(){
+	public void renterreviewhost(Connection c){
 		System.out.println("");
 		System.out.println("=========Review=========");
 		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
@@ -222,9 +223,9 @@ public class RenterPage extends UserPage{
 				//if so then
 				System.out.println("Commented!");
 				System.out.println("Going back now!");
-				viewbooking();
+				viewbooking(c);
 			case 1:
-				viewbooking();
+				viewbooking(c);
 				break;
 			default:
 				break;
@@ -233,7 +234,7 @@ public class RenterPage extends UserPage{
 			option = "-1";
 		}
 	}
-	public void renterratehost(){
+	public void renterratehost(Connection c){
 		System.out.println("");
 		System.out.println("=========Rating=========");
 		System.out.println("Provide a rating from [0-5]:"); // renters name
@@ -251,9 +252,9 @@ public class RenterPage extends UserPage{
 				//if so then
 				System.out.println("Rated!");
 				System.out.println("Going back now!");
-				viewbooking();
+				viewbooking(c);
 			case 1:
-				viewbooking();
+				viewbooking(c);
 				break;
 			default:
 				break;
@@ -262,7 +263,7 @@ public class RenterPage extends UserPage{
 			option = "-1";
 		}
 	}
-	public void renterreviewlisting(){
+	public void renterreviewlisting(Connection c){
 		System.out.println("");
 		System.out.println("=========Review=========");
 		System.out.println("Write a review of: (Maximum 2000 characters)"); // listing name
@@ -280,9 +281,9 @@ public class RenterPage extends UserPage{
 				//if so then
 				System.out.println("Commented!");
 				System.out.println("Going back now!");
-				viewbooking();
+				viewbooking(c);
 			case 1:
-				viewbooking();
+				viewbooking(c);
 				break;
 			default:
 				break;
@@ -291,7 +292,7 @@ public class RenterPage extends UserPage{
 			option = "-1";
 		}
 	}
-	public void renterratelisting(){
+	public void renterratelisting(Connection c){
 		System.out.println("");
 		System.out.println("=========Rating=========");
 		System.out.println("Provide a rating from [0-5]:"); // renters name
@@ -309,9 +310,9 @@ public class RenterPage extends UserPage{
 				//if so then
 				System.out.println("Rated!");
 				System.out.println("Going back now!");
-				viewbooking();
+				viewbooking(c);
 			case 1:
-				viewbooking();
+				viewbooking(c);
 				break;
 			default:
 				break;
@@ -321,7 +322,7 @@ public class RenterPage extends UserPage{
 		}
 	}
 	
-	public void viewbooking(){		
+	public void viewbooking(Connection c){		
 		System.out.println("");
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Write a Review on the Host's Profile ");
@@ -336,19 +337,19 @@ public class RenterPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 
 			case 0:
-				renterreviewhost();
+				renterreviewhost(c);
 				break;
 			case 1:
-				renterreviewlisting();
+				renterreviewlisting(c);
 				break;
 			case 2:
-				renterratehost();
+				renterratehost(c);
 				break;
 			case 3:
-				renterratelisting();
+				renterratelisting(c);
 				break;
 			case 4:
-				renterbooking();
+				renterbooking(c);
 				break;
 			default:
 				break;

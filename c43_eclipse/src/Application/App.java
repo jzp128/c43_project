@@ -86,7 +86,7 @@ public class App {
 				this.signup();
 				break;
 			case 1:
-				this.login();
+				this.login(conn);
 				break;
 			case 2:
 				disconnect();
@@ -101,7 +101,7 @@ public class App {
 		}
 	}
 	
-	public void login(){
+	public void login(Connection c){
 
 	    Scanner keyboard = new Scanner (System.in);
 
@@ -131,14 +131,14 @@ public class App {
 					user = queries.getUser(conn, inpUser);
 					if (user.isHost == 0) {
 						RenterPage renter = new RenterPage();
-						renter.renterPageMenu(user);
+						renter.renterPageMenu(c,user);
 					} else {
 						HostPage host = new HostPage();
-						host.hostPageMenu(user);  //TODO:
+						host.hostPageMenu(conn,user);  //TODO:
 					}
 				} else {
 					System.out.println("Incorrect Login Credentials!");
-					login();
+					login(conn);
 				}
 				break;
 			case 1:
@@ -287,11 +287,11 @@ public class App {
 						switch (redirect) {
 						case 0:
 							success = user.makeRenter(conn);
-							renter.renterPageMenu(user);
+							renter.renterPageMenu(conn,user);
 							break;
 						case 1:
 							success = user.makeHost(conn);
-							host.hostPageMenu(user);
+							host.hostPageMenu(conn,user);
 							break;
 						}
 					} catch (Exception e) {

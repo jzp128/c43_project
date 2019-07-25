@@ -1,10 +1,15 @@
 package Application;
 
+import java.sql.Connection;
 import java.util.Scanner;
+
+import Server.Queries;
+import Users.User;
 
 public class UserPage {
 	
 	Scanner keyboard = new Scanner (System.in);
+	Queries queries = new Queries ();
 
 	
 	public void logout(){
@@ -13,7 +18,7 @@ public class UserPage {
 	}
 	
 	
-	public void deleteAccount(){
+	public void deleteAccount(Connection c, User u){
 		System.out.println("ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT?");
 		System.out.println("0  NO.");
 		System.out.println("1. YES ");
@@ -28,6 +33,10 @@ public class UserPage {
 				break;
 			case 1:
 				System.out.println("ACCOUNT DELETED.");
+				
+				queries.deleteUser(c, u.loginname);
+				queries.deleteRenter(c, u.id );
+				
 				App.application.welcome();
 				break;
 			default:

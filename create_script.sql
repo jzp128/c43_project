@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS users (
     isHoster BOOL NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS hosters(
-	hosterID INT UNSIGNED PRIMARY KEY REFERENCES users(userID)
-);
+--CREATE TABLE IF NOT EXISTS hosters(
+--	hosterID INT UNSIGNED PRIMARY KEY REFERENCES users(userID)
+--);
 
 CREATE TABLE IF NOT EXISTS renters(
 	renterID INT UNSIGNED PRIMARY KEY REFERENCES users(userID),
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS reviews(
     reviewType CHAR(1)
 );
 
--- set up the amendities table
-INSERT INTO amendities (amendName, amendDescription)
+-- set up the amenities table
+INSERT INTO amenities (amentName, amentDescription)
 VALUES
 ('Essentials', 'Towels, bed sheets, soap, toilet paper, and pillows'),
 ('Wifi', 'Free or paid wifi available'),
