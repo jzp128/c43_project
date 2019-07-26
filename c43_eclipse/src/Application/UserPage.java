@@ -85,7 +85,6 @@ public class UserPage {
 		}
 		
 		try {
-			System.out.println("JACQUELINE");
 			System.out.println(choice);
 			ArrayList<Available> availlist = queries.getAvailListingsDates(c,choice);
 			System.out.println(availlist.toString());

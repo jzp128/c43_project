@@ -244,13 +244,9 @@ public class Queries {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
             	int id = rs.getInt("listingID");
-            	System.out.println(id);
                 int isbooked = rs.getInt("isBooked");
-            	System.out.println(isbooked);
                 BigDecimal price = rs.getBigDecimal("price");
-            	System.out.println(price);
                 Date availdate = rs.getDate("availDate");
-            	System.out.println(availdate);
 
                 Available a = new Available(availdate, price, id, isbooked );
                 ret.add(a);
