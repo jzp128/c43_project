@@ -7,5 +7,20 @@ public class CheckersGeneric {
 		return (number >= from && number <= to);
 		
 	}
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
+	
+	
+	public static int length(String str) { 
+		int length = str.length( ); 
+		return length;
+	}
 
 }

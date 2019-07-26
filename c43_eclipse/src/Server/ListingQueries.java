@@ -61,6 +61,15 @@ public class ListingQueries {
         q += ")";
         return q;
     }
+    
+//    public static String insertAvailDateRange(Date from, Date to, int ){
+//        // get the availabilites first
+//        String stringFrom = Helpers.utilDatetoString(from);
+//        String stringTo = Helpers.utilDatetoString(to);
+//        long range = Helpers.daysInBetween(from, to);
+//        String getInDateRange = String.format("SELECT listingID FROM available where availdate BETWEEN '%s' AND '%s' AND isBooked = 0 GROUP BY listingID HAVING COUNT(listingID) = %d", stringFrom, stringTo, range);
+//        return getInDateRange;
+//    }
 
     public static String finalListingQuery(String[] filters, int priceSort){
         String filterString = applyFilters(filters);

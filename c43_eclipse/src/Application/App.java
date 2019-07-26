@@ -240,31 +240,45 @@ public class App {
 		
 		
 		/*----------------renters payment---------------------*/
-		
-		int choice = -1;
-		try {
-			choice = Integer.parseInt(usertype);
-			user.isHost = choice;
-			switch (choice) {
-			case 0:
-				System.out.println("Payment Information:");
-				System.out.print("Credit Card Number:");
-				cc = keyboard.nextLine();
-				user.ccnumber = cc;
-				System.out.print("Name on the Credit Card:");
-				ccname = keyboard.nextLine();
-				user.ccName = ccname;
-				System.out.print("Card Security Code");
-				ccsecuritr = keyboard.nextLine();
-				user.ccsec = ccsecuritr;
-				break;
-			case 1:
-				break;
-			default:
-				break;
+		boolean invalidCreditInfo = true;
+		while (invalidCreditInfo) {
+			int choice = -1;
+			try {
+				choice = Integer.parseInt(usertype);
+				user.isHost = choice;
+				switch (choice) {
+				case 0:
+					System.out.println("Payment Information:");
+					System.out.print("Credit Card Number (16 digits):");
+					cc = keyboard.nextLine();
+					user.ccnumber = cc;
+					System.out.print("Name on the Credit Card:");
+					ccname = keyboard.nextLine();
+					user.ccName = ccname;
+					System.out.print("Card Security Code (3 digits)");
+					ccsecuritr = keyboard.nextLine();
+					user.ccsec = ccsecuritr;
+					
+					if (CheckersGeneric.isNumeric(ccsecuritr) && CheckersGeneric.length(ccsecuritr)==3){
+						if (CheckersGeneric.isNumeric(cc) && CheckersGeneric.length(cc)==16){
+							invalidCreditInfo = false;
+						}
+					} else {
+						invalidCreditInfo = true;
+						System.out.println("Please try again~");
+					}
+					
+					break;
+				case 1:
+					break;
+				default:
+					break;
+				}
+			} catch (Exception e) {
+				invalidCreditInfo = true; 
+				System.out.println("Please try again~");
+				choice = -1;
 			}
-		} catch (NumberFormatException e) {
-			choice = -1;
 		}
 		/*----------------renters payment---------------------*/
 
