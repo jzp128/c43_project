@@ -62,9 +62,10 @@ public class TestQueries {
             System.out.println(Helpers.utilDatetoString(from));
             System.out.println(Helpers.daysInBetween(from, to));
             String a = ListingQueries.filterByDateRange(from, to);
-            String[] t = {a};
-            String b = ListingQueries.finalListingQuery(t, 1);
-            System.out.println(b);
+            String b = ListingQueries.filterBypriceRange(0, 100.00);
+            String[] t = {a, b};
+            String res = ListingQueries.finalListingQuery(t, 1);
+            System.out.println(res);
 
             Double avg = Queries.getListingAvgCost(c, 3);
             System.out.println(avg);
