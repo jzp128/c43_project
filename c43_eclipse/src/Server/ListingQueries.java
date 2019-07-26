@@ -53,7 +53,7 @@ public class ListingQueries {
     }
 
     public static String applyFilters(String[] filters){
-        String q = "SELECT BASE.listingID FROM (SELECT listingID from listing) AS BASE";
+        String q = "(SELECT BASE.listingID FROM (SELECT listingID from listing) AS BASE";
         int i = 0;
         for(String f: filters){
             q = q + " INNER JOIN " + f + " USING(listingID)";
