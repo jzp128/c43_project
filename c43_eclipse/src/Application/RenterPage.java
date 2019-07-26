@@ -27,7 +27,7 @@ public class RenterPage extends UserPage{
 		System.out.println("2. Look at Availible Bookings.");
 		System.out.println("3. Delete My Account.");
 		System.out.println("4. Log Out");
-		System.out.print("Choose one of the previous options [0 - 2]: ");
+		System.out.println("Choose one of the previous options [0 - 2]: ");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -39,8 +39,9 @@ public class RenterPage extends UserPage{
 			case 1:
 				this.renterbooking(c,u); //TODO
 				break;
-			case 2:
-				super.listAvaillistings(c,u); //TODO
+			case 2://TODO
+				super.listAvaillistings(c,u);
+				renterPageMenu( c,  u);
 				break;
 			case 3:
 				super.deleteAccount(c,u);
@@ -64,8 +65,14 @@ public class RenterPage extends UserPage{
 		Queries.updateHistoryBookingsforRenter(c,u.id);
 		ArrayList<Booking> list = Queries.getHistoryBookingsforRenter(c,u.id);
 		printBookings(list);
+		
+		if (list.isEmpty()){
+			System.out.println("You have no bookings here!");
+		}
 
-		System.out.print("ENTER the booking number you want to view");
+		System.out.println("ENTER the booking number you want to view");
+		System.out.println("Or just press enter to continue");
+
 		String record = keyboard.nextLine();
 
 		System.out.println("0  Submit.");
@@ -99,11 +106,16 @@ public class RenterPage extends UserPage{
 		Queries.updateHistoryBookingsforRenter(c,u.id);
 		ArrayList<Booking> list = Queries.getCurrentBookingsforRenter(c,u.id);
 		
+		if (list.isEmpty()){
+			System.out.println("You have no bookings here!");
+		}
 		System.out.println(list);
 
 		printBookings(list);
 
-		System.out.print("ENTER the booking number you want to view");
+		System.out.println("ENTER the booking number you want to view");
+		System.out.println("Or just press enter to continue");
+
 		String record = keyboard.nextLine();
 
 		System.out.println("0  Submit.");
@@ -138,8 +150,12 @@ public class RenterPage extends UserPage{
 		ArrayList<Booking> list = Queries.getCanceledBookingsforRenter(c,u.id);
 		printBookings(list);
 
+		if (list.isEmpty()){
+			System.out.println("You have no bookings here!");
+		}
 
-		System.out.print("ENTER the booking number you want to view");
+		System.out.println("ENTER the booking number you want to view");
+		System.out.println("Or just press enter to continue");
 		String record = keyboard.nextLine();
 
 		System.out.println("0  Submit.");
@@ -174,7 +190,7 @@ public class RenterPage extends UserPage{
 		System.out.println("2. View Canceled Bookings");
 		System.out.println("3. Go Back");
 		
-		System.out.print("Choose one of the previous options [0 - 3]: ");
+		System.out.println("Choose one of the previous options [0 - 3]: ");
 		String option = keyboard.nextLine();
 		
 		try {

@@ -53,7 +53,7 @@ public class UserPage {
 		
 	}
 	
-	public void listAvaillistings (Connection c, User u) {
+	public boolean listAvaillistings (Connection c, User u) {
 		ArrayList<Listing> list = Queries.getAllListings(c);
 		Listing chosenListing;
 		
@@ -78,11 +78,21 @@ public class UserPage {
 		int choice = -1;
 		boolean optionb = false;
 		while(!optionb){
+			if (list.isEmpty()){
+				System.out.println("Sorry there are no available listings!");
+				return false;
+			}
+			
+			
 			System.out.println("Choose a listing by inputting the Listing Choice: [ 1 - " +list.size()+"]");
+			System.out.println("Choose [ " +(list.size() + 1)+" ] to Cancel" );
 			option = keyboard.nextLine();
 			try {
 				choice = Integer.parseInt(option);
 				optionb = CheckersGeneric.range(1,list.size(),choice);
+				if (choice == (list.size() + 1)) {
+					return false;
+				}
 			} catch (Exception e) {
 				System.out.println("Invalid Option!");
 			}
@@ -110,12 +120,23 @@ public class UserPage {
 			Date enddate = new Date(0);
 			
 			optionb = false;
-			while(!optionb){
+			while(!optionb){ 
+				//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
+				
+				if (availlist.isEmpty()){
+					System.out.println("Sorry this Listing is fully booked!");
+					return false;
+				}
+				
 				System.out.println("Choose a listing date by inputting the Start Date and the End Date: [ 1 - " +availlist.size()+"]");
+				System.out.println("Choose [ " +(availlist.size() + 1)+"] to Cancel" ); //TODO
 				System.out.println("Start Date:");
 				String optionstart = keyboard.nextLine();
 				try {
 					optionstartchoice = Integer.parseInt(optionstart);
+					if (optionstartchoice == (availlist.size() + 1)) {
+						return false;
+					}
 					optionb = CheckersGeneric.range(0,availlist.size(),optionstartchoice);
 				} catch (Exception e) {
 					//System.out.println("Invalid Option!");
@@ -136,19 +157,26 @@ public class UserPage {
 				else if (optionendchoice < optionstartchoice ){
 					System.out.println("Invalid Option! Try Again.");
 					optionb = false;
-					
-				startdate = availlist.get(optionstartchoice-1).availDate;
-				enddate = availlist.get(optionendchoice-1).availDate;
 				}
+				
+				startdate = availlist.get(optionstartchoice-1).availDate;
+				
+				enddate = availlist.get(optionendchoice-1).availDate;
+				
+
 			}
 			
 			renterBooking(c,chosenListing,u,startdate,enddate);
+			
+			System.out.println("Booked! Going back to menu...");
+
 			
 
 			} catch (Exception e) {
 			System.out.println("Try Again!");
 			listAvaillistings(c,u);
-		}
+			}
+		return true;
 		
 		
 		
