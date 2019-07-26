@@ -1,7 +1,6 @@
 package Server;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.logging.SimpleFormatter;
 
 public class TestQueries {
     public static Connection createConn() {
@@ -16,12 +15,12 @@ public class TestQueries {
         //Database credentials
         final String USER = "root";
         final String PASS = "root";
-        System.out.println("Connecting to database...");
+//        System.out.println("Connecting to database...");
 
         try {
             //Establish connection
             c = DriverManager.getConnection(CONNECTION, USER, PASS);
-            System.out.println("Successfully connected to MySQL!");
+//            System.out.println("Successfully connected to MySQL!");
         } catch (SQLException e) {
             System.out.println("connection failure");
         }
@@ -54,7 +53,7 @@ public class TestQueries {
     }
 
     public static void main(String args[]){
-//        Connection c = createConn();
+        Connection c = createConn();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
@@ -62,8 +61,11 @@ public class TestQueries {
             java.util.Date to = sf.parse("2019-07-02");
             System.out.println(Helpers.utilDatetoString(from));
             System.out.println(Helpers.daysInBetween(from, to));
-            String a = ListingQueries.getListingsByDateRange(from, to);
+            String a = ListingQueries.filterByDateRange(from, to);
             System.out.println(a);
+
+            Double avg = Queries.getListingAvgCost(c, 3);
+            System.out.println(avg);
         }catch (Exception e){
 
         }

@@ -473,7 +473,7 @@ public class Queries {
 //		return ret;
 //	}
 	
-    public User getUser(Connection c, String loginname) {
+    public static User getUser(Connection c, String loginname) {
         User ret = new User();
         String q = "select * FROM users WHERE loginName = ?";
         try {
@@ -530,7 +530,7 @@ public class Queries {
         return contains;
     }
     
-    public boolean deleteRenter(Connection c, int renterID){
+    public static boolean deleteRenter(Connection c, int renterID){
         boolean contains = false;        
         String q = "DELETE FROM renters where renterID = ?";
         try {
@@ -547,18 +547,57 @@ public class Queries {
         }
         return contains;
     }
-	
-		public static void main(String[] args) {
-			App application = App.createAppInstance();
-			
-			application.connect();
-			//maxAment(application.getconn());
-			System.out.println(AvailAment(application.getconn()));
-			System.out.println(getAvailListingsDates(application.getconn(),1));
-			//create_listing(application.getconn(),"jacqueline", 123, 123);
-			//add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
-			//linkAddressListing(application.getconn(),1,123);
-			application.disconnect();
 
-		}
+    public static int updateListingAvgCost(Connection c, int listingID){
+        //TODO JACKY CAN YOU ADD THIS EVERY TIME WE ADD/REMOVE AVAILABILITIES
+        // TODO IS THIS LEGAL LOL
+        // UPDATE listing SET avg_price = (SELECT AVG(price) FROM available where listingID = 2) WHERE listingID = 2;
+        // the above works too but it gives a warning
+        double avg = getListingAvgCost(c, listingID);
+        String q = "UPDATE listing SET avg_price = ? WHERE listingID = ?";
+        int ra = 0;
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setInt(1, listingID);
+            ra = ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return ra;
+    }
+
+    public static double getListingAvgCost(Connection c, int listingID){
+        double avg = 0;
+        String q = "SELECT AVG(price) FROM available where listingID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setInt(1, listingID);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                avg = rs.getDouble(1);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return avg;
+    }
+
+	
+    public static void main(String[] args) {
+        App application = App.createAppInstance();
+
+        application.connect();
+        //maxAment(application.getconn());
+        System.out.println(AvailAment(application.getconn()));
+        //create_listing(application.getconn(),"jacqueline", 123, 123);
+        //add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
+        //linkAddressListing(application.getconn(),1,123);
+        application.disconnect();
+
+    }
 }

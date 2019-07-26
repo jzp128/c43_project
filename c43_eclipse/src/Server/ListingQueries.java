@@ -11,12 +11,12 @@ public class ListingQueries {
         return null;
     }
 
-    public static String searchByAddress(String address){
+    public static String filterByAddress(String address){
         String q = String.format("SELECT listingID FROM listing WHERE address LIKE %s", address);
         return q;
     }
 
-    public static String searchByPostalCode(String postcode){
+    public static String filterByPostalCode(String postcode){
         String q = String.format("SELECT listingID FROM listing WHERE postal_code LIKE %s", postcode);
         return q;
     }
@@ -27,7 +27,7 @@ public class ListingQueries {
         return q;
     }
 
-    public static String getListingsByDateRange(Date from, Date to){
+    public static String filterByDateRange(Date from, Date to){
         // get the availabilites first
         String stringFrom = Helpers.utilDatetoString(from);
         String stringTo = Helpers.utilDatetoString(to);
@@ -46,8 +46,13 @@ public class ListingQueries {
         return q;
     }
 
-    public static String sortByPrice(){
-        return "LMAO YEET";
+    public static String dab(){
+        String q = "SELECT listing.* FROM listing";
+        return "";
+    }
+
+    public static String filters(){
+        return "";
     }
 
 }
