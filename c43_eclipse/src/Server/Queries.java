@@ -491,9 +491,9 @@ public class Queries {
 
     public static int updateListingAvgCost(Connection c, int listingID){
         //TODO JACKY CAN YOU ADD THIS EVERY TIME WE ADD/REMOVE AVAILABILITIES
-        // TODO IS THIS LEGAL LOL
         // UPDATE listing SET avg_price = (SELECT AVG(price) FROM available where listingID = 2) WHERE listingID = 2;
         // the above works too but it gives a warning
+        // TODO IS THIS LEGAL LOL
         double avg = getListingAvgCost(c, listingID);
         String q = "UPDATE listing SET avg_price = ? WHERE listingID = ?";
         int ra = 0;

@@ -57,12 +57,14 @@ public class TestQueries {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
-            java.util.Date from = sf.parse("2019-07-01");
-            java.util.Date to = sf.parse("2019-07-02");
+            java.util.Date from = sf.parse("2010-12-01");
+            java.util.Date to = sf.parse("2010-12-10");
             System.out.println(Helpers.utilDatetoString(from));
             System.out.println(Helpers.daysInBetween(from, to));
             String a = ListingQueries.filterByDateRange(from, to);
-            System.out.println(a);
+            String[] t = {a};
+            String b = ListingQueries.finalListingQuery(t, 1);
+            System.out.println(b);
 
             Double avg = Queries.getListingAvgCost(c, 3);
             System.out.println(avg);
