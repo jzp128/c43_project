@@ -1,9 +1,11 @@
 package Server;
 
 import Listings.Amenity;
+import Listings.Available;
 import Listings.Listing;
 import Users.User;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +205,67 @@ public class Queries {
         }
         return ret;
     }
+    
+    public static ArrayList<Listing> getAllListings(Connection c) {
+        ArrayList<Listing> ret = new ArrayList<>();
+        String q = "select * FROM listing";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("listingID");
+                String city = rs.getString("city");
+                String postal_code = rs.getString("postal_code");
+                String address = rs.getString("address");
+                String country = rs.getString("country");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                int hostID = rs.getInt("hosterID");
+                String type = rs.getString("listingType");
+                Listing l = new Listing(city, postal_code, country, address, latitude, longitude, hostID, type);
+                l.id = id;
+                ret.add(l);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
+    
+    
+    public static ArrayList<Available> getAvailListingsDates(Connection c, int listingID) {
+        ArrayList<Available> ret = new ArrayList<>();
+        String q = "SELECT listingID, availDate, price, isBooked from available where isBooked = 0 AND listingID = ? order by availDate";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setInt(1, listingID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	int id = rs.getInt("listingID");
+            	System.out.println(id);
+                int isbooked = rs.getInt("isBooked");
+            	System.out.println(isbooked);
+                BigDecimal price = rs.getBigDecimal("price");
+            	System.out.println(price);
+                Date availdate = rs.getDate("availDate");
+            	System.out.println(availdate);
+
+                Available a = new Available(availdate, price, id, isbooked );
+                ret.add(a);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        return ret;
+    }
+    
+    
+    
+    
 
     public static ArrayList<Listing> getListingsForGeoLocation(Connection c, double lat1, double long1) {
         ArrayList<Listing> ret = new ArrayList<>();
@@ -495,6 +558,7 @@ public class Queries {
 			application.connect();
 			//maxAment(application.getconn());
 			System.out.println(AvailAment(application.getconn()));
+			System.out.println(getAvailListingsDates(application.getconn(),1));
 			//create_listing(application.getconn(),"jacqueline", 123, 123);
 			//add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
 			//linkAddressListing(application.getconn(),1,123);

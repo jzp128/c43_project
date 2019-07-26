@@ -51,8 +51,10 @@ public class RenterPage extends UserPage{
 		System.out.println("");
 		System.out.println("====RENTER'S HOME PAGE====");
 		System.out.println("0  View my Bookings.");
-		System.out.println("1. Delete My Account.");
-		System.out.println("2. Log Out");
+		System.out.println("1. Search for a Booking.");
+		System.out.println("2. Look at Availible Bookings.");
+		System.out.println("3. Delete My Account.");
+		System.out.println("4. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
 		String option = keyboard.nextLine();
 		
@@ -63,9 +65,15 @@ public class RenterPage extends UserPage{
 				this.renterbooking(c);
 				break;
 			case 1:
-				super.deleteAccount(c,u);
+				this.renterbooking(c); //TODO
 				break;
 			case 2:
+				super.listAvaillistings(c); //TODO
+				break;
+			case 3:
+				super.deleteAccount(c,u);
+				break;
+			case 4:
 				super.logout();
 				break;
 			default:
