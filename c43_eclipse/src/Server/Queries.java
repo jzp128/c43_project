@@ -2,6 +2,7 @@ package Server;
 
 import Listings.Amenity;
 import Listings.Available;
+import Listings.Booking;
 import Listings.Listing;
 import Users.User;
 
@@ -620,6 +621,123 @@ public class Queries {
     		e.printStackTrace();
     	}
     }
+    
+	public static ArrayList<Booking> getCanceledBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isCanceled = 1";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	
+	public static ArrayList<Booking> getHistoryBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isHistory = 1";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	
+	public static ArrayList<Booking> getCurrentBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isHistory = 0 AND isCanceled = 0";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	
+	public static void updateHistoryBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		String q = "UPDATE bookings SET isHistory = TRUE  where renterID = ? AND toDate < CURDATE()";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+            ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		
+		String q2 = "UPDATE bookings SET isHistory = FALSE  where renterID = ? AND toDate > CURDATE()";
+		try {
+			PreparedStatement ps2 = c.prepareStatement(q2);
+			ps2.setInt(1, userid);
+            ps2.executeUpdate();
+			ps2.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+	
+	
 
 	
     public static void main(String[] args) {
@@ -628,6 +746,10 @@ public class Queries {
         application.connect();
         //maxAment(application.getconn());
         System.out.println(AvailAment(application.getconn()));
+        
+        updateHistoryBookingsforRenter(application.getconn(),1);
+       
+        
         //create_listing(application.getconn(),"jacqueline", 123, 123);
         //add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
         //linkAddressListing(application.getconn(),1,123);
