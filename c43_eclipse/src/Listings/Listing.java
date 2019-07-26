@@ -1,5 +1,7 @@
 package Listings;
 
+import Server.Helpers;
+
 import java.sql.Connection;
 
 public class Listing {
@@ -14,7 +16,7 @@ public class Listing {
     public double price;
     public String type;
 
-    public Listing(String city, String postal_code, String country, String address, double latitude, double longitude, int hostid, String type){
+    public Listing(String city, String postal_code, String country, String address, double latitude, double longitude, int hostid, String type) {
         this.city = city;
         this.postal_code = postal_code;
         this.country = country;
@@ -25,16 +27,18 @@ public class Listing {
         this.type = type;
     }
 
-    public void setPrice(double price){
+    public void setPrice(double price) {
         this.price = price;
     }
-    
-	  public int makelisting(Connection c) {
-		  Server.Queries queries = new Server.Queries();
-		  this.id = queries.create_listing(c,this.type,this.longitude,this.latitude, this.hostID, this.address, this.country, this.city, this.postal_code);
-		  return this.id;
-	  }
-    
-    
+
+    public int makelisting(Connection c) {
+        Server.Queries queries = new Server.Queries();
+        this.id = queries.create_listing(c, this.type, this.longitude, this.latitude, this.hostID, this.address, this.country, this.city, this.postal_code);
+        return this.id;
+    }
+
+    public Double getDist(Double lat, Double longit){
+        return Helpers.haversine(this.latitude, this.longitude, lat, longit);
+    }
 }
 
