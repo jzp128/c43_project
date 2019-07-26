@@ -68,7 +68,7 @@ public class RenterPage extends UserPage{
 				this.renterbooking(c); //TODO
 				break;
 			case 2:
-				super.listAvaillistings(c); //TODO
+				super.listAvaillistings(c,u); //TODO
 				break;
 			case 3:
 				super.deleteAccount(c,u);

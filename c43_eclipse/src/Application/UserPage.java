@@ -1,6 +1,7 @@
 package Application;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -38,8 +39,8 @@ public class UserPage {
 			case 1:
 				System.out.println("ACCOUNT DELETED.");
 				
-				queries.deleteUser(c, u.loginname);
-				queries.deleteRenter(c, u.id );
+				Queries.deleteUser(c, u.loginname);
+				Queries.deleteRenter(c, u.id );
 				
 				App.application.welcome();
 				break;
@@ -52,12 +53,14 @@ public class UserPage {
 		
 	}
 	
-	public void listAvaillistings (Connection c) {
-		ArrayList<Listing> list = queries.getAllListings(c);
+	public void listAvaillistings (Connection c, User u) {
+		ArrayList<Listing> list = Queries.getAllListings(c);
+		Listing chosenListing;
 		
+		int iterate = 1;
 		for (Listing x: list) {
 			System.out.println("=================================");
-
+			System.out.println("Listing Choice ["+iterate+"]");
 			System.out.println("Listing:" + x.id +" " );
 			System.out.println("Listing Type:" + x.type+ " ");
 			System.out.println("Longitude:" + x.longitude +" ");
@@ -68,25 +71,27 @@ public class UserPage {
 			System.out.println("PostalCode:" + x.postal_code +" ");
 			System.out.println("Host Profile ID:" + x.hostID +" ");
 			System.out.println("=================================");	
+			iterate ++;
 		}
 		
 		String option;
 		int choice = -1;
 		boolean optionb = false;
 		while(!optionb){
-			System.out.println("Choose a listing by inputting the ID: [ 1 - " +list.size()+"]");
+			System.out.println("Choose a listing by inputting the Listing Choice: [ 1 - " +list.size()+"]");
 			option = keyboard.nextLine();
 			try {
 				choice = Integer.parseInt(option);
-				optionb = CheckersGeneric.range(0,list.size(),choice);
+				optionb = CheckersGeneric.range(1,list.size(),choice);
 			} catch (Exception e) {
 				System.out.println("Invalid Option!");
 			}
 		}
 		
 		try {
-			System.out.println(choice);
-			ArrayList<Available> availlist = queries.getAvailListingsDates(c,choice);
+			chosenListing = list.get(choice - 1);
+			int choiceindex = chosenListing.id;
+			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,choiceindex);
 			System.out.println(availlist.toString());
 			int availistingno = 1;
 			for (Available x: availlist) {
@@ -101,10 +106,12 @@ public class UserPage {
 			
 			int optionstartchoice = 0;
 			int optionendchoice = 0;
+			Date startdate = new Date(0);
+			Date enddate = new Date(0);
 			
 			optionb = false;
 			while(!optionb){
-				System.out.println("Choose a listing by inputting the Start Date and the End Date: [ 1 - " +availlist.size()+"]");
+				System.out.println("Choose a listing date by inputting the Start Date and the End Date: [ 1 - " +availlist.size()+"]");
 				System.out.println("Start Date:");
 				String optionstart = keyboard.nextLine();
 				try {
@@ -129,18 +136,32 @@ public class UserPage {
 				else if (optionendchoice < optionstartchoice ){
 					System.out.println("Invalid Option! Try Again.");
 					optionb = false;
+					
+				startdate = availlist.get(optionstartchoice-1).availDate;
+				enddate = availlist.get(optionendchoice-1).availDate;
 				}
 			}
+			
+			renterBooking(c,chosenListing,u,startdate,enddate);
+			
 
 			} catch (Exception e) {
 			System.out.println("Try Again!");
-			listAvaillistings(c);
+			listAvaillistings(c,u);
 		}
 		
 		
 		
 	}
 	
+	
+	public void renterBooking(Connection c, Listing l, User u, Date from, Date to){
+		
+		Queries.updateListingAvailibility(c, l.id, from , to);
+		
+		Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
+		
+	}
 	
 	
 
