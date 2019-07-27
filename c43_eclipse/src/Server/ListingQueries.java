@@ -79,7 +79,7 @@ public class ListingQueries {
         return q;
     }
 
-    public static String applyFilters(ArrayList<String> filters) {
+    private static String applyFilters(ArrayList<String> filters) {
         String q = "(SELECT BASE.listingID FROM (SELECT listingID from listing) AS BASE";
         int i = 0;
         for (String f : filters) {
@@ -100,7 +100,7 @@ public class ListingQueries {
 
     public static String finalListingQuery(ArrayList<String> filters, int priceSort) {
         String filterString = applyFilters(filters);
-        System.out.println(filterString);
+
         String q = "SELECT A.* FROM listing AS A INNER JOIN " + filterString + "AS b ON a.listingID = b.listingID";
         if (priceSort == 1) {
             q = q + " ORDER BY a.avg_price ASC";
