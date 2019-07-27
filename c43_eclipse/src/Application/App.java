@@ -145,6 +145,7 @@ public class App {
 				this.welcome();
 				break;
 			default:
+				this.welcome();
 				break;
 			}
 		} catch (NumberFormatException e) {

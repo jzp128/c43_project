@@ -5,6 +5,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -127,6 +128,9 @@ public class HostPage extends UserPage{
 				Listing list = new Listing(city, postalcode, country, address,latitude, longitude, user.id, listingtype);
 				int id = list.makelisting(app.getconn());
 				amenitiesPage(id);
+				
+				availibilityAndPrice(c, list);
+
 				System.out.println("Listing Added!");
 				hostPageMenu(c,user);
 //				this.previousListingPage();
@@ -735,6 +739,7 @@ public class HostPage extends UserPage{
 						Queries.updateListingAvgCost(c, b.listingID);
 
 						System.out.println("Canceled~");
+						System.out.println("Note: if this listing was already canceled, it will stay canceled.");
 						break;
 					case 1:
 						break;
@@ -848,6 +853,107 @@ public class HostPage extends UserPage{
 		}
 	}
 	
-	
+	public void availibilityAndPrice(Connection c, Listing l){
+		
+		int optionstartchoice = 0;
+		int optionendchoice = 0;
+//		Date startdate = new Date(0);
+//		Date enddate = new Date(0);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		java.util.Date startdate;
+		java.util.Date enddate;
+		int dayCounter = 0;
+		double price = 0;
+		
+		String optionstart = "";
+		String optionend;
+		
+//		boolean optionb = false;
+//		while(!optionb){ 
+		
+					
+			boolean dateCheckfalse = true;
+			
+			while (dateCheckfalse){
+				try {
+					
+					
+					System.out.println("Choose a date range of availibility by inputting the Start Date and the End Date:");
+					System.out.println("Start Date (yyyy-MM-dd):");
+					optionstart = keyboard.nextLine();
+					
+					System.out.println("End Date (yyyy-MM-dd):");
+					optionend = keyboard.nextLine();
+					
+					sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+					startdate = sdf.parse(optionstart);
+					enddate = sdf.parse(optionend);
+					
+					dayCounter = CheckersGeneric.betweenDays(startdate, enddate);
+					
+					if (dayCounter < 0 ){
+						System.out.println("Incorrect day format or order. Please try again!");
+						dateCheckfalse = true;
+
+					} else {
+					
+//					java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());  
+//					java.sql.Date sqlendDate = new java.sql.Date(enddate.getTime());  
+						
+						
+						boolean priceFalse = true;
+						
+						while (priceFalse) {
+							System.out.println("Please note the the price you enter will apply to all the selected dates.");
+							System.out.println("You can individually adjust the price per day after the listing is made. ");
+							System.out.println("Enter a price:");
+							String pricestring = keyboard.nextLine();
+							
+							if (CheckersGeneric.isNumeric(pricestring)){
+								price = Double.parseDouble(pricestring);
+								priceFalse = false;
+							} else {
+								System.out.println("Try Again!");
+								priceFalse = true;
+							}
+
+						}
+					
+						dateCheckfalse = false;
+					}
+				} catch (ParseException e1) {
+					System.out.println("Incorrect day format or order. Please try again!");
+					dateCheckfalse = true;
+					//e1.printStackTrace();
+				}
+			}
+			
+			Calendar cal = Calendar.getInstance();
+			String dt;
+			java.util.Date newday;
+			
+			String datIterator=optionstart;
+			
+			for (int i=0; i < dayCounter+1;i++){
+				try {
+					// (Connection c, Date date, double price, int listingid, int isbooked) 
+					Queries.insertSingleAvailability(c,datIterator,price,l.id,0);
+					
+					cal.setTime(sdf.parse(datIterator));
+					cal.add(Calendar.DATE, 1);  // number of days to add
+					dt = sdf.format(cal.getTime());  // dt is now the new date
+
+					datIterator = dt;
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			
+
+		}
+		
+//	}
 	
 }

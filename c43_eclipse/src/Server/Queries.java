@@ -936,6 +936,23 @@ public class Queries {
     	}
 		
 	}
+	
+	
+	public static void insertSingleAvailability(Connection c, String date, double price, int listingid, int isbooked) {
+		String q = "insert into available (availDate,price,listingID,isBooked) values (?,?,?,?)";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setString(1, date);
+			ps.setDouble(2, price);
+			ps.setInt(3, listingid);
+			ps.setInt(4, isbooked);
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		
+	}
     
 	
 
@@ -953,10 +970,11 @@ public class Queries {
         
         
         
- 
+ //	public static void insertSingleAvailability(Connection c, String Date, double price, int listingid, int isbooked) {
+
         
         
-        cancelBooking(application.getconn(),4);
+        //cancelBooking(application.getconn(),4);
         
         
         
@@ -981,7 +999,7 @@ public class Queries {
 	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
 	      
 	      
-	      
+	      insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
         
 	      
 	        //updateAvailPrice(application.getconn(), 10.00, date111, 1);

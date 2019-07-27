@@ -136,6 +136,17 @@ public class UserPage {
 				System.out.println("Choose [ " +(availlist.size() + 1)+"] to Cancel" ); //TODO
 				System.out.println("Start Date:");
 				String optionstart = keyboard.nextLine();
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				try {
 					optionstartchoice = Integer.parseInt(optionstart);
 					if (optionstartchoice == (availlist.size() + 1)) {
