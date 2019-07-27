@@ -1,5 +1,6 @@
 package Application;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -386,17 +387,44 @@ public class RenterPage extends UserPage{
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Write a Review & Rating on the Host's Profile ");
 		System.out.println("1. Write a Review & Rating on the Listing");
-		System.out.println("3. Go Back to the Main Booking Page");
+		System.out.println("2. Go Back to the Main Booking Page");
 		String option = keyboard.nextLine();
+		
+		
+		// check if the booking was within 30 days
+		
+		java.util.Date today = CheckersGeneric.currentDate();
+		
+		int recent = CheckersGeneric.betweenDays(b.toDate,today);
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 
 			case 0:
+				if (b.isCanceled == 1){
+					System.out.println("Sorry, our records show that this booking is canceled,");
+					System.out.println("You cannot rate/review a canceled booking.");
+					renterbooking(c,u);
+					break;
+				} else if (CheckersGeneric.range(0, 30, recent)){
+					System.out.println("You can only rate/review a recent booking after 30 days.");
+					renterbooking(c,u);
+					break;
+				}
 				renterreviewhost(c,u,b);
 				break;
 			case 1:
+				if (b.isCanceled == 1){
+					System.out.println("Sorry, our records show that this booking is canceled,");
+					System.out.println("You cannot rate/review a canceled booking.");
+					renterbooking(c,u);
+					break;
+				} else if (CheckersGeneric.range(0, 30, recent)){
+					System.out.println("You can only rate/review a recent booking after 30 days.");
+					renterbooking(c,u);
+					break;
+				}
 				renterreviewlisting(c,u,b);
 				break;
 			case 3:

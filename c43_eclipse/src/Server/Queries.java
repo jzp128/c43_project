@@ -8,13 +8,16 @@ import Users.User;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 import Application.App;
+import Checkers.CheckersGeneric;
 
 public class Queries {
 
@@ -779,6 +782,9 @@ public class Queries {
     	return r;
     }
 	
+    
+    
+    
 	
 
 	
@@ -797,42 +803,81 @@ public class Queries {
         //linkAddressListing(application.getconn(),1,123);
         application.disconnect();
         
-        java.text.SimpleDateFormat sdf = 
-        new java.text.SimpleDateFormat("yyyy-MM-dd");
+        CheckersGeneric.currentDate();
         
-        java.util.Date toDate;
-		try {
-			
-			int t = 5;
-			
-			while (t !=0 ){
-			toDate = sdf.parse("2000-11-30");
-	        Calendar cal = Calendar.getInstance();
-	        cal.setTime(toDate);
-	        cal.add(Calendar.DATE, 1);
-	        toDate = cal.getTime();
+      SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+      String inputString1 = "1997-01-23";
+      String inputString2 = "1997-04-27";
+      
+      
+    try {
+  	java.util.Date date1 = myFormat.parse(inputString1);
+  	java.util.Date date2 = myFormat.parse(inputString2);
+  	System.out.println(CheckersGeneric.betweenDays(date1,date2));
+  	
+  	
+  } catch (ParseException e) {
+      e.printStackTrace();
+  }
+        
+       
+        
+        
+//        
+//        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+//        String inputString1 = "23 01 1997";
+//        String inputString2 = "27 04 1997";
+//
+//        try {
+//        	java.util.Date date1 = myFormat.parse(inputString1);
+//        	java.util.Date date2 = myFormat.parse(inputString2);
+//            long diff = date2.getTime() - date1.getTime();
+//            System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        
+//    	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//    	Date date = new Date();
+//    	System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-	        System.out.println(toDate);
-	        
-	        cal.add(Calendar.DATE, 1);
-
-	        toDate = cal.getTime();
-
-	        System.out.println(toDate);
-	        
-	        java.util.Date dt = new java.util.Date();
-	        
-	        String dateTime = sdf.format(toDate);
-	        
-	        System.out.println(dateTime);
-	        t =t -1;
-			}
-	        
-	        
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
+//        java.text.SimpleDateFormat sdf = 
+//        new java.text.SimpleDateFormat("yyyy-MM-dd");
+//        
+//        java.util.Date toDate;
+//		try {
+//			
+//			int t = 5;
+//			
+//			while (t !=0 ){
+//			toDate = sdf.parse("2000-11-30");
+//	        Calendar cal = Calendar.getInstance();
+//	        cal.setTime(toDate);
+//	        cal.add(Calendar.DATE, 1);
+//	        toDate = cal.getTime();
+//
+//	        System.out.println(toDate);
+//	        
+//	        cal.add(Calendar.DATE, 1);
+//
+//	        toDate = cal.getTime();
+//
+//	        System.out.println(toDate);
+//	        
+//	        java.util.Date dt = new java.util.Date();
+//	        
+//	        String dateTime = sdf.format(toDate);
+//	        
+//	        System.out.println(dateTime);
+//	        t =t -1;
+//			}
+//	        
+//	        
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         
 
 
