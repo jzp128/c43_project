@@ -56,6 +56,23 @@ public class ReportsPage {
             case 7:
                 ReportQueries.getRankedHostByNumListingsCity(c).print();
                 break;
+            case 8:
+                ReportQueries.getFindOverLimitHosts(c).print();
+                break;
+            case 9:
+                rankRentersA(c);
+                break;
+            case 10:
+                rankRentersB(c);
+                break;
+            case 11:
+                ReportQueries.reportMaxCancelHost(c).print();
+                break;
+            case 12:
+                ReportQueries.reportMaxCancelRenter(c).print();
+                break;
+            default:
+                System.out.println("wrong input!");
         }
     }
 
@@ -80,5 +97,28 @@ public class ReportsPage {
         CommandLineTable t = ReportQueries.getNumberBookingsByPostalCode(c, dto, dfrom);
         t.print();
     }
+
+    public void rankRentersA(Connection c){
+        System.out.println("Enter from date:");
+        String from = keyboard.nextLine();
+        System.out.println("Enter to Date");
+        String to = keyboard.nextLine();
+        Date dto = Helpers.stringToUtilDate(from);
+        Date dfrom = Helpers.stringToUtilDate(from);
+        CommandLineTable t = ReportQueries.rankRenters(c, dto, dfrom);
+        t.print();
+    }
+
+    public void rankRentersB(Connection c){
+        System.out.println("Enter from date:");
+        String from = keyboard.nextLine();
+        System.out.println("Enter to Date");
+        String to = keyboard.nextLine();
+        Date dto = Helpers.stringToUtilDate(from);
+        Date dfrom = Helpers.stringToUtilDate(from);
+        CommandLineTable t = ReportQueries.rankRentersCity(c, dto, dfrom);
+        t.print();
+    }
+
 
 }
