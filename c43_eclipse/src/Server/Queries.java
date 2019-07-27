@@ -2,18 +2,22 @@ package Server;
 
 import Listings.Amenity;
 import Listings.Available;
+import Listings.Booking;
 import Listings.Listing;
 import Users.User;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 import Application.App;
+import Checkers.CheckersGeneric;
 
 public class Queries {
 
@@ -560,7 +564,8 @@ public class Queries {
         int ra = 0;
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ps.setInt(1, listingID);
+            ps.setDouble(1, avg);
+            ps.setInt(2, listingID);
             ra = ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -569,6 +574,59 @@ public class Queries {
         }
         return ra;
     }
+    
+    
+    
+    public static int updateAvailPrice(Connection c, double price, Date availDate, int listingid){
+        String q = "UPDATE available SET price = ? WHERE availDate = ? AND listingID = ?";
+        int ra = 0;
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setDouble(1, price);
+            ps.setDate(2, availDate);
+            ps.setInt(3, listingid);
+            ra = ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return ra;
+    }
+    public static int updateAvailDate(Connection c, Date availDate, int listingid, Date newDate){
+    	String q = "UPDATE available SET availDate = ? WHERE listingID = ? AND availDate = ?";
+    	int ra = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setDate(1, newDate);
+    		ps.setInt(2, listingid);
+    		ps.setDate(3, availDate);
+    		ra = ps.executeUpdate();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return ra;
+    }
+    
+    public static int deleteAvailDate(Connection c, Date availDate, int listingid){
+    	String q = "Delete from available WHERE listingID = ? AND availDate = ?";
+    	int ra = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, listingid);
+    		ps.setDate(2, availDate);
+    		ra = ps.executeUpdate();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return ra;
+    }
+    
+    
 
     public static double getListingAvgCost(Connection c, int listingID){
         double avg = 0;
@@ -602,6 +660,20 @@ public class Queries {
     		e.printStackTrace();
     	}
     }
+    public static void reupdateListingAvailibility(Connection c, int listingID, Date from, Date to){
+    	String q = "UPDATE available SET isBooked = 0 WHERE listingID = ? AND availDate BETWEEN ? AND ?";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, listingID);
+    		ps.setDate(2, from);
+    		ps.setDate(3, to);
+    		ps.execute();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    }
     public static void insertSingleBooking(Connection c, int hostID, int renterID, int listingID, Date from, Date to){
     	String q = "INSERT INTO bookings (hostID, renterID, listingID, isCanceled, isHistory, fromDate, toDate) VALUES (?,?,?,?,?,?,?)";
     	try { 
@@ -620,55 +692,503 @@ public class Queries {
     		e.printStackTrace();
     	}
     }
+    
+	public static ArrayList<Booking> getCanceledBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isCanceled = 1";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	
+	public static ArrayList<Booking> getHistoryBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isHistory = 1";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	
+	public static ArrayList<Booking> getCurrentBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		 ArrayList<Booking> ret = new ArrayList<>();
+	        String q = "select * FROM bookings WHERE renterID = ? AND isHistory = 0 AND isCanceled = 0";
+	        try {
+	            PreparedStatement ps = c.prepareStatement(q);
+	            ps.setInt(1, userid);
+	            ResultSet rs = ps.executeQuery();
+	            while (rs.next()) {
+	                int bookingid = rs.getInt("bookingID");
+	                int hostid = rs.getInt("hostID");
+	                int renterid = rs.getInt("renterID");
+	                int listingid = rs.getInt("listingID");
+	                int iscanceled = rs.getInt("isCanceled");
+	                int ishistory = rs.getInt("isHistory");
+	                
+	                Date from = rs.getDate("fromDate");
+	                Date to = rs.getDate("toDate");
+	                
+	                Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+	                b.bookingID = bookingid;
+	                ret.add(b);
+	            }
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+
+	        }
+	        return ret;
+		
+	}
+	public static ArrayList<Booking> getHistoryandCurrentBookingsforHost(Connection c, int userid) { //TODO: check this function
+		ArrayList<Booking> ret = new ArrayList<>();
+		String q = "select * FROM bookings WHERE hostID = ? AND isCanceled = 0";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int bookingid = rs.getInt("bookingID");
+				int hostid = rs.getInt("hostID");
+				int renterid = rs.getInt("renterID");
+				int listingid = rs.getInt("listingID");
+				int iscanceled = rs.getInt("isCanceled");
+				int ishistory = rs.getInt("isHistory");
+				
+				Date from = rs.getDate("fromDate");
+				Date to = rs.getDate("toDate");
+				
+				Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+				b.bookingID = bookingid;
+				ret.add(b);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		return ret;
+		
+	}
+	
+	public static void updateHistoryBookingsforRenter(Connection c, int userid) { //TODO: check this function
+		String q = "UPDATE bookings SET isHistory = TRUE  where renterID = ? AND toDate < CURDATE()";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+            ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		
+		String q2 = "UPDATE bookings SET isHistory = FALSE  where renterID = ? AND toDate > CURDATE()";
+		try {
+			PreparedStatement ps2 = c.prepareStatement(q2);
+			ps2.setInt(1, userid);
+            ps2.executeUpdate();
+			ps2.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+	
+	
+	public static void updateHistoryBookingsforHost(Connection c, int userid) { //TODO: check this function
+		String q = "UPDATE bookings SET isHistory = TRUE  where hostID = ? AND toDate < CURDATE()";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+            ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		
+		String q2 = "UPDATE bookings SET isHistory = FALSE  where hostID = ? AND toDate > CURDATE()";
+		try {
+			PreparedStatement ps2 = c.prepareStatement(q2);
+			ps2.setInt(1, userid);
+            ps2.executeUpdate();
+			ps2.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+	
+    public static int writeHostReview(Connection c, User u, Booking b,String review, int rating, String type){
+        int r = -1;
+        String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setInt(1, u.id);
+            ps.setInt(2, b.hostID);
+            ps.setInt(3, b.listingID);
+            ps.setString(4, review);
+            ps.setInt(5, rating);
+            ps.setString(6, type);
+            r = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.close();
+            ps.close();
+        }catch (SQLException e){
+
+        }
+        return r;
+    }
+    public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating, String type){
+    	int r = -1;
+    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, u.id);
+    		ps.setInt(2, b.renterID);
+    		ps.setInt(3, b.listingID);
+    		ps.setString(4, review);
+    		ps.setInt(5, rating);
+    		ps.setString(6, type);
+    		r = ps.executeUpdate();
+    		ResultSet rs = ps.getGeneratedKeys();
+    		rs.close();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+    	return r;
+    }
+    
+    public static int writeListingReview(Connection c, User u, Booking b,String review, int rating, String type){
+    	int r = -1;
+    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, u.id);
+    		ps.setInt(2, b.hostID);
+    		ps.setInt(3, b.listingID);
+    		ps.setString(4, review);
+    		ps.setInt(5, rating);
+    		ps.setString(6, type);
+    		r = ps.executeUpdate();
+    		ResultSet rs = ps.getGeneratedKeys();
+    		rs.close();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+    	return r;
+    }
+	
+    
+	public static void cancelBooking(Connection c, int b) {
+		String q = "UPDATE  bookings SET isCanceled = TRUE where bookingiD = ? AND isHistory = FALSE";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, b);
+    		ps.executeUpdate();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+		
+	}
+	
+	
+	public static void insertSingleAvailability(Connection c, String date, double price, int listingid, int isbooked) {
+		String q = "insert into available (availDate,price,listingID,isBooked) values (?,?,?,?)";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setString(1, date);
+			ps.setDouble(2, price);
+			ps.setInt(3, listingid);
+			ps.setInt(4, isbooked);
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		
+	}
+	public static int checkReviewsExistForHost(Connection c, int listingID) {
+		String q = "select * from reviews where listingID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+	          while (rs.next()) {
+	        	  countrows++;
+	          }
+	        rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkBookingsExistForHost(Connection c, int listingID) {
+		String q = "select * from bookings where listingID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkAvailBookingsExistForHost(Connection c, int listingID) {
+		String q = "select * from bookings where listingID = ? AND and isBooked = 1";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	
+	public static int deleteAmenitiesListExistForListing(Connection c, int listingID) {
+		String q = "Delete from amenitiesList WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
+	public static int deleteAvailibleExistForListing(Connection c, int listingID) {
+		String q = "Delete from available WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
+	public static int deleteListingExistForListing(Connection c, int listingID) {
+		String q = "Delete from listing WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
 
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         App application = App.createAppInstance();
 
         application.connect();
         //maxAment(application.getconn());
         System.out.println(AvailAment(application.getconn()));
+        
+        
+        updateHistoryBookingsforRenter(application.getconn(),1);
+        
+        System.out.println(checkReviewsExistForHost(application.getconn(),1));
+        
+        
+ //	public static void insertSingleAvailability(Connection c, String Date, double price, int listingid, int isbooked) {
+
+        
+        
+        //cancelBooking(application.getconn(),4);
+        
+        
+        
+//        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String inputString1 = "2010-12-01";
+//        String inputString2 = "2010-12-09";
+//        
+//        java.util.Date date1;
+//        java.util.Date date2;
+//        
+//	      try {
+//	    	date1 = myFormat.parse(inputString1);
+//	    	date2 = myFormat.parse(inputString2);	    	
+//	    	
+//	    } catch (ParseException e) {
+//	        e.printStackTrace();
+//	    }
+      
+	      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
+	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
+	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
+	      
+	      
+	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
+        
+	      
+	        //updateAvailPrice(application.getconn(), 10.00, date111, 1);
+	        //updateAvailDate(application.getconn(), date333, 1, date111);
+	        //updateListingAvgCost(application.getconn(),1);
+	        deleteAvailDate(application.getconn(),date111, 1);
+
+        
+        //Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
+        
+        //Queries.reupdateListingAvailibility(application.getconn(),1,date1,date2);
+        
+        
+        
+        
         //create_listing(application.getconn(),"jacqueline", 123, 123);
         //add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
         //linkAddressListing(application.getconn(),1,123);
         application.disconnect();
         
-        java.text.SimpleDateFormat sdf = 
-        new java.text.SimpleDateFormat("yyyy-MM-dd");
+        CheckersGeneric.currentDate();
         
-        java.util.Date toDate;
-		try {
-			
-			int t = 5;
-			
-			while (t !=0 ){
-			toDate = sdf.parse("2000-11-30");
-	        Calendar cal = Calendar.getInstance();
-	        cal.setTime(toDate);
-	        cal.add(Calendar.DATE, 1);
-	        toDate = cal.getTime();
+      SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+      String inputString1 = "1997-01-23";
+      String inputString2 = "1997-04-27";
+      
+      
+    try {
+  	java.util.Date date1 = myFormat.parse(inputString1);
+  	java.util.Date date2 = myFormat.parse(inputString2);
+  	System.out.println(CheckersGeneric.betweenDays(date1,date2));
+  	
+  	
+  } catch (ParseException e) {
+      e.printStackTrace();
+  }
+        
+       
+        
+        
+//        
+//        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+//        String inputString1 = "23 01 1997";
+//        String inputString2 = "27 04 1997";
+//
+//        try {
+//        	java.util.Date date1 = myFormat.parse(inputString1);
+//        	java.util.Date date2 = myFormat.parse(inputString2);
+//            long diff = date2.getTime() - date1.getTime();
+//            System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        
+//    	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//    	Date date = new Date();
+//    	System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-	        System.out.println(toDate);
-	        
-	        cal.add(Calendar.DATE, 1);
-
-	        toDate = cal.getTime();
-
-	        System.out.println(toDate);
-	        
-	        java.util.Date dt = new java.util.Date();
-	        
-	        String dateTime = sdf.format(toDate);
-	        
-	        System.out.println(dateTime);
-	        t =t -1;
-			}
-	        
-	        
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
+//        java.text.SimpleDateFormat sdf = 
+//        new java.text.SimpleDateFormat("yyyy-MM-dd");
+//        
+//        java.util.Date toDate;
+//		try {
+//			
+//			int t = 5;
+//			
+//			while (t !=0 ){
+//			toDate = sdf.parse("2000-11-30");
+//	        Calendar cal = Calendar.getInstance();
+//	        cal.setTime(toDate);
+//	        cal.add(Calendar.DATE, 1);
+//	        toDate = cal.getTime();
+//
+//	        System.out.println(toDate);
+//	        
+//	        cal.add(Calendar.DATE, 1);
+//
+//	        toDate = cal.getTime();
+//
+//	        System.out.println(toDate);
+//	        
+//	        java.util.Date dt = new java.util.Date();
+//	        
+//	        String dateTime = sdf.format(toDate);
+//	        
+//	        System.out.println(dateTime);
+//	        t =t -1;
+//			}
+//	        
+//	        
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         
 
 
@@ -680,4 +1200,6 @@ public class Queries {
 
 
     }
+
+
 }
