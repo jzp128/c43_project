@@ -206,36 +206,6 @@ public class HostPage extends UserPage{
 
 	}
 	
-
-//	public void previousListingPage(Connection c, User u){		
-//
-//		System.out.println("====PREVIOUS LISTINGS====");
-//
-//		System.out.print("ENTER the listing number you want to view");
-//		String record = keyboard.nextLine();
-//
-//		System.out.println("0  Submit.");
-//		System.out.println("1. Go Back.");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				this.viewlisting(c, u, l);
-//				this.previousListingPage(c,u);
-//				break;
-//			case 1:
-//				this.hostlisting(c,u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//		
-//	}
 	
 	public void currentListingPage(Connection c, User u){		
 
@@ -314,45 +284,14 @@ public class HostPage extends UserPage{
 		
 	}
 	
-//	public void canceledListingPage(Connection c, User u){		
-//
-//		System.out.println("====CANCELED LISTING====");
-//
-//		System.out.print("ENTER the listing number you want to view");
-//		String record = keyboard.nextLine();
-//
-//		System.out.println("0  Submit.");
-//		System.out.println("1. Go Back.");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				this.viewlisting(c, u, l);
-//				this.canceledListingPage(c,u);
-//				break;
-//			case 1:
-//				this.hostlisting(c,u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//		
-//	}
-	
+	//TODO
 	public void hostlisting(Connection c, User u){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
-		System.out.println("0  View Current Listings");
-		System.out.println("1. View Previous Listings.");
-		System.out.println("2. View Canceled Listings");
-		System.out.println("3. Go Back");
+		System.out.println("0  View Listings");
+		System.out.println("1. Go Back");
 		
-		System.out.print("Choose one of the previous options [0 - 3]: ");
+		System.out.print("Choose one of the previous options [0 - 1]: ");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -362,12 +301,6 @@ public class HostPage extends UserPage{
 				this.currentListingPage(c,u);
 				break;
 			case 1:
-				//this.previousListingPage(c,u, l);
-				break;
-			case 2:
-				//this.canceledListingPage(c,u);
-				break;
-			case 3:
 				this.hostPageMenu(c,user);
 				break;
 			default:
@@ -567,102 +500,8 @@ public class HostPage extends UserPage{
 		}
 	
 	}
-		
+	
 
-	
-//	public void hostreview(Connection c, User u){
-//		System.out.println("");
-//		System.out.println("=========Review=========");
-//		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
-//		String review = keyboard.nextLine();
-//		System.out.println("0. Submit");
-//		System.out.println("1. Go Back");
-//		String option = keyboard.nextLine();
-//
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				//try to insert into the db
-//				// check if they actually can
-//				//if so then
-//				System.out.println("Commented!");
-//				System.out.println("Going back now!");
-//				viewbooking(c, u);
-//			case 1:
-//				viewbooking(c, u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//	}
-//	public void hostrate(Connection c, User u){
-//		System.out.println("");
-//		System.out.println("=========Rating=========");
-//		System.out.println("Provide a rating from [0-5]:"); // renters name
-//		String review = keyboard.nextLine();
-//		System.out.println("0. Submit");
-//		System.out.println("1. Go Back");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				//try to insert into the db
-//				// check if they actually can
-//				//if so then
-//				System.out.println("Rated!");
-//				System.out.println("Going back now!");
-//				viewbooking(c, u);
-//			case 1:
-//				viewbooking(c, u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//	}
-	
-//	public void viewbooking(Connection c, User u){
-//		System.out.println("");
-//		System.out.println("=========BOOKING=========");
-//		System.out.println("0. Write a Review on the Renter's Profile");
-//		System.out.println("1. Rate the Renter's Profile!");
-//		System.out.println("2. Go Back");
-//		System.out.println("3. Go Back to the Main Booking Page");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				// check if they had already reviewed the renter especially for this listing.
-//				//check if they can write a review for this renter? check for whether the list is in the past and is recent!
-//				hostreview(c, u);
-//			case 1:
-//				// check if they had already rated the renter especially for this listing.
-//				//check if they can rate this renter? check for whether the list is in the past and is recent!
-//				hostrate(c, u);
-//			case 2:
-//				//bookingPage(c, u);
-//				break;
-//			case 3:
-//				viewlisting(c, u, l);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//	}
-//}
 	
 	public void bookingPage(Connection c, User u, Listing l){		
 

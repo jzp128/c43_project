@@ -39,10 +39,12 @@ public class RenterPage extends UserPage{
 				this.renterbooking(c,u);
 				break;
 			case 1:
-				this.renterbooking(c,u); //TODO
+				this.searchBookings(c,u); //TODO
+				renterPageMenu(c,u);
 				break;
 			case 2://TODO
-				super.listAvaillistings(c,u);
+				ArrayList<Listing> list = Queries.getAllListings(c);
+				super.listAvaillistings(c,u,list);
 				renterPageMenu( c,  u);
 				break;
 			case 3:

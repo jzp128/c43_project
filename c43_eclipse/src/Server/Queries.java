@@ -653,7 +653,7 @@ public class Queries {
     		ps.setInt(1, listingID);
     		ps.setDate(2, from);
     		ps.setDate(3, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE
@@ -667,7 +667,7 @@ public class Queries {
     		ps.setInt(1, listingID);
     		ps.setDate(2, from);
     		ps.setDate(3, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE
@@ -685,7 +685,7 @@ public class Queries {
     		ps.setInt(5, 0);
     		ps.setDate(6, from);
     		ps.setDate(7, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE and catch this

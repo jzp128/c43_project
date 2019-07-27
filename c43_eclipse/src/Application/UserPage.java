@@ -57,8 +57,10 @@ public class UserPage {
 		
 	}
 	
-	public boolean listAvaillistings (Connection c, User u) {
-		ArrayList<Listing> list = Queries.getAllListings(c);
+	public boolean listAvaillistings (Connection c, User u, ArrayList<Listing> list) {
+		//ArrayList<Listing> list = Queries.getAllListings(c);
+		
+		
 		Listing chosenListing;
 		
 		int iterate = 1;
@@ -106,7 +108,7 @@ public class UserPage {
 			chosenListing = list.get(choice - 1);
 			int choiceindex = chosenListing.id;
 			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,choiceindex);
-			System.out.println(availlist.toString());
+			//System.out.println(availlist.toString());
 			int availistingno = 1;
 			for (Available x: availlist) {
 				System.out.println("=================================");
@@ -183,7 +185,7 @@ public class UserPage {
 
 			} catch (Exception e) {
 			System.out.println("Try Again!");
-			listAvaillistings(c,u);
+			listAvaillistings(c,u, list);
 			}
 		return true;
 		
@@ -317,8 +319,11 @@ public class UserPage {
 		if(locationFilter){
 			result = ListingQueries.searchByLocation(result, latitude, longitude, range, priceSort);
 		}
-
+		listAvaillistings(c,u,result);
 		//TODO HOW DO I PRINT THIS??
+		
+		
+		
 
 
     }
@@ -345,6 +350,25 @@ public class UserPage {
 			System.out.println("Listing ID:" + x.listingID +" ");
 			System.out.println("From Date:" + x.fromDate + " ");
 			System.out.println("To Date:" + x.toDate + " ");
+			System.out.println("=================================");	
+			iterate ++;
+		}
+	}
+	//TODO remove this if not needed
+	public void printAvailables (List<Listing> list ) {
+		int iterate = 1;
+		for (Listing x: list) {
+			System.out.println("=================================");
+			System.out.println("Listing Choice ["+iterate+"]");
+			System.out.println("Listing:" + x.id +" " );
+			System.out.println("Listing Type:" + x.type+ " ");
+			System.out.println("Longitude:" + x.longitude +" ");
+			System.out.println("Latitude:" + x.latitude+ " ");
+			System.out.println("Address:" + x.address+ " ");
+			System.out.println("Country:" + x.country+ " ");
+			System.out.println("City:" + x.city +" ");
+			System.out.println("PostalCode:" + x.postal_code +" ");
+			System.out.println("Host Profile ID:" + x.hostID +" ");
 			System.out.println("=================================");	
 			iterate ++;
 		}
