@@ -12,6 +12,7 @@ public class ReportQueries {
     public static CommandLineTable getNumBookingsInDateRangeByCity(Connection c, Date from, Date to) {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("City", "Bookings");
+        info.setShowVerticalLines(true);
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
         String q = "SELECT city, COUNT(bookingID) FROM bookings INNER JOIN listing USING(listingID) as A WHERE fromDate >= ? AND toDate <= ? GROUP BY city";
@@ -37,6 +38,7 @@ public class ReportQueries {
     public static CommandLineTable getNumberBookingsByPostalCode(Connection c, Date from, Date to) {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("City", "Postal Code", "Bookings");
+        info.setShowVerticalLines(true);
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
         String q = "SELECT city, postal_code ,COUNT(city) FROM bookings INNER JOIN listing USING(listingID) as A WHERE fromDate <= ? AND toDate >= ? GROUP BY city, postal_code";
@@ -64,6 +66,7 @@ public class ReportQueries {
         String q = "SELECT country, COUNT(listingID) FROM listing GROUP BY country";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("Country", "# of Listings");
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -85,6 +88,7 @@ public class ReportQueries {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("Country", "City", "# of Listings");
         String q = "SELECT country, city, COUNT(listingID) FROM listing GROUP BY country, city";
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -106,6 +110,7 @@ public class ReportQueries {
     public static CommandLineTable getNumberListingsPerCountryCityPostCode(Connection c) {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("Country", "City", "Postal Code", "# of Listings");
+        info.setShowVerticalLines(true);
         String q = "SELECT country, city,postal_code, COUNT(listingID) FROM listing GROUP BY country, city, postal_code";
         try {
             PreparedStatement ps = c.prepareStatement(q);
@@ -129,6 +134,7 @@ public class ReportQueries {
     public static CommandLineTable getRankedHostByNumListings(Connection c) {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("hosterID", "# of Listings");
+        info.setShowVerticalLines(true);
         String q = "SELECT hosterID, COUNT(listingID) FROM listing GROUP BY hosterID ORDER BY COUNT(listingID) DESC";
         try {
             PreparedStatement ps = c.prepareStatement(q);
@@ -150,6 +156,7 @@ public class ReportQueries {
     public static CommandLineTable getRankedHostByNumListingsCity(Connection c) {
         String q = "SELECT hosterID, city, COUNT(listingID) FROM listing GROUP BY hosterID, city ORDER BY COUNT(listingID) DESC";
         CommandLineTable info = new CommandLineTable();
+        info.setShowVerticalLines(true);
         info.setHeaders("hosterID", "City", "# of Listings");
         try {
             PreparedStatement ps = c.prepareStatement(q);
@@ -172,6 +179,7 @@ public class ReportQueries {
     public static CommandLineTable getFindOverLimitHosts(Connection c) {
         String q = "SELECT hosterID FROM listing GROUP BY hosterID HAVING COUNT(listingID) * 10 > (SELECT COUNT(listingID) FROM listing)";
         CommandLineTable info = new CommandLineTable();
+        info.setShowVerticalLines(true);
         info.setHeaders("hosterID");
         try {
             PreparedStatement ps = c.prepareStatement(q);
@@ -195,6 +203,7 @@ public class ReportQueries {
         String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate <= ? AND toDate >= ? GROUP BY renterID ORDER BY COUNT(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Bookings");
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -219,6 +228,7 @@ public class ReportQueries {
         String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate <= ? AND toDate >= ? GROUP BY renterID (HAVING COUNT(bookingID) >= 2) ORDER BY COUNT(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Bookings");
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -243,6 +253,7 @@ public class ReportQueries {
         String q = "SELECT renterID, COUNT(bookingID) FROM SELECT bookings WHERE fromDate <= ? AND toDate >= ? AND isCanceled = 1 GROUP BY renterID ORDER BY DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Cancellations");
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -267,6 +278,7 @@ public class ReportQueries {
         String q = "SELECT hosterID, COUNT(bookingID) FROM SELECT bookings WHERE fromDate <= ? AND toDate >= ? AND isCanceled = 1 GROUP BY hosterID ORDER BY DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("hostID", "# of Bookings");
+        info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();

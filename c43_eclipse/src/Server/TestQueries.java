@@ -77,6 +77,8 @@ public class TestQueries {
             CommandLineTable t = ReportQueries.getNumberListingsPerCountryCity(c);
             t.setShowVerticalLines(true);
             t.print();
+            t = ReportQueries.getFindOverLimitHosts(c);
+            t.print();
 
         }catch (Exception e){
 
