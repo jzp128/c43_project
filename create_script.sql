@@ -5,7 +5,7 @@ USE airbnb;
 -- SELECT DATABASE();
 CREATE TABLE IF NOT EXISTS users (
 	userID		INT UNSIGNED auto_increment primary key,
-	sin			CHAR(9)			NOT NULL,
+	sin			CHAR(9)			UNIQUE NOT NULL,
     userName 	VARCHAR(100) 	NOT NULL DEFAULT '',
     dob 		DATETIME 		NOT NULL,
     occupation 	VARCHAR(100) 	NOT NULL DEFAULT 'NONE',
