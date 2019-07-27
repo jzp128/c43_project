@@ -1,6 +1,9 @@
 package Server;
+import Listings.Listing;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class TestQueries {
     public static Connection createConn() {
@@ -59,16 +62,17 @@ public class TestQueries {
         try {
             java.util.Date from = sf.parse("2010-12-01");
             java.util.Date to = sf.parse("2010-12-10");
-            System.out.println(Helpers.utilDatetoString(from));
-            System.out.println(Helpers.daysInBetween(from, to));
             String a = ListingQueries.filterByDateRange(from, to);
             String b = ListingQueries.filterBypriceRange(0, 100.00);
-            String[] t = {a, b};
-            String res = ListingQueries.finalListingQuery(t, 1);
-            System.out.println(res);
-
-            Double avg = Queries.getListingAvgCost(c, 3);
-            System.out.println(avg);
+            ArrayList<String> x = new ArrayList<>();
+            x.add(a);
+            x.add(b);
+            String q = ListingQueries.finalListingQuery(x, 0);
+            System.out.println(q);
+            ArrayList<Listing> pen = ListingQueries.runFilters(c, q);
+            for(Listing p : pen){
+                System.out.println(p.id);
+            }
         }catch (Exception e){
 
         }
