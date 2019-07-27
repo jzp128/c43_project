@@ -653,7 +653,7 @@ public class Queries {
     		ps.setInt(1, listingID);
     		ps.setDate(2, from);
     		ps.setDate(3, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE
@@ -667,7 +667,7 @@ public class Queries {
     		ps.setInt(1, listingID);
     		ps.setDate(2, from);
     		ps.setDate(3, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE
@@ -685,7 +685,7 @@ public class Queries {
     		ps.setInt(5, 0);
     		ps.setDate(6, from);
     		ps.setDate(7, to);
-    		ps.execute();
+    		ps.executeUpdate();
     		ps.close();
     	} catch (SQLException e) {
     		// TODO: ADD ERROR MESSAGE and catch this
@@ -1049,6 +1049,28 @@ public class Queries {
 		}
 		return (rs);
 	}
+	
+    public static int checkListingAvailibility(Connection c, int listingID, Date from, Date to){
+    	String q = "select * from available where isBooked = 1 AND listingID = ? AND availDate BETWEEN ? AND ? ";
+    	int countrows = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, listingID);
+    		ps.setDate(2, from);
+    		ps.setDate(3, to);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+    		
+			rs.close();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+		return countrows;
+    }
 
 	
     public static void main(String[] args) throws ParseException {
@@ -1061,7 +1083,8 @@ public class Queries {
         
         updateHistoryBookingsforRenter(application.getconn(),1);
         
-        System.out.println(checkReviewsExistForHost(application.getconn(),1));
+        //System.out.println(checkReviewsExistForHost(application.getconn(),1));
+        //System.out.println(checkReviewsExistForHost(application.getconn(),1));
         
         
  //	public static void insertSingleAvailability(Connection c, String Date, double price, int listingid, int isbooked) {
@@ -1091,6 +1114,14 @@ public class Queries {
 	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
 	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
 	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
+	      
+	      java.sql.Date date444 = new java.sql.Date(df.parse("2010-12-06").getTime());
+	      java.sql.Date date555 = new java.sql.Date(df.parse("2010-12-09").getTime());
+	      
+	      
+	      
+	      System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
+
 	      
 	      
 	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);

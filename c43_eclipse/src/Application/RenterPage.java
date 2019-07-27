@@ -25,8 +25,8 @@ public class RenterPage extends UserPage{
 		System.out.println("");
 		System.out.println("====RENTER'S HOME PAGE====");
 		System.out.println("0  View my Bookings.");
-		System.out.println("1. Search for a Booking.");
-		System.out.println("2. Look at Availible Bookings.");
+		System.out.println("1. Search for a Listing.");
+		System.out.println("2. Look at Availible Listings.");
 		System.out.println("3. Delete My Account.");
 		System.out.println("4. Log Out");
 		System.out.println("Choose one of the previous options [0 - 2]: ");
@@ -39,10 +39,12 @@ public class RenterPage extends UserPage{
 				this.renterbooking(c,u);
 				break;
 			case 1:
-				this.renterbooking(c,u); //TODO
+				this.searchBookings(c,u); //TODO
+				renterPageMenu(c,u);
 				break;
 			case 2://TODO
-				super.listAvaillistings(c,u);
+				ArrayList<Listing> list = Queries.getAllListings(c);
+				super.listAvaillistings(c,u,list);
 				renterPageMenu( c,  u);
 				break;
 			case 3:
