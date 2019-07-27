@@ -1,5 +1,6 @@
 package Server;
 import Listings.Listing;
+import TableGen.CommandLineTable;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -73,6 +74,10 @@ public class TestQueries {
             for(Listing p : pen){
                 System.out.println(p.id);
             }
+            CommandLineTable t = ReportQueries.getNumberListingsPerCountryCity(c);
+            t.setShowVerticalLines(true);
+            t.print();
+
         }catch (Exception e){
 
         }
