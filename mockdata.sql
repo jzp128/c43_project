@@ -1,6 +1,3 @@
-
-
-
 -- set up users table
 INSERT INTO users (sin,userName,dob,occupation,loginName,loginPW,address,country,city,postal_code,isHoster)
 VALUES
@@ -21,7 +18,7 @@ VALUES
 ('432109876','Jeff-So','1990-07-17','Civil Engineer','jeffs','lkj','97 Dion Way','Canada','Scarborough','M8V2M4',1),
 ('321098765','Jeff-Who','1994-05-17','Clothing Store Manager','asdf','who','8 Park Park','Canada','Richmond Hill','W8V5R4',0),
 ('210987654','Crystal-Yip','1997-01-17','Columnist','crystaly','password','29 Hiya Court','Canada','Saskatoon','K9M1Y4',1),
-('123456789','Megan-Kun','1995-06-17','Community Organizer','megank','hello','22 Bum Court ','Canada','Saskatoon','K9M5I2',0),
+('123456689','Megan-Kun','1995-06-17','Community Organizer','megank','hello','22 Bum Court ','Canada','Saskatoon','K9M5I2',0),
 ('098765432','Jessica-Li','1952-01-17','Programmer','jessical','chan','55 Mumber Way','Canada','Saskatoon','K9M5I4',0),
 ('140793240','Phoebe-Liao','1961-04-17','Appraiser','phoebel','nurse','88 Hill Street','Canada','Quebec City','E9B6W1',1),
 ('234912304','Kitti-Chau','1993-03-17','Concierge','kittic','kitty','3 Street Street','Canada','Hamilton','J8V2J4',1),
@@ -30,8 +27,9 @@ VALUES
 ('543030303','Christopher-Wai','1920-01-17','Teacher','christopherw','wai','23 Free Street','Canada','Hamilton','J8L2K4',0),
 ('444444444','Gary-Poon','1940-02-17','Librarian','garypoon','poon','21 Inno Court','Canada','Toronto','L8V100',1),
 ('999999999','Spongebob-Square','1912-01-17','Therapist','spongebobs','square','21 Inno Court','Canada','Toronto','L8V100',0),
-('123456789','Bob-Steve','1993-05-17','Therapist','bobs','circle','6 Military Trial','Canada','Toronto','L8V2R4',0),
-('123456789','Mister-Chen','1990-02-17','Programmer','misterc','chen','6 Military Trial','Canada','Toronto','L8V2R4',0);
+('123456788','Bob-Steve','1993-05-17','Therapist','bobs','circle','6 Military Trial','Canada','Toronto','L8V2R4',0),
+('123456786','Mister-Chen','1990-02-17','Programmer','misterc','chen','6 Military Trial','Canada','Toronto','L8V2R4',0),
+('123456766','Mister-Bob','1990-02-17','Programmer','misterc','chen','6 Military Trial','Africa','Toronto','L8V2R4',0);
 
 -- set up renters table
 INSERT INTO renters (renterID, ccNumber,ccSecNum, ccCardName)
@@ -66,6 +64,7 @@ VALUES
 ('Apartment','250.12','142.12',6,'123 Qi','Canada','Toronto','Q1K 0E9'),
 ('Full House','352.12','400.12',5,'123 Nick','Canada','Saskatoon','K90 0J9'),
 ('Room','500.12','433.12',20,'123 Love','Canada','Calgary','J1R 0D9'),
+('Room','500.12','433.12',20,'124 Love','Canada','Calgary','J1R 0D9'),
 ('Room','235.12','253.12',17,'123 Yusef','Canada','Vancouver','D1R 0E9');
 
 INSERT INTO `airbnb`.`listing`
