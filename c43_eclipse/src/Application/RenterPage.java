@@ -69,6 +69,7 @@ public class RenterPage extends UserPage{
 		
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
+			renterbooking(c,u);
 			return; //TODO
 		}
 		
@@ -104,8 +105,8 @@ public class RenterPage extends UserPage{
 			default:
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+		} catch (Exception e) {
+			this.renterbooking(c,u);
 		}
 		//=============enter single booking page=======================
 
@@ -120,6 +121,8 @@ public class RenterPage extends UserPage{
 		
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
+			renterbooking(c,u);
+			return;
 		}
 		//System.out.println(list);
 
@@ -155,8 +158,8 @@ public class RenterPage extends UserPage{
 			default:
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+		} catch (Exception e) {
+			this.renterbooking(c,u);
 		}
 		
 	}
@@ -169,6 +172,8 @@ public class RenterPage extends UserPage{
 		ArrayList<Booking> list = Queries.getCanceledBookingsforRenter(c,u.id);
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
+			renterbooking(c,u);
+			return;
 		}
 		printBookings(list);
 
@@ -201,8 +206,8 @@ public class RenterPage extends UserPage{
 			default:
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+		} catch (Exception e) {
+			this.renterbooking(c,u);
 		}
 		
 	}
@@ -321,12 +326,12 @@ public class RenterPage extends UserPage{
 
 		try {
 			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
+			switch (choice) { //Activate the desired functionality TODO
 			case 0:
-				//try to insert into the db
+				//try to insert into the db TODO
 				// check if they actually can
 				//if so then
-//=============RATING=====================
+				//=============RATING=====================
 				
 				int choicerating = 0;
 				boolean ratingWrong = true;
@@ -375,75 +380,13 @@ public class RenterPage extends UserPage{
 		}
 	}
 	
-//	public void renterratehost(Connection c, User u){
-//		System.out.println("");
-//		System.out.println("=========Rating=========");
-//		System.out.println("Provide a rating from [0-5]:"); // renters name
-//		String review = keyboard.nextLine();
-//		System.out.println("0. Submit");
-//		System.out.println("1. Go Back");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				//try to insert into the db
-//				// check if they actually can
-//				//if so then
-//				System.out.println("Rated!");
-//				System.out.println("Going back now!");
-//				viewbooking(c,u);
-//			case 1:
-//				viewbooking(c,u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//	}
-	
-	
-//	public void renterratelisting(Connection c, User u){
-//		System.out.println("");
-//		System.out.println("=========Rating=========");
-//		System.out.println("Provide a rating from [0-5]:"); // renters name
-//		String review = keyboard.nextLine();
-//		System.out.println("0. Submit");
-//		System.out.println("1. Go Back");
-//		String option = keyboard.nextLine();
-//		
-//		try {
-//			int choice = Integer.parseInt(option);
-//			switch (choice) { //Activate the desired functionality
-//			case 0:
-//				//try to insert into the db
-//				// check if they actually can
-//				//if so then
-//				System.out.println("Rated!");
-//				System.out.println("Going back now!");
-//				viewbooking(c,u);
-//			case 1:
-//				viewbooking(c,u);
-//				break;
-//			default:
-//				break;
-//			}
-//		} catch (NumberFormatException e) {
-//			option = "-1";
-//		}
-//	}
 	
 	public void viewbooking(Connection c, User u, Booking b){		
 		System.out.println("");
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Write a Review & Rating on the Host's Profile ");
 		System.out.println("1. Write a Review & Rating on the Listing");
-		System.out.println("2. Rate the Host's Profile! ");
-		System.out.println("3. Rate the Listing! ");
-		System.out.println("4. Go Back to the Main Booking Page");
+		System.out.println("3. Go Back to the Main Booking Page");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -456,13 +399,7 @@ public class RenterPage extends UserPage{
 			case 1:
 				renterreviewlisting(c,u,b);
 				break;
-			case 2:
-				//renterratehost(c,u);
-				break;
 			case 3:
-				//renterratelisting(c,u);
-				break;
-			case 4:
 				renterbooking(c,u);
 				break;
 			default:
