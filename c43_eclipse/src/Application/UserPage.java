@@ -137,16 +137,6 @@ public class UserPage {
 				System.out.println("Start Date:");
 				String optionstart = keyboard.nextLine();
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				try {
 					optionstartchoice = Integer.parseInt(optionstart);
 					if (optionstartchoice == (availlist.size() + 1)) {
@@ -178,6 +168,10 @@ public class UserPage {
 				
 				enddate = availlist.get(optionendchoice-1).availDate;
 				
+				if (Queries.checkListingAvailibility(c,chosenListing.id,startdate,enddate) != 0){
+					System.out.println("Invalid Option! Try Again! The date ranges must make sense!");
+					optionb = false;
+				}
 
 			}
 			
