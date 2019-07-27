@@ -387,7 +387,8 @@ public class RenterPage extends UserPage{
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Write a Review & Rating on the Host's Profile ");
 		System.out.println("1. Write a Review & Rating on the Listing");
-		System.out.println("2. Go Back to the Main Booking Page");
+		System.out.println("2. Cancel this Booking (can only be done on future bookings)!");
+		System.out.println("3. Go Back to the Main Booking Page");
 		String option = keyboard.nextLine();
 		
 		
@@ -426,6 +427,21 @@ public class RenterPage extends UserPage{
 					break;
 				}
 				renterreviewlisting(c,u,b);
+				break;
+			case 2:
+				if ((b.isHistory == 1) && (b.isCanceled == 1)){
+					System.out.println("Sorry, our records show that this booking is canceled/historic");
+					System.out.println("You cannot cancel this booking....");
+				} else {
+					Queries.cancelBooking(c, b.bookingID);
+					//update the availibility dates of the listing
+					//Connection c, int listingID, Date from, Date to
+					Queries.reupdateListingAvailibility(c,b.listingID,b.fromDate,b.toDate); //TODO check this!
+					
+					System.out.println("Canceled Booking!");
+					
+				}
+				renterbooking(c,u);
 				break;
 			case 3:
 				renterbooking(c,u);

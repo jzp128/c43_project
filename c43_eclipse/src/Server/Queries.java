@@ -606,6 +606,20 @@ public class Queries {
     		e.printStackTrace();
     	}
     }
+    public static void reupdateListingAvailibility(Connection c, int listingID, Date from, Date to){
+    	String q = "UPDATE available SET isBooked = 0 WHERE listingID = ? AND availDate BETWEEN ? AND ?";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, listingID);
+    		ps.setDate(2, from);
+    		ps.setDate(3, to);
+    		ps.execute();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    }
     public static void insertSingleBooking(Connection c, int hostID, int renterID, int listingID, Date from, Date to){
     	String q = "INSERT INTO bookings (hostID, renterID, listingID, isCanceled, isHistory, fromDate, toDate) VALUES (?,?,?,?,?,?,?)";
     	try { 
@@ -783,12 +797,23 @@ public class Queries {
     }
 	
     
-    
+	public static void cancelBooking(Connection c, int b) {
+		String q = "UPDATE  bookings SET isCanceled = TRUE where bookingiD = ?";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, b);
+    		ps.executeUpdate();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+		
+	}
     
 	
 
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         App application = App.createAppInstance();
 
         application.connect();
@@ -796,7 +821,40 @@ public class Queries {
         System.out.println(AvailAment(application.getconn()));
         
         updateHistoryBookingsforRenter(application.getconn(),1);
-       
+        
+ 
+        
+        
+        cancelBooking(application.getconn(),4);
+        
+        
+        
+//        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String inputString1 = "2010-12-01";
+//        String inputString2 = "2010-12-09";
+//        
+//        java.util.Date date1;
+//        java.util.Date date2;
+//        
+//	      try {
+//	    	date1 = myFormat.parse(inputString1);
+//	    	date2 = myFormat.parse(inputString2);	    	
+//	    	
+//	    } catch (ParseException e) {
+//	        e.printStackTrace();
+//	    }
+      
+	      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
+	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
+        
+        
+        Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
+        
+        //Queries.reupdateListingAvailibility(application.getconn(),1,date1,date2);
+        
+        
+        
         
         //create_listing(application.getconn(),"jacqueline", 123, 123);
         //add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
@@ -889,4 +947,6 @@ public class Queries {
 
 
     }
+
+
 }
