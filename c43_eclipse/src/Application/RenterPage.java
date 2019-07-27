@@ -274,9 +274,9 @@ public class RenterPage extends UserPage{
 					choicerating = Integer.parseInt(rating);
 					
 					if (CheckersGeneric.range(0,5,choicerating)){
-						ratingWrong = true;
-					} else {
 						ratingWrong = false;
+					} else {
+						ratingWrong = true;
 					}
  
 				} catch (Exception e) {
@@ -341,9 +341,9 @@ public class RenterPage extends UserPage{
 					choicerating = Integer.parseInt(rating);
 					
 					if (CheckersGeneric.range(0,5,choicerating)){
-						ratingWrong = true;
-					} else {
 						ratingWrong = false;
+					} else {
+						ratingWrong = true;
 					}
  
 				} catch (Exception e) {
@@ -354,7 +354,7 @@ public class RenterPage extends UserPage{
 				//=============RATING=====================
 
 				//=============DB CALL=====================
-				Queries.writeHostReview(c,u,b,review,choicerating,"h");
+				Queries.writeHostReview(c,u,b,review,choicerating,"l");
 
 				
 				System.out.println("Rated!");
@@ -439,8 +439,8 @@ public class RenterPage extends UserPage{
 	public void viewbooking(Connection c, User u, Booking b){		
 		System.out.println("");
 		System.out.println("=========BOOKING=========");
-		System.out.println("0. Write a Review on the Host's Profile ");
-		System.out.println("1. Write a Review on the Listing");
+		System.out.println("0. Write a Review & Rating on the Host's Profile ");
+		System.out.println("1. Write a Review & Rating on the Listing");
 		System.out.println("2. Rate the Host's Profile! ");
 		System.out.println("3. Rate the Listing! ");
 		System.out.println("4. Go Back to the Main Booking Page");

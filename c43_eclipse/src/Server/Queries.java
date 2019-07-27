@@ -757,6 +757,27 @@ public class Queries {
         }
         return r;
     }
+    
+    public static int writeListingReview(Connection c, User u, Booking b,String review, int rating, String type){
+    	int r = -1;
+    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, u.id);
+    		ps.setInt(2, b.hostID);
+    		ps.setInt(3, b.listingID);
+    		ps.setString(4, review);
+    		ps.setInt(5, rating);
+    		ps.setString(6, type);
+    		r = ps.executeUpdate();
+    		ResultSet rs = ps.getGeneratedKeys();
+    		rs.close();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+    	return r;
+    }
 	
 	
 
