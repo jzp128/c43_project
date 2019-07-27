@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Checkers.CheckersGeneric;
 import Listings.Booking;
 import Listings.Listing;
 import Server.Queries;
@@ -68,10 +69,13 @@ public class RenterPage extends UserPage{
 		
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
+			return; //TODO
 		}
-
-		System.out.println("ENTER the booking number you want to view");
-		System.out.println("Or just press enter to continue");
+		
+		//=============enter single booking page=======================
+		
+		System.out.println("ENTER the booking number you want to view.");
+		System.out.println("(Or just press enter to continue.)");
 
 		String record = keyboard.nextLine();
 
@@ -81,10 +85,17 @@ public class RenterPage extends UserPage{
 		
 		try {
 			int choice = Integer.parseInt(option);
+			int choicerecord = Integer.parseInt(record);
+			
+			if (!CheckersGeneric.range(1,list.size(),choicerecord)){
+				System.out.println("Your answer is invalid!");
+				return; //TODO
+			}
+			
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome();
-				this.viewbooking(c,u);
+				this.viewbooking(c,u,list.get(choicerecord-1)); //feed the booking u want to view
 				this.historyBookingPage(c,u);
 				break;
 			case 1:
@@ -96,7 +107,8 @@ public class RenterPage extends UserPage{
 		} catch (NumberFormatException e) {
 			option = "-1";
 		}
-		
+		//=============enter single booking page=======================
+
 	}
 	
 	public void futureBookingPage(Connection c, User u){		
@@ -109,12 +121,12 @@ public class RenterPage extends UserPage{
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
 		}
-		System.out.println(list);
+		//System.out.println(list);
 
 		printBookings(list);
 
-		System.out.println("ENTER the booking number you want to view");
-		System.out.println("Or just press enter to continue");
+		System.out.println("ENTER the booking number you want to view.");
+		System.out.println("(Or just press enter to continue)");
 
 		String record = keyboard.nextLine();
 
@@ -124,9 +136,16 @@ public class RenterPage extends UserPage{
 		
 		try {
 			int choice = Integer.parseInt(option);
+			int choicerecord = Integer.parseInt(record);
+			
+			if (!CheckersGeneric.range(1,list.size(),choicerecord)){
+				System.out.println("Your answer is invalid!");
+				return; //TODO
+			}
+			
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.viewbooking(c, u);
+				this.viewbooking(c, u, list.get(choicerecord-1));
 				this.futureBookingPage(c,u);
 				//this.welcome();
 				break;
@@ -148,14 +167,13 @@ public class RenterPage extends UserPage{
 		
 		Queries.updateHistoryBookingsforRenter(c,u.id);
 		ArrayList<Booking> list = Queries.getCanceledBookingsforRenter(c,u.id);
-		printBookings(list);
-
 		if (list.isEmpty()){
 			System.out.println("You have no bookings here!");
 		}
+		printBookings(list);
 
-		System.out.println("ENTER the booking number you want to view");
-		System.out.println("Or just press enter to continue");
+		System.out.println("ENTER the booking number you want to view.");
+		System.out.println("(Or just press enter to continue)");
 		String record = keyboard.nextLine();
 
 		System.out.println("0  Submit.");
@@ -164,9 +182,16 @@ public class RenterPage extends UserPage{
 		
 		try {
 			int choice = Integer.parseInt(option);
+			int choicerecord = Integer.parseInt(record);
+			
+			if (!CheckersGeneric.range(1,list.size(),choicerecord)){
+				System.out.println("Your answer is invalid!");
+				return; //TODO
+			}
+			
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.viewbooking(c,u);
+				this.viewbooking(c,u,list.get(choicerecord-1));
 				this.canceledBookingPage(c,u);
 				//this.welcome();
 				break;
@@ -217,7 +242,7 @@ public class RenterPage extends UserPage{
 		
 	}
 	
-	public void renterreviewhost(Connection c, User u){
+	public void renterreviewhost(Connection c, User u, Booking b){
 		System.out.println("");
 		System.out.println("=========Review=========");
 		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
@@ -233,11 +258,48 @@ public class RenterPage extends UserPage{
 				//try to insert into the db
 				// check if they actually can
 				//if so then
+				
+				//=============RATING=====================
+				
+				int choicerating = 0;
+				boolean ratingWrong = true;
+				while(ratingWrong) {
+				
+				System.out.println("");
+				System.out.println("=========Rating=========");
+				System.out.println("Provide a rating from [0-5]:"); // renters name
+				String rating = keyboard.nextLine();
+				
+				try {
+					choicerating = Integer.parseInt(rating);
+					
+					if (CheckersGeneric.range(0,5,choicerating)){
+						ratingWrong = true;
+					} else {
+						ratingWrong = false;
+					}
+ 
+				} catch (Exception e) {
+					System.out.println("Please Try Again!");
+				}
+				
+				}
+				//=============RATING=====================
+
+				//=============DB CALL=====================
+				Queries.writeHostReview(c,u,b,review,choicerating,"h");
+
+				
+				System.out.println("Rated!");
 				System.out.println("Commented!");
 				System.out.println("Going back now!");
-				viewbooking(c,u);
+				
+				//=============DB CALL=====================
+				
+				
+				viewbooking(c,u,b);
 			case 1:
-				viewbooking(c,u);
+				viewbooking(c,u,b);
 				break;
 			default:
 				break;
@@ -246,36 +308,9 @@ public class RenterPage extends UserPage{
 			option = "-1";
 		}
 	}
-	public void renterratehost(Connection c, User u){
-		System.out.println("");
-		System.out.println("=========Rating=========");
-		System.out.println("Provide a rating from [0-5]:"); // renters name
-		String review = keyboard.nextLine();
-		System.out.println("0. Submit");
-		System.out.println("1. Go Back");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				//try to insert into the db
-				// check if they actually can
-				//if so then
-				System.out.println("Rated!");
-				System.out.println("Going back now!");
-				viewbooking(c,u);
-			case 1:
-				viewbooking(c,u);
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-	}
-	public void renterreviewlisting(Connection c, User u){
+	
+	
+	public void renterreviewlisting(Connection c, User u, Booking b){
 		System.out.println("");
 		System.out.println("=========Review=========");
 		System.out.println("Write a review of: (Maximum 2000 characters)"); // listing name
@@ -291,40 +326,46 @@ public class RenterPage extends UserPage{
 				//try to insert into the db
 				// check if they actually can
 				//if so then
+//=============RATING=====================
+				
+				int choicerating = 0;
+				boolean ratingWrong = true;
+				while(ratingWrong) {
+				
+				System.out.println("");
+				System.out.println("=========Rating=========");
+				System.out.println("Provide a rating from [0-5]:"); // renters name
+				String rating = keyboard.nextLine();
+				
+				try {
+					choicerating = Integer.parseInt(rating);
+					
+					if (CheckersGeneric.range(0,5,choicerating)){
+						ratingWrong = true;
+					} else {
+						ratingWrong = false;
+					}
+ 
+				} catch (Exception e) {
+					System.out.println("Please Try Again!");
+				}
+				
+				}
+				//=============RATING=====================
+
+				//=============DB CALL=====================
+				Queries.writeHostReview(c,u,b,review,choicerating,"h");
+
+				
+				System.out.println("Rated!");
 				System.out.println("Commented!");
 				System.out.println("Going back now!");
-				viewbooking(c,u);
+				
+				//=============DB CALL=====================
+				
+				viewbooking(c,u,b);
 			case 1:
-				viewbooking(c,u);
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-	}
-	public void renterratelisting(Connection c, User u){
-		System.out.println("");
-		System.out.println("=========Rating=========");
-		System.out.println("Provide a rating from [0-5]:"); // renters name
-		String review = keyboard.nextLine();
-		System.out.println("0. Submit");
-		System.out.println("1. Go Back");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				//try to insert into the db
-				// check if they actually can
-				//if so then
-				System.out.println("Rated!");
-				System.out.println("Going back now!");
-				viewbooking(c,u);
-			case 1:
-				viewbooking(c,u);
+				viewbooking(c,u,b);
 				break;
 			default:
 				break;
@@ -334,7 +375,68 @@ public class RenterPage extends UserPage{
 		}
 	}
 	
-	public void viewbooking(Connection c, User u){		
+//	public void renterratehost(Connection c, User u){
+//		System.out.println("");
+//		System.out.println("=========Rating=========");
+//		System.out.println("Provide a rating from [0-5]:"); // renters name
+//		String review = keyboard.nextLine();
+//		System.out.println("0. Submit");
+//		System.out.println("1. Go Back");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				//try to insert into the db
+//				// check if they actually can
+//				//if so then
+//				System.out.println("Rated!");
+//				System.out.println("Going back now!");
+//				viewbooking(c,u);
+//			case 1:
+//				viewbooking(c,u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
+	
+	
+//	public void renterratelisting(Connection c, User u){
+//		System.out.println("");
+//		System.out.println("=========Rating=========");
+//		System.out.println("Provide a rating from [0-5]:"); // renters name
+//		String review = keyboard.nextLine();
+//		System.out.println("0. Submit");
+//		System.out.println("1. Go Back");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				//try to insert into the db
+//				// check if they actually can
+//				//if so then
+//				System.out.println("Rated!");
+//				System.out.println("Going back now!");
+//				viewbooking(c,u);
+//			case 1:
+//				viewbooking(c,u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
+	
+	public void viewbooking(Connection c, User u, Booking b){		
 		System.out.println("");
 		System.out.println("=========BOOKING=========");
 		System.out.println("0. Write a Review on the Host's Profile ");
@@ -349,16 +451,16 @@ public class RenterPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 
 			case 0:
-				renterreviewhost(c,u);
+				renterreviewhost(c,u,b);
 				break;
 			case 1:
-				renterreviewlisting(c,u);
+				renterreviewlisting(c,u,b);
 				break;
 			case 2:
-				renterratehost(c,u);
+				//renterratehost(c,u);
 				break;
 			case 3:
-				renterratelisting(c,u);
+				//renterratelisting(c,u);
 				break;
 			case 4:
 				renterbooking(c,u);
