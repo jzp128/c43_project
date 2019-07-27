@@ -244,7 +244,7 @@ public class HostPage extends UserPage{
 		
 		ArrayList<Listing> list = Queries.getListingsForUser(c, u.id);
 		
-		Listing chosenListing;
+		Listing chosenlisting;
 		
 		int iterate = 1;
 		for (Listing x: list) {
@@ -289,7 +289,7 @@ public class HostPage extends UserPage{
 			}
 		}
 		
-		Listing chosenlisting =  list.get(choice-1);
+		chosenlisting =  list.get(choice-1);
 
 		System.out.println("0  Submit.");
 		System.out.println("1. Go Back.");
@@ -384,7 +384,8 @@ public class HostPage extends UserPage{
 		System.out.println("=========LISTING=========");
 		System.out.println("0. View Rental History Bookings");
 		System.out.println("1. Change the availible days");
-		System.out.println("2. Go Back to the Main Listing Page");
+		System.out.println("2. Delete this listing");
+		System.out.println("3. Go Back to the Main Listing Page");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -397,6 +398,10 @@ public class HostPage extends UserPage{
 				availDays(c,u, l);
 				break;
 			case 2:
+				deletelisting(c,l);
+				hostlisting(c,u);
+				break;
+			case 3:
 				hostlisting(c,u);
 			default:
 				break;
@@ -857,8 +862,6 @@ public class HostPage extends UserPage{
 		
 		int optionstartchoice = 0;
 		int optionendchoice = 0;
-//		Date startdate = new Date(0);
-//		Date enddate = new Date(0);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		java.util.Date startdate;
@@ -867,10 +870,7 @@ public class HostPage extends UserPage{
 		double price = 0;
 		
 		String optionstart = "";
-		String optionend;
-		
-//		boolean optionb = false;
-//		while(!optionb){ 
+		String optionend; 
 		
 					
 			boolean dateCheckfalse = true;
@@ -950,10 +950,28 @@ public class HostPage extends UserPage{
 					e.printStackTrace();
 				}
 			}
-			
+		}
+	
+	public void deletelisting(Connection c,Listing l){
+		System.out.println("Note: this action cannot be undone!");
+		System.out.println("Deletion of a listing can only happen if there are no existing bookings or reviews");
+		
+		if (Queries.checkReviewsExistForHost(c, l.id) > 0 ){
+			System.out.println("Looks like there are reviews for this listing! Delete cannot be done!");
+		} else if (Queries.checkBookingsExistForHost(c, l.id) > 0){
+			System.out.println("Looks like there are bookings for this listing! Delete cannot be done!");
+		} else if (Queries.checkAvailBookingsExistForHost(c, l.id) > 0) {
+			System.out.println("Looks like there are bookings for this listing! Delete cannot be done!");
+		} else {
+			System.out.print("=========" + l.id);
+			Queries.deleteAmenitiesListExistForListing(c,l.id);// delete all amenitiies from list
+			Queries.deleteAvailibleExistForListing(c,l.id);//delete days avail
+			Queries.deleteListingExistForListing(c,l.id);//delete listing
 
 		}
 		
-//	}
-	
-}
+	}
+
+		
+	}
+

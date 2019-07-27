@@ -953,8 +953,102 @@ public class Queries {
 		}
 		
 	}
-    
+	public static int checkReviewsExistForHost(Connection c, int listingID) {
+		String q = "select * from reviews where listingID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+	          while (rs.next()) {
+	        	  countrows++;
+	          }
+	        rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkBookingsExistForHost(Connection c, int listingID) {
+		String q = "select * from bookings where listingID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkAvailBookingsExistForHost(Connection c, int listingID) {
+		String q = "select * from bookings where listingID = ? AND and isBooked = 1";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
 	
+	public static int deleteAmenitiesListExistForListing(Connection c, int listingID) {
+		String q = "Delete from amenitiesList WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
+	public static int deleteAvailibleExistForListing(Connection c, int listingID) {
+		String q = "Delete from available WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
+	public static int deleteListingExistForListing(Connection c, int listingID) {
+		String q = "Delete from listing WHERE listingID = ?";
+		int rs = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, listingID);
+			rs = ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (rs);
+	}
 
 	
     public static void main(String[] args) throws ParseException {
@@ -967,7 +1061,7 @@ public class Queries {
         
         updateHistoryBookingsforRenter(application.getconn(),1);
         
-        
+        System.out.println(checkReviewsExistForHost(application.getconn(),1));
         
         
  //	public static void insertSingleAvailability(Connection c, String Date, double price, int listingid, int isbooked) {
@@ -999,7 +1093,7 @@ public class Queries {
 	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
 	      
 	      
-	      insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
+	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
         
 	      
 	        //updateAvailPrice(application.getconn(), 10.00, date111, 1);
@@ -1008,7 +1102,7 @@ public class Queries {
 	        deleteAvailDate(application.getconn(),date111, 1);
 
         
-        Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
+        //Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
         
         //Queries.reupdateListingAvailibility(application.getconn(),1,date1,date2);
         
