@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
 import Listings.Listing;
 import Listings.Available;
+import Listings.Booking;
 import Server.ListingQueries;
 import Server.Queries;
 import Users.User;
@@ -325,5 +327,21 @@ public class UserPage {
 		//query to check if user is renter or host
 		//if user is renter, go to renter page
 		// else go to host page
+	}
+	
+	public void printBookings (List<Booking> list ) {
+		int iterate = 1;
+		for (Booking x: list) {
+			System.out.println("=================================");
+			System.out.println("Booking Choice ["+iterate+"]");
+			System.out.println("Booking ID:" + x.bookingID +" " );
+			System.out.println("Host ID:" + x.hostID +" " );
+			System.out.println("Renter ID Type:" + x.renterID+ " ");
+			System.out.println("Listing ID:" + x.listingID +" ");
+			System.out.println("From Date:" + x.fromDate + " ");
+			System.out.println("To Date:" + x.toDate + " ");
+			System.out.println("=================================");	
+			iterate ++;
+		}
 	}
 }

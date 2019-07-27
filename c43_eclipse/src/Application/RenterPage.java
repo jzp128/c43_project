@@ -437,7 +437,8 @@ public class RenterPage extends UserPage{
 					//update the availibility dates of the listing
 					//Connection c, int listingID, Date from, Date to
 					Queries.reupdateListingAvailibility(c,b.listingID,b.fromDate,b.toDate); //TODO check this!
-					
+					Queries.updateListingAvgCost(c, b.listingID);
+
 					System.out.println("Canceled Booking!");
 					
 				}
@@ -453,24 +454,7 @@ public class RenterPage extends UserPage{
 			option = "-1";
 		}
 	}
-	
-	
-	
-	public void printBookings (List<Booking> list ) {
-		int iterate = 1;
-		for (Booking x: list) {
-			System.out.println("=================================");
-			System.out.println("Booking Choice ["+iterate+"]");
-			System.out.println("Booking ID:" + x.bookingID +" " );
-			System.out.println("Host ID:" + x.hostID +" " );
-			System.out.println("Renter ID Type:" + x.renterID+ " ");
-			System.out.println("Listing ID:" + x.listingID +" ");
-			System.out.println("From Date:" + x.fromDate + " ");
-			System.out.println("To Date:" + x.toDate + " ");
-			System.out.println("=================================");	
-			iterate ++;
-		}
-	}
+
 	
 	
 }

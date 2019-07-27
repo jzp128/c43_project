@@ -785,6 +785,36 @@ public class Queries {
 	        return ret;
 		
 	}
+	public static ArrayList<Booking> getHistoryandCurrentBookingsforHost(Connection c, int userid) { //TODO: check this function
+		ArrayList<Booking> ret = new ArrayList<>();
+		String q = "select * FROM bookings WHERE hostID = ? AND isCanceled = 0";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int bookingid = rs.getInt("bookingID");
+				int hostid = rs.getInt("hostID");
+				int renterid = rs.getInt("renterID");
+				int listingid = rs.getInt("listingID");
+				int iscanceled = rs.getInt("isCanceled");
+				int ishistory = rs.getInt("isHistory");
+				
+				Date from = rs.getDate("fromDate");
+				Date to = rs.getDate("toDate");
+				
+				Booking b = new Booking(hostid, renterid,listingid ,iscanceled, ishistory, from, to);
+				b.bookingID = bookingid;
+				ret.add(b);
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		return ret;
+		
+	}
 	
 	public static void updateHistoryBookingsforRenter(Connection c, int userid) { //TODO: check this function
 		String q = "UPDATE bookings SET isHistory = TRUE  where renterID = ? AND toDate < CURDATE()";
@@ -798,6 +828,29 @@ public class Queries {
 		}
 		
 		String q2 = "UPDATE bookings SET isHistory = FALSE  where renterID = ? AND toDate > CURDATE()";
+		try {
+			PreparedStatement ps2 = c.prepareStatement(q2);
+			ps2.setInt(1, userid);
+            ps2.executeUpdate();
+			ps2.close();
+		} catch (SQLException e) {
+			
+		}
+	}
+	
+	
+	public static void updateHistoryBookingsforHost(Connection c, int userid) { //TODO: check this function
+		String q = "UPDATE bookings SET isHistory = TRUE  where hostID = ? AND toDate < CURDATE()";
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, userid);
+            ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			
+		}
+		
+		String q2 = "UPDATE bookings SET isHistory = FALSE  where hostID = ? AND toDate > CURDATE()";
 		try {
 			PreparedStatement ps2 = c.prepareStatement(q2);
 			ps2.setInt(1, userid);
@@ -828,6 +881,26 @@ public class Queries {
         }
         return r;
     }
+    public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating, String type){
+    	int r = -1;
+    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, u.id);
+    		ps.setInt(2, b.renterID);
+    		ps.setInt(3, b.listingID);
+    		ps.setString(4, review);
+    		ps.setInt(5, rating);
+    		ps.setString(6, type);
+    		r = ps.executeUpdate();
+    		ResultSet rs = ps.getGeneratedKeys();
+    		rs.close();
+    		ps.close();
+    	}catch (SQLException e){
+    		
+    	}
+    	return r;
+    }
     
     public static int writeListingReview(Connection c, User u, Booking b,String review, int rating, String type){
     	int r = -1;
@@ -852,7 +925,7 @@ public class Queries {
 	
     
 	public static void cancelBooking(Connection c, int b) {
-		String q = "UPDATE  bookings SET isCanceled = TRUE where bookingiD = ?";
+		String q = "UPDATE  bookings SET isCanceled = TRUE where bookingiD = ? AND isHistory = FALSE";
     	try {
     		PreparedStatement ps = c.prepareStatement(q);
     		ps.setInt(1, b);
