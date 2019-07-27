@@ -2,12 +2,14 @@ package Application;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
 import Listings.Listing;
 import Listings.Available;
+import Server.ListingQueries;
 import Server.Queries;
 import Users.User;
 
@@ -190,6 +192,130 @@ public class UserPage {
 		Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
 		
 	}
+	
+	
+	public void searchBookings(Connection c, User u) {
+        String choice = "";
+        ArrayList<String> filters = new ArrayList<>();
+
+        boolean locationFilter = false;
+        Double longitude = 0.00;
+        Double latitude = 0.00;
+        Double range = 0.00;
+
+        System.out.print("Search by LOCATION? (Y/N):");
+        choice = keyboard.nextLine();
+        String in = "";
+        if (choice.toLowerCase().equals("y")) {
+            locationFilter = true;
+            System.out.print("Enter Latitude:");
+            in = keyboard.nextLine();
+            // ADD CHECKING HERE
+            latitude = Double.parseDouble(in);
+            System.out.print("Enter Longitude:");
+            in = keyboard.nextLine();
+            longitude = Double.parseDouble(in);
+            System.out.print("Enter range (will default to 5KM if nothing is entered):");
+            in = keyboard.nextLine();
+            range = 0.00;
+            if (in == "") {
+                range = 5.00;
+            } else {
+                range = Double.parseDouble(in);
+            }
+        }
+
+        System.out.print("Filter by ADDRESS? (Y/N):");
+        choice = keyboard.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            System.out.print("Enter Address:");
+            in = keyboard.nextLine();
+            String address = in;
+            filters.add(ListingQueries.filterByAddress(address));
+        }
+
+        System.out.print("Filter by POSTAL CODE? (Y/N):");
+        choice = keyboard.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            System.out.print("Enter Postal Code:");
+            in = keyboard.nextLine();
+            String postCode = in;
+            filters.add(ListingQueries.filterByPostalCode(postCode));
+        }
+
+        System.out.print("Filter by Date Range? (Y/N):");
+        choice = keyboard.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            System.out.print("Enter Starting Date (yyyy-MM-dd):");
+            in = keyboard.nextLine();
+            String from = in;
+            System.out.print("Enter Ending Date (yyyy-MM-dd):");
+            in = keyboard.nextLine();
+            String to = in;
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                java.util.Date fromDate = sf.parse(from);
+                java.util.Date toDate = sf.parse(to);
+                filters.add(ListingQueries.filterByDateRange(fromDate, toDate));
+            } catch (java.text.ParseException e) {
+
+            }
+        }
+
+        System.out.print("Filter by Price Range? (Y/N):");
+        choice = keyboard.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            System.out.print("Enter Minimum price:");
+            in = keyboard.nextLine();
+            Double low = Double.parseDouble(in);
+            System.out.print("Enter Maximum price:");
+            in = keyboard.nextLine();
+            Double high = Double.parseDouble(in);
+
+            filters.add(ListingQueries.filterBypriceRange(low, high));
+        }
+
+		System.out.print("Filter by Amenities? (Y/N):");
+        //TODO FIX THIS
+		choice = keyboard.nextLine();
+		if (choice.toLowerCase().equals("y")) {
+			System.out.print("Enter Minimum price:");
+			in = keyboard.nextLine();
+			Double low = Double.parseDouble(in);
+			System.out.print("Enter Maximum price:");
+			in = keyboard.nextLine();
+			Double high = Double.parseDouble(in);
+
+			filters.add(ListingQueries.filterBypriceRange(low, high));
+		}
+		int priceSort = 0;
+		System.out.print("Would you like to sort by average price? (Y/N):");
+		//TODO FIX THIS
+		choice = keyboard.nextLine();
+		if (choice.toLowerCase().equals("y")) {
+			System.out.print("Enter 0 for DESCENDING, 1 for ASCENDING:");
+			in = keyboard.nextLine();
+			Double low = Double.parseDouble(in);
+			System.out.print("Enter Maximum price:");
+			in = keyboard.nextLine();
+			Double high = Double.parseDouble(in);
+
+			filters.add(ListingQueries.filterBypriceRange(low, high));
+		}
+
+		String finalQ = ListingQueries.finalListingQuery(filters, priceSort);
+
+		ArrayList<Listing> result = ListingQueries.runFilters(c, finalQ);
+
+		if(locationFilter){
+			result = ListingQueries.searchByLocation(result, latitude, longitude, range, priceSort);
+		}
+
+		//TODO HOW DO I PRINT THIS??
+
+
+    }
+
 	
 	
 
