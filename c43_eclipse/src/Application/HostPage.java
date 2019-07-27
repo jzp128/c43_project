@@ -2,6 +2,8 @@
 package Application;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -375,8 +377,8 @@ public class HostPage extends UserPage{
 	public void viewlisting(Connection c, User u, Listing l){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
-		System.out.println("0. View History");
-		System.out.println("1. Choose the availible days");
+		System.out.println("0. View Rental History Bookings");
+		System.out.println("1. Change the availible days");
 		System.out.println("2. Go Back to the Main Listing Page");
 		String option = keyboard.nextLine();
 		
@@ -459,10 +461,11 @@ public class HostPage extends UserPage{
 			}
 
 		}
-		System.out.print("ENTER what you want to change!");
+		System.out.println("ENTER what you want to change!");
 		System.out.println("0.  The Price.");
 		System.out.println("1.  The Date.");
-		System.out.println("2. Go Back to viewing listings.");
+		System.out.println("2.  Delete this Availability.");
+		System.out.println("3. Go Back to viewing listings.");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -492,22 +495,57 @@ public class HostPage extends UserPage{
 					this.viewlisting(c, u, l);
 					break;
 				}
-			case 1:
-				System.out.println("Enter the new price you want it to be.");
-				String pricestring = keyboard.nextLine();
-				double price;
+			case 1:				
 				
+				boolean dateCheckfalse = true;
 				
-				
-				
-				
-				
-				
-				
+				while (dateCheckfalse){
+					try {
+						System.out.println("Enter the new Date you want it to be. (yyyy-MM-dd)");
+						String datestring = keyboard.nextLine();
+						SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+						java.util.Date date;
+						date = sdf1.parse(datestring);
+						java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+						
+						if (chosenavail.isBooked == 1){
+							System.out.println("Sorry this day is unavailible, you cannot change the date.");
+						} else {
+							Queries.updateAvailDate(c, chosenavail.availDate, chosenavail.listingID, sqlStartDate);
+							System.out.println("Date updated!");
+						}
+						dateCheckfalse = false;
+					} catch (Exception e1) {
+						System.out.println("Incorrect day format. Please try again!");
+						dateCheckfalse = true;
+					}
+				}
 				
 				this.viewlisting(c, u, l);
 				break;
 			case 2:
+				System.out.println("Deleting this availibility.....");
+				//String availstring = keyboard.nextLine();
+				//int avail;
+				try {
+					if (chosenavail.isBooked == 1){
+						System.out.println("Sorry this day is booked, you cannot change the availibility.");
+
+					} else {
+						//avail = Integer.parseInt(availstring);
+						Queries.deleteAvailDate(c, chosenavail.availDate, chosenavail.listingID);
+						System.out.println("Availibility changed, going back now...");
+					
+					}
+					this.viewlisting(c, u, l);
+					break;
+					
+				} catch (Exception e) {
+					System.out.println("Sorry invalid price, going back now...");
+					this.viewlisting(c, u, l);
+					break;
+				}
+			case 3:
 				this.viewlisting(c, u, l);
 				break;
 			default:

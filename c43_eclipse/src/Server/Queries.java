@@ -593,7 +593,38 @@ public class Queries {
         }
         return ra;
     }
+    public static int updateAvailDate(Connection c, Date availDate, int listingid, Date newDate){
+    	String q = "UPDATE available SET availDate = ? WHERE listingID = ? AND availDate = ?";
+    	int ra = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setDate(1, newDate);
+    		ps.setInt(2, listingid);
+    		ps.setDate(3, availDate);
+    		ra = ps.executeUpdate();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return ra;
+    }
     
+    public static int deleteAvailDate(Connection c, Date availDate, int listingid){
+    	String q = "Delete from available WHERE listingID = ? AND availDate = ?";
+    	int ra = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.setInt(1, listingid);
+    		ps.setDate(2, availDate);
+    		ra = ps.executeUpdate();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return ra;
+    }
     
     
 
@@ -874,10 +905,16 @@ public class Queries {
 	      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
 	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
+	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
+	      
+	      
+	      
         
 	      
-	        updateAvailPrice(application.getconn(), 10.00, date111, 1);
-	        updateListingAvgCost(application.getconn(),1);
+	        //updateAvailPrice(application.getconn(), 10.00, date111, 1);
+	        //updateAvailDate(application.getconn(), date333, 1, date111);
+	        //updateListingAvgCost(application.getconn(),1);
+	        deleteAvailDate(application.getconn(),date111, 1);
 
         
         Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
