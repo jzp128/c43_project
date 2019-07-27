@@ -1,12 +1,15 @@
+
 package Application;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
 import Listings.Amenity;
+import Listings.Available;
 import Listings.Listing;
 import Server.Queries;
 import Users.User;
@@ -36,7 +39,7 @@ public class HostPage extends UserPage{
 				this.makeListingPage(c);
 				break;
 			case 1:
-				this.hostlisting(c);
+				this.hostlisting(c,u);
 				break;
 			case 2:
 				super.deleteAccount(c,user);
@@ -197,26 +200,103 @@ public class HostPage extends UserPage{
 	}
 	
 
-	public void previousListingPage(Connection c){		
+//	public void previousListingPage(Connection c, User u){		
+//
+//		System.out.println("====PREVIOUS LISTINGS====");
+//
+//		System.out.print("ENTER the listing number you want to view");
+//		String record = keyboard.nextLine();
+//
+//		System.out.println("0  Submit.");
+//		System.out.println("1. Go Back.");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				this.viewlisting(c, u, l);
+//				this.previousListingPage(c,u);
+//				break;
+//			case 1:
+//				this.hostlisting(c,u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//		
+//	}
+	
+	public void currentListingPage(Connection c, User u){		
 
-		System.out.println("====PREVIOUS LISTINGS====");
-
-		System.out.print("ENTER the listing number you want to view");
-		String record = keyboard.nextLine();
+		System.out.println("====AVAILABILITY LISTINGS====");
+		
+		
+		ArrayList<Listing> list = Queries.getListingsForUser(c, u.id);
+		
+		Listing chosenListing;
+		
+		int iterate = 1;
+		for (Listing x: list) {
+			System.out.println("=================================");
+			System.out.println("Listing Choice ["+iterate+"]");
+			System.out.println("Listing:" + x.id +" " );
+			System.out.println("Listing Type:" + x.type+ " ");
+			System.out.println("Longitude:" + x.longitude +" ");
+			System.out.println("Latitude:" + x.latitude+ " ");
+			System.out.println("Address:" + x.address+ " ");
+			System.out.println("Country:" + x.country+ " ");
+			System.out.println("City:" + x.city +" ");
+			System.out.println("PostalCode:" + x.postal_code +" ");
+			System.out.println("Host Profile ID:" + x.hostID +" ");
+			System.out.println("=================================");	
+			iterate ++;
+		}
+		
+		String option;
+		int choice = -1;
+		boolean optionb = false;
+		while(!optionb){
+			if (list.isEmpty()){
+				System.out.println("Sorry there are no available listings!");
+				hostlisting(c,u);
+				break;
+			}
+			
+			
+			System.out.println("Choose a listing by inputting the Listing Choice: [ 1 - " +list.size()+"]");
+			System.out.println("Choose [ " +(list.size() + 1)+" ] to Cancel" );
+			option = keyboard.nextLine();
+			try {
+				choice = Integer.parseInt(option);
+				optionb = CheckersGeneric.range(1,list.size(),choice);
+				if (choice == (list.size() + 1)) {
+					hostlisting(c,u);
+					break;
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Option!");
+			}
+		}
+		
+		Listing chosenlisting =  list.get(choice-1);
 
 		System.out.println("0  Submit.");
 		System.out.println("1. Go Back.");
-		String option = keyboard.nextLine();
+		String option2 = keyboard.nextLine();
 		
 		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
+			int choice2 = Integer.parseInt(option2);
+			switch (choice2) { //Activate the desired functionality
 			case 0:
-				this.viewlisting(c);
-				this.previousListingPage(c);
+				this.viewlisting(c, u, chosenlisting);
+				this.currentListingPage(c,u);
 				break;
 			case 1:
-				this.hostlisting(c);
+				this.hostlisting(c,u);
 				break;
 			default:
 				break;
@@ -227,67 +307,37 @@ public class HostPage extends UserPage{
 		
 	}
 	
-	public void currentListingPage(Connection c){		
-
-		System.out.println("====CURRENT LISTINGS====");
-
-		System.out.print("ENTER the listing number you want to view");
-		String record = keyboard.nextLine();
-
-		System.out.println("0  Submit.");
-		System.out.println("1. Go Back.");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				this.viewlisting(c);
-				this.currentListingPage(c);
-				break;
-			case 1:
-				this.hostlisting(c);
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-		
-	}
+//	public void canceledListingPage(Connection c, User u){		
+//
+//		System.out.println("====CANCELED LISTING====");
+//
+//		System.out.print("ENTER the listing number you want to view");
+//		String record = keyboard.nextLine();
+//
+//		System.out.println("0  Submit.");
+//		System.out.println("1. Go Back.");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				this.viewlisting(c, u, l);
+//				this.canceledListingPage(c,u);
+//				break;
+//			case 1:
+//				this.hostlisting(c,u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//		
+//	}
 	
-	public void canceledListingPage(Connection c){		
-
-		System.out.println("====CANCELED LISTING====");
-
-		System.out.print("ENTER the listing number you want to view");
-		String record = keyboard.nextLine();
-
-		System.out.println("0  Submit.");
-		System.out.println("1. Go Back.");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				this.viewlisting(c);
-				this.canceledListingPage(c);
-				break;
-			case 1:
-				this.hostlisting(c);
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-		
-	}
-	
-	public void hostlisting(Connection c){		
+	public void hostlisting(Connection c, User u){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
 		System.out.println("0  View Current Listings");
@@ -302,13 +352,13 @@ public class HostPage extends UserPage{
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.currentListingPage(c);
+				this.currentListingPage(c,u);
 				break;
 			case 1:
-				this.previousListingPage(c);
+				//this.previousListingPage(c,u, l);
 				break;
 			case 2:
-				this.canceledListingPage(c);
+				//this.canceledListingPage(c,u);
 				break;
 			case 3:
 				this.hostPageMenu(c,user);
@@ -322,23 +372,25 @@ public class HostPage extends UserPage{
 		
 	}
 	
-	public void viewlisting(Connection c){		
+	public void viewlisting(Connection c, User u, Listing l){		
 		System.out.println("");
 		System.out.println("=========LISTING=========");
 		System.out.println("0. View History");
-		System.out.println("1. Go Back to the Main Listing Page");
+		System.out.println("1. Choose the availible days");
+		System.out.println("2. Go Back to the Main Listing Page");
 		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
 			case 0:
-				this.bookingPage(c);
+				//this.bookingPage(c, u);
 				break;
 			case 1:
-				hostlisting(c);
+				availDays(c,u, l);
+				break;
 			case 2:
-				break;
+				hostlisting(c,u);
 			default:
 				break;
 			}
@@ -347,127 +399,333 @@ public class HostPage extends UserPage{
 		}
 	}
 	
-	public void bookingPage(Connection c){		
-
-		System.out.println("====BOOKINGS====");
-
-		System.out.print("ENTER the booking number you want to view");
-		String record = keyboard.nextLine();
-
-		System.out.println("0  Submit.");
-		System.out.println("1. Go Back.");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				this.viewbooking(c);
-				this.bookingPage(c);
-				//this.welcome();
-				break;
-			case 1:
-				this.viewlisting(c);
-				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-		
-	}
+	// TODO check this function
 	
-	public void hostreview(Connection c){
-		System.out.println("");
-		System.out.println("=========Review=========");
-		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
-		String review = keyboard.nextLine();
-		System.out.println("0. Submit");
-		System.out.println("1. Go Back");
-		String option = keyboard.nextLine();
+	public void availDays(Connection c, User u, Listing l){
 
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				//try to insert into the db
-				// check if they actually can
-				//if so then
-				System.out.println("Commented!");
-				System.out.println("Going back now!");
-				viewbooking(c);
-			case 1:
-				viewbooking(c);
-				break;
-			default:
+		System.out.println("====AVAILIBILITY====");
+		
+		Available chosenavail =  new Available();
+
+		ArrayList<Available> availlist = Queries.getAvailListingsDates(c,l.id);
+			//System.out.println(availlist.toString());
+		int availistingno = 1;
+		for (Available x: availlist) {
+			System.out.println("=================================");
+			System.out.println("Listing Option ["+availistingno+"]");
+			availistingno++;
+			System.out.println("Corresponds to Listing:" + x.listingID +" " );
+			System.out.println("Date:" + x.availDate+ " ");
+			System.out.println("Price:" + x.price +" ");
+			if (x.isBooked == 0) {
+				System.out.println("Booking Status: Not booked yet!" );
+			} else {
+				System.out.println("Booking Status: Booked!" );
+			}
+			System.out.println("=================================");	
+		}
+			
+		int optionint = 0;
+			
+		boolean optionb = false;
+		while(!optionb){ 
+			//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
+			
+			if (availlist.isEmpty()){
+				System.out.println("Sorry this Listing is fully booked! Nothing to be changed...");
+				viewlisting(c,u,l);
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+			
+			System.out.println("Choose a listing date by inputting the listing option number: [ 1 - " +availlist.size()+"]");
+			System.out.println("Choose [ " +(availlist.size() + 1)+"] to Cancel" ); //TODO
+			String optionstring = keyboard.nextLine();
+			try {
+				optionint = Integer.parseInt(optionstring);
+				if (optionint == (availlist.size() + 1)) {
+					viewlisting(c,u,l);
+					break;
+				}
+				optionb = CheckersGeneric.range(1,availlist.size(),optionint);
+			} catch (Exception e) {
+				//System.out.println("Invalid Option!");
+			}
+			
+			if (optionb == false ){
+				System.out.println("Invalid Option! Try Again.");
+			} else {
+				
+				chosenavail = availlist.get(optionint-1);
+			}
+
 		}
-	}
-	public void hostrate(Connection c){
-		System.out.println("");
-		System.out.println("=========Rating=========");
-		System.out.println("Provide a rating from [0-5]:"); // renters name
-		String review = keyboard.nextLine();
-		System.out.println("0. Submit");
-		System.out.println("1. Go Back");
+		System.out.print("ENTER what you want to change!");
+		System.out.println("0.  The Price.");
+		System.out.println("1.  The Date.");
+		System.out.println("2. Go Back to viewing listings.");
 		String option = keyboard.nextLine();
 		
 		try {
 			int choice = Integer.parseInt(option);
 			switch (choice) { //Activate the desired functionality
-			case 0:
-				//try to insert into the db
-				// check if they actually can
-				//if so then
-				System.out.println("Rated!");
-				System.out.println("Going back now!");
-				viewbooking(c);
+			case 0:			
+				
+				System.out.println("Enter the new price you want it to be.");
+				String pricestring = keyboard.nextLine();
+				double price;
+				try {
+					if (chosenavail.isBooked == 1){
+						System.out.println("Sorry this day is unavailible, you cannot change the Price.");
+
+					} else {
+						price = Double.parseDouble(pricestring);
+						Queries.updateAvailPrice(c, price, chosenavail.availDate,chosenavail.listingID);
+						Queries.updateListingAvgCost(c, l.id);
+						System.out.println("Price changed, going back now...");
+					
+					}
+					this.viewlisting(c, u, l);
+					break;
+					
+				} catch (Exception e) {
+					System.out.println("Sorry invalid price, going back now...");
+					this.viewlisting(c, u, l);
+					break;
+				}
 			case 1:
-				viewbooking(c);
+				System.out.println("Enter the new price you want it to be.");
+				String pricestring = keyboard.nextLine();
+				double price;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				this.viewlisting(c, u, l);
 				break;
-			default:
-				break;
-			}
-		} catch (NumberFormatException e) {
-			option = "-1";
-		}
-	}
-	
-	public void viewbooking(Connection c){		
-		System.out.println("");
-		System.out.println("=========BOOKING=========");
-		System.out.println("0. Write a Review on the Renter's Profile");
-		System.out.println("1. Rate the Renter's Profile!");
-		System.out.println("2. Go Back");
-		System.out.println("3. Go Back to the Main Booking Page");
-		String option = keyboard.nextLine();
-		
-		try {
-			int choice = Integer.parseInt(option);
-			switch (choice) { //Activate the desired functionality
-			case 0:
-				// check if they had already reviewed the renter especially for this listing.
-				//check if they can write a review for this renter? check for whether the list is in the past and is recent!
-				hostreview(c);
-			case 1:
-				// check if they had already rated the renter especially for this listing.
-				//check if they can rate this renter? check for whether the list is in the past and is recent!
-				hostrate(c);
 			case 2:
-				bookingPage(c);
-				break;
-			case 3:
-				viewlisting(c);
+				this.viewlisting(c, u, l);
 				break;
 			default:
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+		} catch (Exception e) {
+			this.viewlisting(c, u, l);
+			return;
 		}
+	
 	}
-}
+		
+
+	
+//	public void hostreview(Connection c, User u){
+//		System.out.println("");
+//		System.out.println("=========Review=========");
+//		System.out.println("Write a review of: (Maximum 2000 characters)"); // renters name
+//		String review = keyboard.nextLine();
+//		System.out.println("0. Submit");
+//		System.out.println("1. Go Back");
+//		String option = keyboard.nextLine();
+//
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				//try to insert into the db
+//				// check if they actually can
+//				//if so then
+//				System.out.println("Commented!");
+//				System.out.println("Going back now!");
+//				viewbooking(c, u);
+//			case 1:
+//				viewbooking(c, u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
+//	public void hostrate(Connection c, User u){
+//		System.out.println("");
+//		System.out.println("=========Rating=========");
+//		System.out.println("Provide a rating from [0-5]:"); // renters name
+//		String review = keyboard.nextLine();
+//		System.out.println("0. Submit");
+//		System.out.println("1. Go Back");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				//try to insert into the db
+//				// check if they actually can
+//				//if so then
+//				System.out.println("Rated!");
+//				System.out.println("Going back now!");
+//				viewbooking(c, u);
+//			case 1:
+//				viewbooking(c, u);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
+	
+//	public void viewbooking(Connection c, User u){
+//		System.out.println("");
+//		System.out.println("=========BOOKING=========");
+//		System.out.println("0. Write a Review on the Renter's Profile");
+//		System.out.println("1. Rate the Renter's Profile!");
+//		System.out.println("2. Go Back");
+//		System.out.println("3. Go Back to the Main Booking Page");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				// check if they had already reviewed the renter especially for this listing.
+//				//check if they can write a review for this renter? check for whether the list is in the past and is recent!
+//				hostreview(c, u);
+//			case 1:
+//				// check if they had already rated the renter especially for this listing.
+//				//check if they can rate this renter? check for whether the list is in the past and is recent!
+//				hostrate(c, u);
+//			case 2:
+//				//bookingPage(c, u);
+//				break;
+//			case 3:
+//				viewlisting(c, u, l);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//	}
+//}
+	
+//	public void bookingPage(Connection c, User u, int listingID){		
+//
+//		System.out.println("====BOOKINGS====");
+//		
+//		//with the listingid get books
+//		
+//		
+//		
+//		try {
+//			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,listingID);
+//			System.out.println(availlist.toString());
+//			int availistingno = 1;
+//			for (Available x: availlist) {
+//				System.out.println("=================================");
+//				System.out.println("["+availistingno+"]");
+//				availistingno++;
+//				System.out.println("Corresponds to Listing:" + x.listingID +" " );
+//				System.out.println("Date:" + x.availDate+ " ");
+//				System.out.println("Price:" + x.price +" ");
+//				if (x.isBooked == 0) {
+//					System.out.println("Booking Status: Not booked yet!" );
+//				} else {
+//					System.out.println("Booking Status: Booked!" );
+//				}
+//				System.out.println("=================================");	
+//			}
+//			
+//			int optionstartchoice = 0;
+//			int optionendchoice = 0;
+//			Date startdate = new Date(0);
+//			Date enddate = new Date(0);
+//			
+//			optionb = false;
+//			while(!optionb){ 
+//				//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
+//				
+//				if (availlist.isEmpty()){
+//					System.out.println("Sorry this Listing is fully booked!");
+//					return false;
+//				}
+//				
+//				System.out.println("Choose a listing date by inputting the Start Date and the End Date: [ 1 - " +availlist.size()+"]");
+//				System.out.println("Choose [ " +(availlist.size() + 1)+"] to Cancel" ); //TODO
+//				System.out.println("Start Date:");
+//				String optionstart = keyboard.nextLine();
+//				try {
+//					optionstartchoice = Integer.parseInt(optionstart);
+//					if (optionstartchoice == (availlist.size() + 1)) {
+//						return false;
+//					}
+//					optionb = CheckersGeneric.range(1,availlist.size(),optionstartchoice);
+//				} catch (Exception e) {
+//					//System.out.println("Invalid Option!");
+//				}
+//				
+//				System.out.println("End Date:");
+//				String optionend = keyboard.nextLine();
+//				try {
+//					optionendchoice = Integer.parseInt(optionend);
+//					optionb = CheckersGeneric.range(1,availlist.size(),optionendchoice);
+//				} catch (Exception e) {
+//					//System.out.println("Invalid Option!");
+//				}
+//				
+//				if (optionb == false ){
+//					System.out.println("Invalid Option! Try Again.");
+//				}
+//				else if (optionendchoice < optionstartchoice ){
+//					System.out.println("Invalid Option! Try Again.");
+//					optionb = false;
+//				}
+//				
+//				startdate = availlist.get(optionstartchoice-1).availDate;
+//				
+//				enddate = availlist.get(optionendchoice-1).availDate;
+//				
+//
+//			}
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		System.out.print("ENTER the booking number you want to view");
+//		String record = keyboard.nextLine();
+//
+//		System.out.println("0  Submit.");
+//		System.out.println("1. Go Back.");
+//		String option = keyboard.nextLine();
+//		
+//		try {
+//			int choice = Integer.parseInt(option);
+//			switch (choice) { //Activate the desired functionality
+//			case 0:
+//				this.viewbooking(c, u);
+//				this.bookingPage(c, u);
+//				//this.welcome();
+//				break;
+//			case 1:
+//				this.viewlisting(c, u, l);
+//				break;
+//			default:
+//				break;
+//			}
+//		} catch (NumberFormatException e) {
+//			option = "-1";
+//		}
+//		
+	}

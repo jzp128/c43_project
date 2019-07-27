@@ -564,7 +564,8 @@ public class Queries {
         int ra = 0;
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ps.setInt(1, listingID);
+            ps.setDouble(1, avg);
+            ps.setInt(2, listingID);
             ra = ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -573,6 +574,28 @@ public class Queries {
         }
         return ra;
     }
+    
+    
+    
+    public static int updateAvailPrice(Connection c, double price, Date availDate, int listingid){
+        String q = "UPDATE available SET price = ? WHERE availDate = ? AND listingID = ?";
+        int ra = 0;
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ps.setDouble(1, price);
+            ps.setDate(2, availDate);
+            ps.setInt(3, listingid);
+            ra = ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            // TODO: ADD ERROR MESSAGE
+            e.printStackTrace();
+        }
+        return ra;
+    }
+    
+    
+    
 
     public static double getListingAvgCost(Connection c, int listingID){
         double avg = 0;
@@ -820,7 +843,11 @@ public class Queries {
         //maxAment(application.getconn());
         System.out.println(AvailAment(application.getconn()));
         
+        
         updateHistoryBookingsforRenter(application.getconn(),1);
+        
+        
+        
         
  
         
@@ -848,6 +875,10 @@ public class Queries {
 	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
 	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
         
+	      
+	        updateAvailPrice(application.getconn(), 10.00, date111, 1);
+	        updateListingAvgCost(application.getconn(),1);
+
         
         Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
         

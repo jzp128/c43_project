@@ -14,4 +14,7 @@ public class Available {
     	this.listingID = listingid;
     	this.isBooked = isbooked;
 	  }
+    
+    public Available(){
+    }
 }
