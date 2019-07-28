@@ -639,6 +639,7 @@ public class Queries {
             while (rs.next()) {
                 avg = rs.getDouble(1);
             }
+            rs.close();
             ps.close();
         } catch (SQLException e) {
             // TODO: ADD ERROR MESSAGE
@@ -1120,17 +1121,20 @@ public class Queries {
 	      
 	      
 	      
-	      System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
+	      //System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
+	      System.out.println("=================");
 
-	      
-	      
+	      System.out.println(date555.toString());
+
+	      System.out.println("=================");
+
 	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
         
 	      
 	        //updateAvailPrice(application.getconn(), 10.00, date111, 1);
 	        //updateAvailDate(application.getconn(), date333, 1, date111);
 	        //updateListingAvgCost(application.getconn(),1);
-	        deleteAvailDate(application.getconn(),date111, 1);
+	        //deleteAvailDate(application.getconn(),date111, 1);
 
         
         //Queries.reupdateListingAvailibility(application.getconn(),1,date111,date222);
