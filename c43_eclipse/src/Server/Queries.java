@@ -1122,11 +1122,11 @@ public class Queries {
 	      
 	      
 	      //System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
-//	      System.out.println("=================");
-//
-//	      System.out.println(date555.toString());
-//
-//	      System.out.println("=================");
+	      System.out.println("=================");
+
+	      System.out.println(date555.toString());
+
+	      System.out.println("=================");
 
 	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
         

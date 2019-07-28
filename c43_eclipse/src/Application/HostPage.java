@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
-import HostToolkit.HoolToolKitPage;
+import HostToolkit.HostToolKitPage;
 import Listings.Amenity;
 import Listings.Available;
 import Listings.Booking;
@@ -421,7 +421,7 @@ public class HostPage extends UserPage{
 				System.out.println("Press anyother key to continue!");
 				String tooloption = keyboard.nextLine();
 				if (tooloption.equalsIgnoreCase("yes")){
-					HoolToolKitPage host = new HoolToolKitPage(c,chosenavail.availDate.toString(), chosenavail.availDate.toString(),l.city,l.country,l.type);
+					HostToolKitPage host = new HostToolKitPage(c,chosenavail.availDate.toString(), chosenavail.availDate.toString(),l.city,l.country,l.type);
 				}
 				
 				System.out.println("Enter the new price you want it to be.");
@@ -754,7 +754,7 @@ public class HostPage extends UserPage{
 						System.out.println("Press anyother key to continue!");
 						String tooloption = keyboard.nextLine();
 						if (tooloption.equalsIgnoreCase("yes")){
-							HoolToolKitPage host = new HoolToolKitPage(c,optionstart, optionend,l.city,l.country,l.type);
+							HostToolKitPage host = new HostToolKitPage(c,optionstart, optionend,l.city,l.country,l.type);
 						}
 						
 						

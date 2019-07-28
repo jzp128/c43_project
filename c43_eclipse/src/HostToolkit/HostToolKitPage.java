@@ -3,10 +3,10 @@ package HostToolkit;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class HoolToolKitPage {
+public class HostToolKitPage {
 	
 	
-	public HoolToolKitPage(Connection c, String from, String to, String city, String country, String type){
+	public HostToolKitPage(Connection c, String from, String to, String city, String country, String type){
 		Recommendation answer= new Recommendation();
 		
 		double zero = 0.00;
