@@ -18,6 +18,9 @@ import Listings.Amenity;
 import Listings.Available;
 import Listings.Booking;
 import Listings.Listing;
+import Reviews.ListingReview;
+import Reviews.RenterReview;
+import Reviews.ReviewPageQueries;
 import Server.Queries;
 import Users.User;
 
@@ -35,8 +38,8 @@ public class HostPage extends UserPage{
 		System.out.println("0. Make a Listing.");
 		System.out.println("1. View my Listings.");
 		System.out.println("2. Delete My Account.");
-		System.out.println("3. View all the Renter Reviews I Made");
-		System.out.println("4. View all the Reviews Renters Made about me");
+		System.out.println("3. View all the Reviews I Made About Renters");
+		System.out.println("4. View all the Reviews about Me and my Listings");
 		System.out.println("5. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
 		String option = keyboard.nextLine();
@@ -54,15 +57,28 @@ public class HostPage extends UserPage{
 				super.deleteAccount(c,user);
 				break;
 			case 3:
-				//super.deleteAccount(c,user);
+				ArrayList<RenterReview> reviewlist = ReviewPageQueries.getReviewsAboutRentersMadeByAHost(c, u.id);
+				if (reviewlist.isEmpty()){
+					System.out.println("There are no reviews about you yet!");
+				} else {
+					ReviewPageQueries.printRenterReviews(reviewlist);
+				}
+				hostPageMenu(c,u);
 				break;
 			case 4:
-				//super.deleteAccount(c,user);
+				ArrayList<ListingReview> reviewhostlist = ReviewPageQueries.getReviewsAboutHosts(c, u.id);
+				if (reviewhostlist.isEmpty()){
+					System.out.println("There are no reviews about you/your listings yet!");
+				} else {
+					ReviewPageQueries.printListingReviews(reviewhostlist);
+				}
+				hostPageMenu(c,u);
 				break;
 			case 5:
 				super.logout();
 				break;
 			default:
+				super.logout();
 				break;
 			}
 		} catch (NumberFormatException e) {
@@ -338,7 +354,8 @@ public class HostPage extends UserPage{
 		System.out.println("0. View Rental History Bookings");
 		System.out.println("1. Change the availible days");
 		System.out.println("2. Delete this listing");
-		System.out.println("3. Go Back to the Main Listing Page");
+		System.out.println("3. View the reviews for this listing");
+		System.out.println("4. Go Back to the Main Listing Page");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -355,7 +372,22 @@ public class HostPage extends UserPage{
 				hostlisting(c,u);
 				break;
 			case 3:
+				
+				
+				ArrayList<ListingReview> review = ReviewPageQueries.getforListings(c, l.id);
+				if (review.isEmpty()){
+					System.out.println("There are no reviews about this listing yet!");
+				} else {
+					ReviewPageQueries.printListingReviews(review);
+				}
+				
+				
+				
+				viewlisting(c,u,l);
+				break;
+			case 4:
 				hostlisting(c,u);
+				break;
 			default:
 				break;
 			}
