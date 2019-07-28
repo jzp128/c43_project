@@ -35,7 +35,9 @@ public class HostPage extends UserPage{
 		System.out.println("0. Make a Listing.");
 		System.out.println("1. View my Listings.");
 		System.out.println("2. Delete My Account.");
-		System.out.println("3. Log Out");
+		System.out.println("3. View all the Renter Reviews I Made");
+		System.out.println("4. View all the Reviews Renters Made about me");
+		System.out.println("5. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
 		String option = keyboard.nextLine();
 		
@@ -52,6 +54,12 @@ public class HostPage extends UserPage{
 				super.deleteAccount(c,user);
 				break;
 			case 3:
+				//super.deleteAccount(c,user);
+				break;
+			case 4:
+				//super.deleteAccount(c,user);
+				break;
+			case 5:
 				super.logout();
 				break;
 			default:
