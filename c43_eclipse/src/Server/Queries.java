@@ -95,6 +95,23 @@ public class Queries {
         }
         return contains;
     }
+    public static boolean checkSINTaken(Connection c, String sin) {
+    	boolean contains = false;
+    	String q = "SELECT EXISTS(SELECT * FROM users WHERE sin = '" + sin +"')";
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ResultSet rs = ps.executeQuery();
+    		while (rs.next()) {
+    			contains = rs.getBoolean(1);
+    		}
+    		rs.close();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return contains;
+    }
 
     public static int checkAddress(Connection c, String city, String postal_code, String country, String street_name, String building_number, String unit_number) {
         int id = -1;
@@ -1062,7 +1079,7 @@ public class Queries {
         System.out.println(AvailAment(application.getconn()));
         
         
-        updateHistoryBookingsforRenter(application.getconn(),1);
+       // updateHistoryBookingsforRenter(application.getconn(),1);
         
         //System.out.println(checkReviewsExistForHost(application.getconn(),1));
         //System.out.println(checkReviewsExistForHost(application.getconn(),1));
@@ -1091,22 +1108,22 @@ public class Queries {
 //	        e.printStackTrace();
 //	    }
       
-	      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
-	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
-	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
-	      
-	      java.sql.Date date444 = new java.sql.Date(df.parse("2010-12-06").getTime());
-	      java.sql.Date date555 = new java.sql.Date(df.parse("2010-12-09").getTime());
-	      
-	      
-	      
-	      //System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
-	      System.out.println("=================");
-
-	      System.out.println(date555.toString());
-
-	      System.out.println("=================");
+//	      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//	      java.sql.Date date111 = new java.sql.Date(df.parse("2010-12-01").getTime());
+//	      java.sql.Date date222 = new java.sql.Date(df.parse("2010-12-09").getTime());
+//	      java.sql.Date date333 = new java.sql.Date(df.parse("2011-12-09").getTime());
+//	      
+//	      java.sql.Date date444 = new java.sql.Date(df.parse("2010-12-06").getTime());
+//	      java.sql.Date date555 = new java.sql.Date(df.parse("2010-12-09").getTime());
+//	      
+//	      
+//	      
+//	      //System.out.println(checkListingAvailibility(application.getconn(),3,date444,date555));
+//	      System.out.println("=================");
+//
+//	      System.out.println(date555.toString());
+//
+//	      System.out.println("=================");
 
 	      //insertSingleAvailability(application.getconn(),"2012-12-09",14.00,1,0);
         
@@ -1127,24 +1144,31 @@ public class Queries {
         //create_listing(application.getconn(),"jacqueline", 123, 123);
         //add_address(application.getconn(), "tdot", "l1c7y4", "canada", "mum","1", "12");
         //linkAddressListing(application.getconn(),1,123);
-        application.disconnect();
-        
-        CheckersGeneric.currentDate();
-        
-      SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-      String inputString1 = "1997-01-23";
-      String inputString2 = "1997-04-27";
-      
+	      
+	      
+	      
+	      System.out.println(checkSINTaken(application.getconn(),"0"));
 
-    try {
-  	java.util.Date date1 = myFormat.parse(inputString1);
-  	java.util.Date date2 = myFormat.parse(inputString2);
-  	System.out.println(CheckersGeneric.betweenDays(date1,date2));
-  	
-  	
-  } catch (ParseException e) {
-      e.printStackTrace();
-  }
+	      
+	      
+        application.disconnect();
+//        
+//        CheckersGeneric.currentDate();
+//        
+//      SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+//      String inputString1 = "1997-01-23";
+//      String inputString2 = "1997-04-27";
+//      
+//
+//    try {
+//  	java.util.Date date1 = myFormat.parse(inputString1);
+//  	java.util.Date date2 = myFormat.parse(inputString2);
+//  	System.out.println(CheckersGeneric.betweenDays(date1,date2));
+//  	
+//  	
+//  } catch (ParseException e) {
+//      e.printStackTrace();
+//  }
         
        
         
@@ -1206,7 +1230,7 @@ public class Queries {
 //		}
         
 
-
+ 
         
 
 

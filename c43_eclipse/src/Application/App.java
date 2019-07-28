@@ -1,7 +1,7 @@
 package Application;
 
 import Server.Helpers;
-
+import Server.Queries;
 
 import java.util.Scanner;
 
@@ -217,9 +217,20 @@ public class App {
 		String job = keyboard.nextLine();
 		user.job = job;
 		
-		System.out.print("SIN number:");
-		String sin = keyboard.nextLine();
-		user.sin = sin;
+
+		
+		boolean inccorectsin = true;
+		while (inccorectsin) {
+			System.out.print("SIN number (9 digits):");
+			String sin = keyboard.nextLine();
+			user.sin = sin;
+			if (!Queries.checkSINTaken(conn, sin)){
+				inccorectsin= false;
+			} else {
+				System.out.println("Please enter a different sin!");
+				inccorectsin = true;
+			}
+		}
 		
 		System.out.print("Address:");
 		user.address = keyboard.nextLine();
