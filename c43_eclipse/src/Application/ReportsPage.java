@@ -1,7 +1,6 @@
 package Application;
 
 import Server.Helpers;
-import Server.Queries;
 import Server.ReportQueries;
 import TableGen.CommandLineTable;
 
@@ -119,6 +118,8 @@ public class ReportsPage {
         CommandLineTable t = ReportQueries.rankRentersCity(c, dto, dfrom);
         t.print();
     }
+
+
 
 
 }
