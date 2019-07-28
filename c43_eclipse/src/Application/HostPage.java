@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
+import HostToolkit.HoolToolKitPage;
 import Listings.Amenity;
 import Listings.Available;
 import Listings.Booking;
@@ -416,6 +417,13 @@ public class HostPage extends UserPage{
 			switch (choice) { //Activate the desired functionality
 			case 0:			
 				
+				System.out.println("We can provide suggestions for the new price! Type YES for suggestions by our HostToolKit!");
+				System.out.println("Press anyother key to continue!");
+				String tooloption = keyboard.nextLine();
+				if (tooloption.equalsIgnoreCase("yes")){
+					HoolToolKitPage host = new HoolToolKitPage(c,chosenavail.availDate.toString(), chosenavail.availDate.toString(),l.city,l.country,l.type);
+				}
+				
 				System.out.println("Enter the new price you want it to be.");
 				String pricestring = keyboard.nextLine();
 				double price;
@@ -709,7 +717,7 @@ public class HostPage extends UserPage{
 		double price = 0;
 		
 		String optionstart = "";
-		String optionend; 
+		String optionend = ""; 
 		
 					
 			boolean dateCheckfalse = true;
@@ -740,6 +748,14 @@ public class HostPage extends UserPage{
 					
 //					java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());  
 //					java.sql.Date sqlendDate = new java.sql.Date(enddate.getTime());  
+						
+						
+						System.out.println("We can provide suggestions for the price! Type YES for suggestions by our HostToolKit!");
+						System.out.println("Press anyother key to continue!");
+						String tooloption = keyboard.nextLine();
+						if (tooloption.equalsIgnoreCase("yes")){
+							HoolToolKitPage host = new HoolToolKitPage(c,optionstart, optionend,l.city,l.country,l.type);
+						}
 						
 						
 						boolean priceFalse = true;
