@@ -271,6 +271,7 @@ public class App {
 					
 					break;
 				case 1:
+					invalidCreditInfo = false;
 					break;
 				default:
 					break;
