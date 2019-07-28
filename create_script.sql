@@ -100,23 +100,25 @@ CREATE TABLE IF NOT EXISTS reviews(
 );
 
 CREATE TABLE IF NOT EXISTS listingReviews(
-	reviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	listingReviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	renterID INT UNSIGNED,
     bookingID INT UNSIGNED,
     listingID INT UNSIGNED,
+    hosterID INT UNSIGNED,
     listingComment longtext,
-    listingRating decimal(2,1),
-    hostRating decimal(2,1),
+    listingRating INT UNSIGNED,
+    hostRating INT UNSIGNED,
     hosterComment longtext
 );
 
 CREATE TABLE IF NOT EXISTS renterReviews(
-	reviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	renterReviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	renterID INT UNSIGNED,
+    hosterID INT UNSIGNED,
     bookingID INT UNSIGNED,
     listingID INT UNSIGNED,
     renterComment longtext,
-    renterRating decimal(2,1)
+    renterRating INT UNSIGNED
 );
 
 -- set up the amenities table
