@@ -6,15 +6,14 @@ import Server.Queries;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
-import Users.Renter;
 import Users.User;
 
-import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+
 
 
 public class App {
@@ -23,19 +22,19 @@ public class App {
      *
      * @param args an array of String arguments to be parsed
      */
-	
+
 	//Applciation Instance
 	public static App application;
-	
+
 	//Checker Instance
 	CheckersGeneric checker = new CheckersGeneric();
-	
+
 	//queries
 	Server.Queries queries = new Server.Queries();
-	
+
 	//Database credentials
 	final String USER = "root";
-	final String PASS = "chanja51";
+	final String PASS = "root";
 	private static final String dbClassName = "com.mysql.cj.jdbc.Driver";
 	//private static final String CONNECTION = "jdbc:mysql://localhost:3306/airbnb";
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/airbnb?serverTimezone=America/New_York";
@@ -43,19 +42,19 @@ public class App {
 	private Statement st = null;
 
 	private Scanner sc = null;
-	
+
 	User user = new User();
-	
-	
+
+
 	public static App createAppInstance(){
 		application = new App();
 		return application;
 	};
-	
+
 	public static App getAppInstance(){
 		return application;
 	};
-    
+
 	public void welcome(){
 		user.setName(null);
 		System.out.println("");
@@ -105,7 +104,7 @@ public class App {
 			option = "-1";
 		}
 	}
-	
+
 	public void login(Connection c){
 
 	    Scanner keyboard = new Scanner (System.in);
@@ -129,7 +128,7 @@ public class App {
 			switch (choice) { //Activate the desired functionality
 			case 0:
 				//this.welcome(); //TODO:
-				
+
 				if (Server.Helpers.login(conn,inpUser,inpPass)){
 					// set up user variable
 					// check to see whether renter or not
@@ -169,7 +168,7 @@ public class App {
 		System.out.println("");
 		System.out.println("=========MENU=========");
 		System.out.println("Enter a username and a password:");
-		
+
 		boolean incorrectuser = true;
 		while (incorrectuser) {
 			System.out.print("Username (20 chars max!):");
@@ -205,7 +204,7 @@ public class App {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 				java.util.Date date;
 				date = sdf1.parse(dob);
-				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());  
+				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 				user.dob = sqlStartDate;
 				dateCheckfalse = false;
 			} catch (ParseException e1) {
@@ -221,7 +220,7 @@ public class App {
 
 			
 		}
-		
+
 		System.out.print("Occupation:");
 		String job = keyboard.nextLine();
 		user.job = job;
@@ -243,27 +242,27 @@ public class App {
 		
 		System.out.print("Address:");
 		user.address = keyboard.nextLine();
-		
+
 		System.out.print("Postal Code:");
 		String postalcode = keyboard.nextLine();
 		user.postalcode = postalcode;
-		
+
 		System.out.print("City:");
 		String city = keyboard.nextLine();
 		user.city = city;
-		
+
 		System.out.print("Country:");
 		String country = keyboard.nextLine();
 		user.country = country;
-		
+
 		System.out.println("Indicate if you want to be a [0] renter or [1] host.");
 		String usertype = keyboard.nextLine();
-		
+
 		String cc = "";
 		String ccname = "";
 		String ccsecuritr = "";
-		
-		
+
+
 		/*----------------renters payment---------------------*/
 		boolean invalidCreditInfo = true;
 		while (invalidCreditInfo) {
@@ -283,7 +282,7 @@ public class App {
 					System.out.print("Card Security Code (3 digits)");
 					ccsecuritr = keyboard.nextLine();
 					user.ccsec = ccsecuritr;
-					
+
 					if (CheckersGeneric.isNumeric(ccsecuritr) && CheckersGeneric.length(ccsecuritr)==3){
 						if (CheckersGeneric.isNumeric(cc) && CheckersGeneric.length(cc)==16){
 							invalidCreditInfo = false;
@@ -292,7 +291,7 @@ public class App {
 						invalidCreditInfo = true;
 						System.out.println("Please try again~");
 					}
-					
+
 					break;
 				case 1:
 					invalidCreditInfo = false;
@@ -301,7 +300,7 @@ public class App {
 					break;
 				}
 			} catch (Exception e) {
-				invalidCreditInfo = true; 
+				invalidCreditInfo = true;
 				System.out.println("Please try again~");
 				choice = -1;
 			}
@@ -348,16 +347,16 @@ public class App {
 			option = "-1";
 		}
 	}
-	
-	
+
+
 	public void run() {
     	sc = new Scanner(System.in);
     	String input = "";
     	input = sc.nextLine();
     	System.out.println(input);
     }
-    
-	
+
+
     public Connection connect() {
         try {
             conn = DriverManager.getConnection(CONNECTION,USER,PASS);
@@ -391,6 +390,6 @@ public class App {
 			conn = null;
 		}
 	}
-    
-    
+
+
 }

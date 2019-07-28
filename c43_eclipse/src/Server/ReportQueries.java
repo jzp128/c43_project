@@ -114,7 +114,7 @@ public class ReportQueries {
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("Country", "City", "Postal Code", "# of Listings");
         info.setShowVerticalLines(true);
-        String q = "SELECT country, city,postal_code, COUNT(listingID) FROM listing GROUP BY country, city, postal_code";
+        String q = "SELECT country, city, postal_code, COUNT(listingID) FROM listing GROUP BY country, city, postal_code";
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
@@ -123,13 +123,13 @@ public class ReportQueries {
                 String country = rs.getString("country");
                 String city = rs.getString("city");
                 String pCode = rs.getString("postal_code");
-                int count = rs.getInt(3);
+                int count = rs.getInt(4);
                 info.addRow(country, city, pCode, Integer.toString(count));
             }
             rs.close();
             ps.close();
         } catch (SQLException e) {
-
+            System.out.println("Something wrong with query!");
         }
         return info;
     }

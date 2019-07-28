@@ -13,7 +13,7 @@ public class ReportsPage {
     Scanner keyboard = new Scanner (System.in);
     // TODO IDK IF THIS IS NEEDED
     public void logout(){
-        System.out.println("LOGOUT SUCCESSFUL");
+        System.out.println("EXITING");
         App.application.welcome();
     }
 
@@ -82,10 +82,13 @@ public class ReportsPage {
                     ReportQueries.reviewKeyword(c).print();
                 case -1:
                     stop = true;
+                    this.logout();
                     break;
                 default:
                     System.out.println("wrong input!");
             }
+            System.out.print("Enter Anything to continue");
+            keyboard.nextLine();
         }
     }
 
