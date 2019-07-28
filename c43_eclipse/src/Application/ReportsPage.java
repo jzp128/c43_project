@@ -87,6 +87,8 @@ public class ReportsPage {
                 default:
                     System.out.println("wrong input!");
             }
+            System.out.print("Enter Anything to continue");
+            keyboard.nextLine();
         }
     }
 
