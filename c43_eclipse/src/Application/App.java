@@ -11,6 +11,8 @@ import Users.User;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 
 
 
@@ -195,9 +197,10 @@ public class App {
 		boolean dateCheckfalse = true;
 		
 		while (dateCheckfalse){
+			String dob = "";
 			try {
 				System.out.print("Date of Birth Format (yyyy-MM-dd):");
-				String dob = keyboard.nextLine();
+				dob = keyboard.nextLine();
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 				java.util.Date date;
 				date = sdf1.parse(dob);
@@ -209,6 +212,13 @@ public class App {
 				dateCheckfalse = true;
 				//e1.printStackTrace();
 			}
+			
+			if (dateCheckfalse== false && dob.length()!=10){
+				System.out.println("Incorrect birth day format. Please try again!");
+				dateCheckfalse = true;
+			}
+
+			
 		}
 
 		System.out.print("Occupation:");
@@ -222,7 +232,7 @@ public class App {
 			System.out.print("SIN number (9 digits):");
 			String sin = keyboard.nextLine();
 			user.sin = sin;
-			if (!Queries.checkSINTaken(conn, sin)){
+			if (sin.length()==9 && CheckersGeneric.isNumeric(sin)){
 				inccorectsin= false;
 			} else {
 				System.out.println("Please enter a different sin!");
