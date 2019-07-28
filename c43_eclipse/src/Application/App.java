@@ -34,7 +34,7 @@ public class App {
 
 	//Database credentials
 	final String USER = "root";
-	final String PASS = "root";
+	final String PASS = "chanja51";
 	private static final String dbClassName = "com.mysql.cj.jdbc.Driver";
 	//private static final String CONNECTION = "jdbc:mysql://localhost:3306/airbnb";
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/airbnb?serverTimezone=America/New_York";

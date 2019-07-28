@@ -118,14 +118,37 @@ public class HostPage extends UserPage{
 			listingtype = "Room";
 		}
 		
-		System.out.println("ENTER the longitude of the location:");
-		String longitudestring = keyboard.nextLine();
-		Double longitude = Double.parseDouble(longitudestring);
+		Double longitude = 0.00;
+		Double latitude = 0.00;
 		
-		System.out.println("ENTER the latitude of the location:");
-		String latitudestring = keyboard.nextLine();
-		Double latitude = Double.parseDouble(latitudestring);
+		boolean locationdoubleFalse = true;
+		while (locationdoubleFalse) {
+			
+			System.out.println("ENTER the longitude of the location:");
+			String longitudestring = keyboard.nextLine();
+			System.out.println("ENTER the latitude of the location:");
+			String latitudestring = keyboard.nextLine();
+			
+			if(!CheckersGeneric.isNumeric(longitudestring)){
+				System.out.println("Please enter a different longitude!");
+				locationdoubleFalse = true;
+			} else if (!CheckersGeneric.isNumeric(latitudestring)){
+				System.out.println("Please enter a different latitude!");
+				locationdoubleFalse = true;
+			} else {
+				longitude = Double.parseDouble(longitudestring);
+				latitude = Double.parseDouble(latitudestring);
+				locationdoubleFalse = false;
+			}
 
+		} 
+		
+		
+		
+		
+		
+		
+		
 		
 		System.out.print("Address:");
 		String address = keyboard.nextLine();
