@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import java.util.*;
 import java.text.*;
+import static java.util.Calendar.*;
+
 
 public class CheckersGeneric {
 	
@@ -53,5 +55,24 @@ public class CheckersGeneric {
 			return date;
 	}
 	
+	//source
+	//https://stackoverflow.com/questions/7906301/how-can-i-find-the-number-of-years-between-two-dates
+
+	public static int getDiffYears(Date first, Date last) {
+	    Calendar a = getCalendar(first);
+	    Calendar b = getCalendar(last);
+	    int diff = b.get(YEAR) - a.get(YEAR);
+	    if (a.get(MONTH) > b.get(MONTH) || 
+	        (a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
+	        diff--;
+	    }
+	    return diff;
+	}
+
+	public static Calendar getCalendar(Date date) {
+	    Calendar cal = Calendar.getInstance(Locale.US);
+	    cal.setTime(date);
+	    return cal;
+	}
 	
 }

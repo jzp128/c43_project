@@ -42,6 +42,7 @@ public class HostPage extends UserPage{
 		System.out.println("4. View all the Reviews about Me and my Listings");
 		System.out.println("5. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
+		System.out.print("Another option will exit the app:");
 		String option = keyboard.nextLine();
 		
 		try {
