@@ -290,7 +290,7 @@ public class UserPage {
 		if (choice.toLowerCase().equals("y")) {
 			ListingQueries.getAllAments(c).print();
 			System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
-			
+
 			int input = 0;
 			ArrayList<Integer> ids = new ArrayList<>();
 			while(true){
@@ -302,6 +302,8 @@ public class UserPage {
 					}else{
 						ids.add(input);
 					}
+				}else{
+					System.out.println("Not in range! Try again.");
 				}
 				if (input == -1){
 					break;
@@ -333,12 +335,6 @@ public class UserPage {
 			result = ListingQueries.searchByLocation(result, latitude, longitude, range, priceSort);
 		}
 		listAvaillistings(c,u,result);
-		//TODO HOW DO I PRINT THIS??
-		
-		
-		
-
-
     }
 
 	
