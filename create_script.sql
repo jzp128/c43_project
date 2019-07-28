@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
 	userID		INT UNSIGNED auto_increment primary key,
 	sin			CHAR(9)			NOT NULL,
     userName 	VARCHAR(100) 	NOT NULL DEFAULT '',
-    dob 		DATETIME 		NOT NULL,
+    dob 		DATE 		NOT NULL,
     occupation 	VARCHAR(100) 	NOT NULL DEFAULT 'NONE',
     loginName	VARCHAR(20) UNIQUE NOT NULL DEFAULT '',
     loginPW		VARCHAR(20) NOT NULL DEFAULT '',
