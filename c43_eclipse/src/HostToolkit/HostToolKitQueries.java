@@ -193,4 +193,77 @@ public class HostToolKitQueries {
     	}
     	return recom;
     }
+    /*
+     * the denominator for calculating how many bookings that aren't canceled currently
+     * 
+     */
+    public static int countBookingsNotCanceled(Connection c){
+    	String q = "select count(*) from bookings where isCanceled = 0";
+    	int denominator = 0;
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.execute();
+    		ResultSet rs = ps.getResultSet();
+    		while (rs.next()) {
+    			denominator = rs.getInt(1);
+    		}
+    		rs.close();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return denominator;
+    }
+    /*
+     * the query to get the number of uncanceled bookings have each amenity
+     * 
+     */
+    public static ArrayList<AmenityToolKit> groupAmenityBookingsNotCanceled(Connection c){
+    	String q = "select * from amenities c inner join (select count(*),amentID from amenitiesList a inner join (select DISTINCT listingID from bookings where isCanceled = 0) as b on  a.listingID = b.listingID  group by amentID order by amentID ) as d where c.amentID = d.amentID";
+    	ArrayList<AmenityToolKit> list = new ArrayList<AmenityToolKit>();
+    	
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.execute();
+    		ResultSet rs = ps.getResultSet();
+    		while (rs.next()) {
+    			AmenityToolKit amen = new AmenityToolKit();
+    			amen.id = rs.getInt(1);
+    			amen.item = rs.getString(2);
+    			amen.desc = rs.getString(3);
+    			amen.count = rs.getInt(4);
+    			list.add(amen);
+    		}
+    		rs.close();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return list;
+    }
+
+
+	public static void main(String[] args) {
+		App application = App.createAppInstance();
+	
+	    application.connect();
+	    
+	    ArrayList<AmenityToolKit> list = groupAmenityBookingsNotCanceled(application.getconn());
+	    
+	    
+	    for (AmenityToolKit x: list ){
+	    	System.out.println(x.id);
+	    	System.out.println(x.item);
+	    	System.out.println(x.desc);
+	    	System.out.println(x.count);
+	    }
+		
+		System.out.println(countBookingsNotCanceled(application.getconn()));
+		
+				
+		application.disconnect();
+	}
 }
+

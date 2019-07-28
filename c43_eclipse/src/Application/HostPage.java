@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
+import HostToolkit.AmenityToolKit;
+import HostToolkit.HostToolKitAmenitiesPage;
 import HostToolkit.HostToolKitPage;
 import Listings.Amenity;
 import Listings.Available;
@@ -128,7 +130,7 @@ public class HostPage extends UserPage{
 				App app = App.getAppInstance();
 				Listing list = new Listing(city, postalcode, country, address,latitude, longitude, user.id, listingtype);
 				int id = list.makelisting(app.getconn());
-				amenitiesPage(id);
+				amenitiesPage(c, id);
 				
 				availibilityAndPrice(c, list);
 
@@ -148,10 +150,10 @@ public class HostPage extends UserPage{
 		
 	}
 	
-	public void amenitiesPage(int listingid){
+	public List<Amenity> amenitiesPage(Connection c, int listingid){
 		App app = App.getAppInstance();
-		System.out.println("Amenities!" + app.getconn());
-		System.out.println(app.getconn());
+		System.out.println("Amenities!");
+		//System.out.println(app.getconn());
 		List<Amenity> amen = Queries.AvailAment(app.getconn());
 		for (int i = 0; i < amen.size(); i++) {
 			System.out.print(amen.get(i).amenid + ". ");
@@ -170,6 +172,7 @@ public class HostPage extends UserPage{
 					amen.get(i).amenBool = false;
 					break;
 				default:
+					amen.get(i).amenBool = false;
 					break;
 				}
 			} catch (NumberFormatException e) {
@@ -177,11 +180,19 @@ public class HostPage extends UserPage{
 			}
 		}
 		
-		confirmamenitiesPage(listingid, amen, app.getconn());
+		System.out.println("We can provide suggestions for additional amenities to add! Type [YES] for suggestions by our HostToolKit!");
+		System.out.println("Press anyother key to continue!");
+		String tooloption = keyboard.nextLine();
+		if (tooloption.equalsIgnoreCase("yes")){
+			HostToolKitAmenitiesPage temphostpage = new HostToolKitAmenitiesPage(c,amen);
+		}
+		
+		confirmamenitiesPage(c, listingid, amen, app.getconn());
+		return amen;
 	}
 	
 	
-	public void confirmamenitiesPage(int listingid, List<Amenity> amen, Connection conn){
+	public void confirmamenitiesPage(Connection c, int listingid, List<Amenity> amen, Connection conn){
 		System.out.println("0.Confirm amenities");
 		System.out.println("1.Restart");
 		String option = keyboard.nextLine();
@@ -196,7 +207,7 @@ public class HostPage extends UserPage{
 				}
 				break;
 			case 1:
-				amenitiesPage (listingid);
+				amenitiesPage (c,listingid);
 				break;
 			default:
 				break;
