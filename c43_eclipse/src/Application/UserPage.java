@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import Checkers.CheckersGeneric;
+import HostToolkit.HostToolKitPage;
 import Listings.Listing;
+import Reviews.ListingReview;
+import Reviews.ReviewPageQueries;
 import Listings.Available;
 import Listings.Booking;
 import Server.ListingQueries;
@@ -107,6 +110,27 @@ public class UserPage {
 		try {
 			chosenListing = list.get(choice - 1);
 			int choiceindex = chosenListing.id;
+			
+			
+			System.out.println("Type YES for reviews about this listing!");
+			System.out.println("Press anyother key to continue!");
+			String tooloption = keyboard.nextLine();
+			if (tooloption.equalsIgnoreCase("yes")){
+				ArrayList<ListingReview> review = ReviewPageQueries.getforListings(c, chosenListing.id);
+				if (review.isEmpty()){
+					System.out.println("There are no reviews about this listing yet!");
+				} else {
+					ReviewPageQueries.printListingReviews(review);
+				}
+			}
+			
+			System.out.println("Type NO to cancel or any other key to continue!");
+			String tooloption2 = keyboard.nextLine();
+			if (tooloption.equalsIgnoreCase("no")){
+				return false;
+			}
+
+			
 			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,choiceindex);
 			//System.out.println(availlist.toString());
 			int availistingno = 1;

@@ -7,6 +7,9 @@ import java.util.Scanner;
 import Checkers.CheckersGeneric;
 import Listings.Booking;
 import Listings.Listing;
+import Reviews.ListingReview;
+import Reviews.RenterReview;
+import Reviews.ReviewPageQueries;
 import Server.Queries;
 import Users.User;
 
@@ -27,7 +30,9 @@ public class RenterPage extends UserPage {
         System.out.println("1. Search for a Listing.");
         System.out.println("2. Look at Availible Listings.");
         System.out.println("3. Delete My Account.");
-        System.out.println("4. Log Out");
+        System.out.println("4. View all the Reviews I Made About Hosts & Listings.");
+        System.out.println("5. View all the Reviews about Me");
+        System.out.println("6. Log Out");
         System.out.println("Choose one of the previous options [0 - 2]: ");
         String option = keyboard.nextLine();
 
@@ -50,6 +55,24 @@ public class RenterPage extends UserPage {
                     super.deleteAccount(c, u);
                     break;
                 case 4:
+    				ArrayList<ListingReview> reviewlist = ReviewPageQueries.getReviewsAboutHostsMadeByARenter(c, u.id);
+    				if (reviewlist.isEmpty()){
+    					System.out.println("There are no reviews about you yet!");
+    				} else {
+    					ReviewPageQueries.printListingReviews(reviewlist);
+    				}
+    				renterPageMenu(c,u);
+                	break;
+                case 5:
+    				ArrayList<RenterReview> review = ReviewPageQueries.getReviewsAboutRenters(c, u.id);
+    				if (review.isEmpty()){
+    					System.out.println("There are no reviews about you yet!");
+    				} else {
+    					ReviewPageQueries.printRenterReviews(review);
+    				}
+    				renterPageMenu(c,u);
+    				break;
+                case 6:
                     super.logout();
                     break;
                 default:
