@@ -288,28 +288,24 @@ public class UserPage {
         //TODO FIX THIS
 		choice = keyboard.nextLine();
 		if (choice.toLowerCase().equals("y")) {
-			System.out.print("Enter Minimum price:");
-			in = keyboard.nextLine();
-			Double low = Double.parseDouble(in);
-			System.out.print("Enter Maximum price:");
-			in = keyboard.nextLine();
-			Double high = Double.parseDouble(in);
 
-			filters.add(ListingQueries.filterBypriceRange(low, high));
+			System.out.print("Enter Minimum price:");
+			int[] a = {};
+			filters.add(ListingQueries.filterByAmendities(a));
 		}
+
 		int priceSort = 0;
 		System.out.print("Would you like to sort by average price? (Y/N):");
-		//TODO FIX THIS
 		choice = keyboard.nextLine();
 		if (choice.toLowerCase().equals("y")) {
 			System.out.print("Enter 0 for DESCENDING, 1 for ASCENDING:");
 			in = keyboard.nextLine();
-			Double low = Double.parseDouble(in);
-			System.out.print("Enter Maximum price:");
-			in = keyboard.nextLine();
-			Double high = Double.parseDouble(in);
-
-			filters.add(ListingQueries.filterBypriceRange(low, high));
+			int parseStr = Integer.parseInt(in);
+			if(parseStr == 1){
+				priceSort = 1;
+			}else if(parseStr == 0){
+				priceSort = -1;
+			}
 		}
 
 		String finalQ = ListingQueries.finalListingQuery(filters, priceSort);

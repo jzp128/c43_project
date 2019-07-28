@@ -31,7 +31,8 @@ public class ReportsPage {
         System.out.println("10. rank renters by number of bookings per city");
         System.out.println("11. find the renter with the maximum amount of cancels this year");
         System.out.println("12. find the host with the maximum amount of cancels this year");
-        System.out.println("Choose your option [0-12]:");
+        System.out.println("13. get Report for the top 5 used words in each listing review");
+        System.out.println("Choose your option [0-13]:");
         String choice = keyboard.nextLine();
         switch (Integer.parseInt(choice)){
             case 1:
@@ -70,6 +71,8 @@ public class ReportsPage {
             case 12:
                 ReportQueries.reportMaxCancelRenter(c).print();
                 break;
+            case 13:
+                ReportQueries.reviewKeyword(c).print();
             default:
                 System.out.println("wrong input!");
         }

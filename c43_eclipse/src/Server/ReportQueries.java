@@ -303,6 +303,7 @@ public class ReportQueries {
     public static CommandLineTable reviewKeyword(Connection c){
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("listingID", "Most used words");
+        info.setShowVerticalLines(true);
         // GET ALL THE LISTINGSIDS THAT HAVE REVIEWS
         String q = "SELECT DISTINCT listingID FROM listingReviews";
         ArrayList<Integer> listingIDs = new ArrayList<>();

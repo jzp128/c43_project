@@ -862,17 +862,19 @@ public class Queries {
 		}
 	}
 	
-    public static int writeHostReview(Connection c, User u, Booking b,String review, int rating, String type){
+    public static int writeListingReview(Connection c, User u, Booking b, String listingreview, int listingrating, String hostreview, int hostrating){
         int r = -1;
-        String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+        String q = "INSERT INTO listingreviews(renterID,bookingID, listingID, hosterID,listingComment,listingRating,hostRating,hosterComment) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ps.setInt(1, u.id);
-            ps.setInt(2, b.hostID);
+            ps.setInt(2, b.bookingID);
             ps.setInt(3, b.listingID);
-            ps.setString(4, review);
-            ps.setInt(5, rating);
-            ps.setString(6, type);
+            ps.setInt(4, b.hostID);
+            ps.setString(5, listingreview);
+            ps.setInt(6, listingrating);
+            ps.setString(7, hostreview);
+            ps.setInt(8, hostrating);
             r = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             rs.close();
@@ -882,9 +884,9 @@ public class Queries {
         }
         return r;
     }
-    public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating, String type){
+    public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating){
     	int r = -1;
-    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
+    	String q = "INSERT INTO renterReviews (hosterID, renterID, listingID, listingComment ,listingRating, bookingID) values(?,?,?,?,?,?)";
     	try {
     		PreparedStatement ps = c.prepareStatement(q);
     		ps.setInt(1, u.id);
@@ -892,7 +894,7 @@ public class Queries {
     		ps.setInt(3, b.listingID);
     		ps.setString(4, review);
     		ps.setInt(5, rating);
-    		ps.setString(6, type);
+            ps.setInt(6, b.bookingID);
     		r = ps.executeUpdate();
     		ResultSet rs = ps.getGeneratedKeys();
     		rs.close();
@@ -902,29 +904,7 @@ public class Queries {
     	}
     	return r;
     }
-    
-    public static int writeListingReview(Connection c, User u, Booking b,String review, int rating, String type){
-    	int r = -1;
-    	String q = "INSERT INTO reviews (creatorID,receiverID,listingID,content,rating,reviewType) values(?,?,?,?,?,?)";
-    	try {
-    		PreparedStatement ps = c.prepareStatement(q);
-    		ps.setInt(1, u.id);
-    		ps.setInt(2, b.hostID);
-    		ps.setInt(3, b.listingID);
-    		ps.setString(4, review);
-    		ps.setInt(5, rating);
-    		ps.setString(6, type);
-    		r = ps.executeUpdate();
-    		ResultSet rs = ps.getGeneratedKeys();
-    		rs.close();
-    		ps.close();
-    	}catch (SQLException e){
-    		
-    	}
-    	return r;
-    }
-	
-    
+
 	public static void cancelBooking(Connection c, int b) {
 		String q = "UPDATE  bookings SET isCanceled = TRUE where bookingiD = ? AND isHistory = FALSE";
     	try {
