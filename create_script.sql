@@ -99,6 +99,26 @@ CREATE TABLE IF NOT EXISTS reviews(
     reviewType CHAR(1)
 );
 
+CREATE TABLE IF NOT EXISTS listingReviews(
+	reviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	renterID INT UNSIGNED,
+    bookingID INT UNSIGNED,
+    listingID INT UNSIGNED,
+    listingComment longtext,
+    listingRating decimal(2,1),
+    hostRating decimal(2,1),
+    hosterComment longtext
+);
+
+CREATE TABLE IF NOT EXISTS renterReviews(
+	reviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	renterID INT UNSIGNED,
+    bookingID INT UNSIGNED,
+    listingID INT UNSIGNED,
+    renterComment longtext,
+    renterRating decimal(2,1)
+);
+
 -- set up the amenities table
 INSERT INTO amenities (amentName, amentDescription)
 VALUES
