@@ -288,10 +288,27 @@ public class UserPage {
         //TODO FIX THIS
 		choice = keyboard.nextLine();
 		if (choice.toLowerCase().equals("y")) {
+			ListingQueries.getAllAments(c).print();
+			System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
+			
+			int input = 0;
+			ArrayList<Integer> ids = new ArrayList<>();
+			while(true){
+				String amentIdStr = keyboard.nextLine();
+				input = Integer.parseInt(amentIdStr);
+				if(input >= 1 && input <= 18){
+					if (ids.contains(input)){
+						System.out.println("Already chosen! Try again!");
+					}else{
+						ids.add(input);
+					}
+				}
+				if (input == -1){
+					break;
+				}
+			}
 
-			System.out.print("Enter Minimum price:");
-			int[] a = {};
-			filters.add(ListingQueries.filterByAmendities(a));
+			filters.add(ListingQueries.filterByAmendities(ids));
 		}
 
 		int priceSort = 0;

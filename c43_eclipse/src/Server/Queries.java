@@ -1135,7 +1135,7 @@ public class Queries {
       String inputString1 = "1997-01-23";
       String inputString2 = "1997-04-27";
       
-      
+
     try {
   	java.util.Date date1 = myFormat.parse(inputString1);
   	java.util.Date date2 = myFormat.parse(inputString2);
