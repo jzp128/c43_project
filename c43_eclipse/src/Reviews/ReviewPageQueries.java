@@ -13,9 +13,9 @@ public class ReviewPageQueries {
 	//============================FOR THE RENTERS PAGE============================
 	
 	//TODO must fix this later
-	public static ArrayList<Review> getReviewsAboutHostsMadeByARenter(Connection c, int renterID){
-		String q = "select * from reviews where creatorID = ? AND reviewType = 'h'";
-		    	ArrayList<Review> rev = new ArrayList<Review>();
+	public static ArrayList<ListingReview> getReviewsAboutHostsMadeByARenter(Connection c, int renterID){
+		String q = "select * from listingReviews where renterID = ? ";
+		    	ArrayList<ListingReview> rev = new ArrayList<ListingReview>();
 		    	try {
 		    		PreparedStatement ps = c.prepareStatement(q);
 		    		ps.setInt(1, renterID);
@@ -23,13 +23,18 @@ public class ReviewPageQueries {
 		    		ResultSet rs = ps.getResultSet();
 		    		while (rs.next()) {
 
-		    			Review revobj = new Review();
-		    			revobj.createrid = rs.getInt("creatorID");
-		    			revobj.receiverid = rs.getInt("receiverID");
+		    			ListingReview revobj = new ListingReview();
+		    			
+		    			revobj.ListingReviewid = rs.getInt("ListingReviewID");
+		    			revobj.renterid = rs.getInt("renterID");
+		    			revobj.bookingid = rs.getInt("bookingID");
 		    			revobj.listingid = rs.getInt("listingID");
-		    			revobj.content = rs.getString("content");
-		    			revobj.rating = rs.getInt("rating");
-		    			revobj.reviewType = rs.getString("reviewType");
+		    			revobj.hosterid = rs.getInt("hosterID");
+		    			revobj.listingcontent = rs.getString("listingComment");
+		    			revobj.listingrating = rs.getInt("listingRating");
+		    			revobj.hostrating =  rs.getInt("hostRating");
+		    			revobj.hostcomment = rs.getString("hosterComment");
+		    			
 		    			rev.add(revobj);
 		    		}
 		    		rs.close();
@@ -43,9 +48,9 @@ public class ReviewPageQueries {
 	
 	
 	//TODO must fix this later
-	public static ArrayList<Review> getReviewsAboutRenters(Connection c, int renterID){
-		String q = "select * from reviews where receiverID = ? AND reviewType = 'r'";
-		    	ArrayList<Review> rev = new ArrayList<Review>();
+	public static ArrayList<RenterReview> getReviewsAboutRenters(Connection c, int renterID){
+		String q = "select * from renterReviews where renterID = ? ";
+		    	ArrayList<RenterReview> rev = new ArrayList<RenterReview>();
 		    	try {
 		    		PreparedStatement ps = c.prepareStatement(q);
 		    		ps.setInt(1, renterID);
@@ -53,13 +58,15 @@ public class ReviewPageQueries {
 		    		ResultSet rs = ps.getResultSet();
 		    		while (rs.next()) {
 
-		    			Review revobj = new Review();
-		    			revobj.createrid = rs.getInt("creatorID");
-		    			revobj.receiverid = rs.getInt("receiverID");
+		    			RenterReview revobj = new RenterReview();
+		    			revobj.RenterReviewid = rs.getInt("renterReviewID");
+		    			revobj.bookingid = rs.getInt("renterID");
+		    			revobj.renterid = rs.getInt("hosterID");
+		    			revobj.hosterid = rs.getInt("bookingID");
 		    			revobj.listingid = rs.getInt("listingID");
-		    			revobj.content = rs.getString("content");
-		    			revobj.rating = rs.getInt("rating");
-		    			revobj.reviewType = rs.getString("reviewType");
+		    			revobj.rentercomment = rs.getString("renterComment");
+		    			revobj.renterrating = rs.getInt("renterRating");
+		    			
 		    			rev.add(revobj);
 		    		}
 		    		rs.close();
@@ -72,25 +79,27 @@ public class ReviewPageQueries {
 	}
 	
 	//============================FOR THE HOST PAGE============================
-
+	
 	//TODO must fix this later
-	public static ArrayList<Review> getReviewsAboutRentersMadeByAHost(Connection c, int renterID){
-		String q = "select * from reviews where creatorID = ? AND reviewType = 'r'";
-		    	ArrayList<Review> rev = new ArrayList<Review>();
+	public static ArrayList<RenterReview> getReviewsAboutRentersMadeByAHost(Connection c, int hostID){
+		String q = "select * from renterReviews where hosterID = ?";
+		    	ArrayList<RenterReview> rev = new ArrayList<RenterReview>();
 		    	try {
 		    		PreparedStatement ps = c.prepareStatement(q);
-		    		ps.setInt(1, renterID);
+		    		ps.setInt(1, hostID);
 		    		ps.execute();
 		    		ResultSet rs = ps.getResultSet();
 		    		while (rs.next()) {
 
-		    			Review revobj = new Review();
-		    			revobj.createrid = rs.getInt("creatorID");
-		    			revobj.receiverid = rs.getInt("receiverID");
+		    			RenterReview revobj = new RenterReview();
+		    			revobj.RenterReviewid = rs.getInt("renterReviewID");
+		    			revobj.bookingid = rs.getInt("renterID");
+		    			revobj.renterid = rs.getInt("hosterID");
+		    			revobj.hosterid = rs.getInt("bookingID");
 		    			revobj.listingid = rs.getInt("listingID");
-		    			revobj.content = rs.getString("content");
-		    			revobj.rating = rs.getInt("rating");
-		    			revobj.reviewType = rs.getString("reviewType");
+		    			revobj.rentercomment = rs.getString("renterComment");
+		    			revobj.renterrating = rs.getInt("renterRating");
+		    			
 		    			rev.add(revobj);
 		    		}
 		    		rs.close();
@@ -102,57 +111,70 @@ public class ReviewPageQueries {
 		    	return rev;
 	}
     
-    
-	//TODO must fix this later
-	public static ArrayList<Review> getReviewsAboutHosts(Connection c, int hostid){
-		String q = "select * from reviews where receiverID = ? and reviewType = 'h' ";
-    	ArrayList<Review> rev = new ArrayList<Review>();
-    	try {
-    		PreparedStatement ps = c.prepareStatement(q);
-    		ps.setInt(1, hostid);
-    		ps.execute();
-    		ResultSet rs = ps.getResultSet();
-    		while (rs.next()) {
+	
+	public static ArrayList<ListingReview> getReviewsAboutHosts(Connection c, int hostID){
+		String q = "select * from listingReviews where hosterID = ?";
+		    	ArrayList<ListingReview> rev = new ArrayList<ListingReview>();
+		    	try {
+		    		PreparedStatement ps = c.prepareStatement(q);
+		    		ps.setInt(1, hostID);
+		    		ps.execute();
+		    		ResultSet rs = ps.getResultSet();
+		    		while (rs.next()) {
 
-    			Review revobj = new Review();
-    			revobj.createrid = rs.getInt("creatorID");
-    			revobj.receiverid = rs.getInt("receiverID");
-    			revobj.listingid = rs.getInt("listingID");
-    			revobj.content = rs.getString("content");
-    			revobj.rating = rs.getInt("rating");
-    			revobj.reviewType = rs.getString("reviewType");
-    			rev.add(revobj);
-    		}
-    		rs.close();
-    		ps.close();
-    	} catch (SQLException e) {
-    		// TODO: ADD ERROR MESSAGE
-    		e.printStackTrace();
-    	}
-    	return rev;
+		    			ListingReview revobj = new ListingReview();
+		    			
+		    			revobj.ListingReviewid = rs.getInt("ListingReviewID");
+		    			revobj.renterid = rs.getInt("renterID");
+		    			revobj.bookingid = rs.getInt("bookingID");
+		    			revobj.listingid = rs.getInt("listingID");
+		    			revobj.hosterid = rs.getInt("hosterID");
+		    			revobj.listingcontent = rs.getString("listingComment");
+		    			revobj.listingrating = rs.getInt("listingRating");
+		    			revobj.hostrating =  rs.getInt("hostRating");
+		    			revobj.hostcomment = rs.getString("hosterComment");
+		    			
+		    			rev.add(revobj);
+		    		}
+		    		rs.close();
+		    		ps.close();
+		    	} catch (SQLException e) {
+		    		// TODO: ADD ERROR MESSAGE
+		    		e.printStackTrace();
+		    	}
+		    	return rev;
 	}
+	
+	
+	
 	
 	
 	//============================FOR THE LISTING PAGE============================
 
 	
-	public static ArrayList<Review> getReviewsAboutListings(Connection c, int listingid){
-		String q = "select * from reviews where listingID = ? AND reviewType = 'l'";
-		    	ArrayList<Review> rev = new ArrayList<Review>();
+	
+	public static ArrayList<ListingReview> getforListings(Connection c, int listingID){
+		String q = "select * from listingReviews where listingID = ?";
+		    	ArrayList<ListingReview> rev = new ArrayList<ListingReview>();
 		    	try {
 		    		PreparedStatement ps = c.prepareStatement(q);
-		    		ps.setInt(1, listingid);
+		    		ps.setInt(1, listingID);
 		    		ps.execute();
 		    		ResultSet rs = ps.getResultSet();
 		    		while (rs.next()) {
 
-		    			Review revobj = new Review();
-		    			revobj.createrid = rs.getInt("creatorID");
-		    			revobj.receiverid = rs.getInt("receiverID");
+		    			ListingReview revobj = new ListingReview();
+		    			
+		    			revobj.ListingReviewid = rs.getInt("ListingReviewID");
+		    			revobj.renterid = rs.getInt("renterID");
+		    			revobj.bookingid = rs.getInt("bookingID");
 		    			revobj.listingid = rs.getInt("listingID");
-		    			revobj.content = rs.getString("content");
-		    			revobj.rating = rs.getInt("rating");
-		    			revobj.reviewType = rs.getString("reviewType");
+		    			revobj.hosterid = rs.getInt("hosterID");
+		    			revobj.listingcontent = rs.getString("listingComment");
+		    			revobj.listingrating = rs.getInt("listingRating");
+		    			revobj.hostrating =  rs.getInt("hostRating");
+		    			revobj.hostcomment = rs.getString("hosterComment");
+		    			
 		    			rev.add(revobj);
 		    		}
 		    		rs.close();
@@ -165,15 +187,54 @@ public class ReviewPageQueries {
 	}
 	
 	
-	public static void printReviewListings(ArrayList<Review> list){
+	public static void printListingReviews(ArrayList<ListingReview> list){
 		int iterator = 1;
-		for (Review x : list){
+		for (ListingReview x : list){
 			System.out.println("=============="+iterator+"================");
 			iterator++;
-			System.out.println(x.content);
-			System.out.print("Rating: ");
-			System.out.println(x.rating);
-			System.out.println("===============================");
+			System.out.println("Review ID: " + x.ListingReviewid);
+			System.out.println("Listing ID: " + x.listingid);
+			System.out.println("Host ID: " + x.hosterid);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+			System.out.println("Content: " + x.listingcontent);
+			System.out.print("Rating: " + x.listingrating);
+			System.out.println("Host Comment: " + x.hostcomment);
+			System.out.print("Host Rating: " + x.hostrating);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("Made by User: " + x.renterid);
+			System.out.println("References booking: " + x.bookingid);
+
+			
+			System.out.println("==========================================");
+
+			
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	public static void printRenterReviews(ArrayList<RenterReview> list){
+		int iterator = 1;
+		for (RenterReview x : list){
+			System.out.println("=============="+iterator+"================");
+			iterator++;
+
+			System.out.println("Review ID: " + x.RenterReviewid);
+			System.out.println("Listing ID: " + x.listingid);
+			System.out.println("Renter ID: " + x.renterid);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+			System.out.println("Renter Comment: " + x.rentercomment);
+			System.out.print("Renter Rating: " + x.renterrating);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("Made by User: " + x.hosterid);
+			System.out.println("References booking: " + x.bookingid);
+			System.out.println("==========================================");
 		}
 	}
 
