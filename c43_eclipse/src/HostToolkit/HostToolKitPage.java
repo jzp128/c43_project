@@ -164,7 +164,5 @@ public class HostToolKitPage {
 	private boolean smallerDouble(double a, double b){
 		return (a > b);
 	}
-	
-	
-
+		
 }
