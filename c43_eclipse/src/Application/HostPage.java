@@ -685,7 +685,7 @@ public class HostPage extends UserPage{
 				//=============RATING=====================
 
 				//=============DB CALL=====================
-				Queries.writeRenterReview(c,u,b,review,choicerating,"r");
+				Queries.writeRenterReview(c,u,b,review,choicerating);
 				System.out.println("Rated!");
 				System.out.println("Commented!");
 				System.out.println("Going back now!");
