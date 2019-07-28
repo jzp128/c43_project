@@ -21,7 +21,7 @@ VALUES
 ('123456689','Megan-Kun','1995-06-17','Community Organizer','megank','hello','22 Bum Court ','Canada','Saskatoon','K9M5I2',0),
 ('098765432','Jessica-Li','1952-01-17','Programmer','jessical','chan','55 Mumber Way','Canada','Saskatoon','K9M5I4',0),
 ('140793240','Phoebe-Liao','1961-04-17','Appraiser','phoebel','nurse','88 Hill Street','Canada','Quebec City','E9B6W1',1),
-('234912304','Kitti-Chau','1993-03-17','Concierge','kittic','kitty','3 Street Street','Canada','Hamilton','J8V2J4',1),
+('234912304','Kitti-Chau','1993-03-17','Concierge','kittic','kitty','3 Street Street','Canada','Hamilton','J8V2J4',0),
 ('509821408','Jasmine-Lai','2000-01-17','Programmer','jasminel','lai','9 Love Street','Canada','Quebec City','E9B1Q3',0),
 ('302908230','Carol-Li','2000-04-17','Programmer','caroll','lee','11 Personnate Drive','Canada','Hamilton','J8V2K4',0),
 ('543030303','Christopher-Wai','1920-01-17','Teacher','christopherw','wai','23 Free Street','Canada','Hamilton','J8L2K4',0),
@@ -113,3 +113,4 @@ VALUES
 ('2010-12-08', 5000.00, 3),
 ('2010-12-09', 500.00, 3),
 ('2010-12-10', 500.00, 3);
+

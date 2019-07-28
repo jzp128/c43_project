@@ -4,6 +4,7 @@ import Listings.Amenity;
 import Listings.Available;
 import Listings.Booking;
 import Listings.Listing;
+import TableGen.CommandLineTable;
 import Users.User;
 
 import java.math.BigDecimal;
@@ -1240,5 +1241,24 @@ public class Queries {
 
     }
 
+    public static void updateAllListingPrices(Connection c){
+        String q = "SELECT DISTINCT listingID from available";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Integer> ids = new ArrayList<>();
+            while (rs.next()){
+               int id = rs.getInt("listingID");
+               ids.add(id);
+            }
+            ps.close();
+            rs.close();
 
+            for (Integer a : ids){
+                updateListingAvgCost(c, a);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

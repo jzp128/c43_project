@@ -391,5 +391,7 @@ public class App {
 		}
 	}
 
-
+	public void initListings(){
+		Queries.updateAllListingPrices(this.conn);
+	}
 }
