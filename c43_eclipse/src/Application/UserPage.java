@@ -312,10 +312,29 @@ public class UserPage {
         //TODO FIX THIS
 		choice = keyboard.nextLine();
 		if (choice.toLowerCase().equals("y")) {
+			ListingQueries.getAllAments(c).print();
+			System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
 
-			System.out.print("Enter Minimum price:");
-			int[] a = {};
-			filters.add(ListingQueries.filterByAmendities(a));
+			int input = 0;
+			ArrayList<Integer> ids = new ArrayList<>();
+			while(true){
+				String amentIdStr = keyboard.nextLine();
+				input = Integer.parseInt(amentIdStr);
+				if(input >= 1 && input <= 18){
+					if (ids.contains(input)){
+						System.out.println("Already chosen! Try again!");
+					}else{
+						ids.add(input);
+					}
+				}else{
+					System.out.println("Not in range! Try again.");
+				}
+				if (input == -1){
+					break;
+				}
+			}
+
+			filters.add(ListingQueries.filterByAmendities(ids));
 		}
 
 		int priceSort = 0;
@@ -340,12 +359,6 @@ public class UserPage {
 			result = ListingQueries.searchByLocation(result, latitude, longitude, range, priceSort);
 		}
 		listAvaillistings(c,u,result);
-		//TODO HOW DO I PRINT THIS??
-		
-		
-		
-
-
     }
 
 	

@@ -1,6 +1,7 @@
 package Server;
 
 import Listings.Listing;
+import TableGen.CommandLineTable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,10 +65,10 @@ public class ListingQueries {
         return getInDateRange;
     }
 
-    public static String filterByAmendities(int[] aList) {
-        int n = aList.length;
+    public static String filterByAmendities(ArrayList<Integer> aList) {
+        int n = aList.size();
         String set = "";
-        for (int a : aList) {
+        for (Integer a : aList) {
             set = set + a + ",";
         }
         String q = "(SELECT listingID FROM amenitiesList WHERE amentID IN (" + set + ") GROUP BY listingID HAVING COUNT(listingID) = " + Integer.toString(n) + ") AS FA";
@@ -137,6 +138,25 @@ public class ListingQueries {
 
         }
         return result;
+    }
+
+    public static CommandLineTable getAllAments(Connection c){
+        CommandLineTable info = new CommandLineTable();
+        info.setShowVerticalLines(true);
+        info.setHeaders("Amenities ID", "Name");
+        String q = "SELECT amentID, amentName FROM amenities";
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                int aid = rs.getInt("amentID");
+                String name = rs.getString("amentName");
+                info.addRow(Integer.toString(aid), name);
+            }
+        } catch (SQLException e){
+
+        }
+        return info;
     }
 
 
