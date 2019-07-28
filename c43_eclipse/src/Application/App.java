@@ -65,17 +65,18 @@ public class App {
 		System.out.println("=========MENU=========");
 		System.out.println("0. Sign Up.");
 		System.out.println("1. Log In.");
-		System.out.println("2. Exit.");
+		System.out.println("2. View Reports.");
+		System.out.println("3. Exit.");
 		String option;
 		int choice = -1;
 		boolean optionb = false;
 		while(!optionb){
-			System.out.print("Choose one of the previous options [0 - 2]: ");
+			System.out.print("Choose one of the previous options [0 - 3]: ");
 		    Scanner keyboard = new Scanner (System.in);
 			option = keyboard.nextLine();
 			try {
 				choice = Integer.parseInt(option);
-				optionb = CheckersGeneric.range(0,2,choice);
+				optionb = CheckersGeneric.range(0,3,choice);
 			} catch (Exception e) {
 				System.out.println("Invalid Option!");
 			}
@@ -89,6 +90,9 @@ public class App {
 				this.login(conn);
 				break;
 			case 2:
+				this.goToReportsPage();
+				break;
+			case 3:
 				disconnect();
 				System.out.println("Exiting...");
 				System.out.println("Goodbye.");
@@ -282,6 +286,7 @@ public class App {
 					
 					break;
 				case 1:
+					invalidCreditInfo = false;
 					break;
 				default:
 					break;
@@ -354,11 +359,16 @@ public class App {
         }
         return conn;
     }
-    
+
+    private void goToReportsPage(){
+		ReportsPage reportsPage = new ReportsPage();
+		reportsPage.control(this.conn);
+	}
+
     public Connection getconn() {
         return conn;
     }
-    
+
 	public void disconnect() {
     	System.out.println("Database disconnected! " + conn.toString());
 		try {
