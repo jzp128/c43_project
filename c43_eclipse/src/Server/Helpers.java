@@ -3,6 +3,7 @@ package Server;
 import Listings.Listing;
 
 import java.sql.Connection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -31,6 +32,18 @@ public class Helpers {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strdate = dateFormat.format(d);
         return strdate;
+    }
+
+    public static Date stringToUtilDate(String strDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = null;
+        try{
+            d = dateFormat.parse(strDate);
+        }catch (ParseException e) {
+            System.out.println("ERROR PARSING STRING TO DATE");
+        }
+        String strdate = dateFormat.format(d);
+        return d;
     }
 
     public static long daysInBetween(Date from, Date to){
