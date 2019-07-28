@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReportQueries {
     public static CommandLineTable getNumBookingsInDateRangeByCity(Connection c, Date from, Date to) {
@@ -297,7 +300,74 @@ public class ReportQueries {
         return info;
     }
 
-    public static CommandLineTable reviewKeyword(){
-        return null;
+    public static CommandLineTable reviewKeyword(Connection c){
+        CommandLineTable info = new CommandLineTable();
+        info.setHeaders("listingID", "Most used words");
+        // GET ALL THE LISTINGSIDS THAT HAVE REVIEWS
+        String q = "SELECT DISTINCT listingID FROM listingReviews";
+        ArrayList<Integer> listingIDs = new ArrayList<>();
+        try {
+            PreparedStatement ps = c.prepareStatement(q);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int lid = rs.getInt("listingID");
+                listingIDs.add(lid);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+
+        }
+        RestrictedWords wordChecker = new RestrictedWords();
+        for (Integer a : listingIDs) {
+            ArrayList<String> comments = new ArrayList<>();
+            q = String.format("SELECT listingComment FROM listingReviews where listingID = %d", a);
+            try {
+                PreparedStatement ps = c.prepareStatement(q);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String comms = rs.getString("listingComment");
+                    comments.add(comms);
+                }
+                rs.close();
+                ps.close();
+            } catch (SQLException e) {
+
+            }
+            HashMap<String, Integer> wordCount = new HashMap<>();
+            for (String comment : comments){
+                String[] split = Helpers.stringSplitter(comment);
+                for (String s : split){
+                    if(!wordChecker.restricted(s)){
+                        String l = s.toLowerCase();
+                        wordCount.putIfAbsent(l, 0);
+                        wordCount.put(l, wordCount.get(s) + 1);
+                    }
+                }
+            }
+            HashMap<String, Integer> sortedWordCount = Helpers.sortHashMapByValue(wordCount);
+            // get the top 5 most used words
+            ArrayList<String> top5 = new ArrayList<>();
+            int i = 0;
+            for (Map.Entry<String, Integer> en : sortedWordCount.entrySet()){
+                top5.add(en.getKey());
+                i ++;
+                if(i == 5){
+                    break;
+                }
+            }
+            String top = "";
+            // put it in the mf commandline table
+            for (String s : top5){
+                top = top + s + ", ";
+            }
+            String ss = top.substring(0, top.length() - 2);
+            info.addRow(Integer.toString(a), ss);
+        }
+
+
+        return info;
     }
+
+
 }

@@ -79,6 +79,11 @@ public class TestQueries {
             t.print();
             t = ReportQueries.getFindOverLimitHosts(c);
             t.print();
+            String testSplitter = "WHAT THE FUCK, IS THIS CAN'T WAKE UP! what is happening";
+            String[] aaa = Helpers.stringSplitter(testSplitter);
+            for (String i : aaa){
+                System.out.println(i);
+            }
 
         }catch (Exception e){
 

@@ -5,8 +5,7 @@ import Listings.Listing;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Helpers {
@@ -64,5 +63,30 @@ public class Helpers {
                 //return StudentName2.compareTo(StudentName1);
             }};
         return distComparator;
+    }
+
+    public static String[] stringSplitter(String input){
+        return input.split("([.,!?:;\"-]|\\s)+");
+    }
+
+    public static HashMap<String, Integer> sortHashMapByValue(HashMap<String, Integer> input){
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(input.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 }

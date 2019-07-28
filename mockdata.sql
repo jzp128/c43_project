@@ -29,7 +29,7 @@ VALUES
 ('999999999','Spongebob-Square','1912-01-17','Therapist','spongebobs','square','21 Inno Court','Canada','Toronto','L8V100',0),
 ('123456788','Bob-Steve','1993-05-17','Therapist','bobs','circle','6 Military Trial','Canada','Toronto','L8V2R4',0),
 ('123456786','Mister-Chen','1990-02-17','Programmer','misterc','chen','6 Military Trial','Canada','Toronto','L8V2R4',0),
-('123456766','Mister-Bob','1990-02-17','Programmer','misterc','chen','6 Military Trial','Africa','Toronto','L8V2R4',0);
+('123456766','Mister-Bob','1990-02-17','Programmer','misterd','chen','6 Military Trial','Africa','Toronto','L8V2R4',0);
 
 -- set up renters table
 INSERT INTO renters (renterID, ccNumber,ccSecNum, ccCardName)
