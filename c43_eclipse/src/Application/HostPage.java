@@ -59,7 +59,7 @@ public class HostPage extends UserPage{
 			case 3:
 				ArrayList<RenterReview> reviewlist = ReviewPageQueries.getReviewsAboutRentersMadeByAHost(c, u.id);
 				if (reviewlist.isEmpty()){
-					System.out.println("There are no reviews about you yet!");
+					System.out.println("You did not make reviews yet!");
 				} else {
 					ReviewPageQueries.printRenterReviews(reviewlist);
 				}
