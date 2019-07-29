@@ -90,15 +90,6 @@ CREATE TABLE IF NOT EXISTS bookings(
 );
 
 
-CREATE TABLE IF NOT EXISTS reviews(
-	creatorID INT UNSIGNED,
-    receiverID INT UNSIGNED,
-    listingID INT UNSIGNED,
-    content longtext,
-    rating decimal(2,1),
-    reviewType CHAR(1)
-);
-
 CREATE TABLE IF NOT EXISTS listingReviews(
 	listingReviewID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	renterID INT UNSIGNED,
