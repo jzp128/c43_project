@@ -274,7 +274,7 @@ public class UserPage {
             longitude = Double.parseDouble(in);
             System.out.print("Enter range (will default to 5KM if nothing is entered):");
             in = keyboard.nextLine();
-            if (in == null) {
+            if (in == null || in.isEmpty()) {
                 range = 5.00;
             } else {
                 range = Double.parseDouble(in);
@@ -339,7 +339,10 @@ public class UserPage {
 			
 			int input = 0;
 			ArrayList<Integer> ids = new ArrayList<>();
-			while(true){
+			
+			boolean loop = true;
+			
+			while(loop){
 				System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
 				String amentIdStr = keyboard.nextLine();
 				input = Integer.parseInt(amentIdStr);
@@ -350,7 +353,7 @@ public class UserPage {
 						ids.add(input);
 					}
 				}else if (input == -1){
-					break;
+					loop = false;
 				}else {
 					System.out.println("Not in range! Try again.");
 				}
