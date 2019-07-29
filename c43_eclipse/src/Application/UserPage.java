@@ -349,12 +349,12 @@ public class UserPage {
 					}else{
 						ids.add(input);
 					}
-				}else{
+				}else if (input == -1){
+					break;
+				}else {
 					System.out.println("Not in range! Try again.");
 				}
-				if (input == -1){
-					break;
-				}
+
 			}
 
 			filters.add(ListingQueries.filterByAmendities(ids));
