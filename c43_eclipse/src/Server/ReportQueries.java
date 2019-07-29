@@ -228,26 +228,28 @@ public class ReportQueries {
     }
 
     public static CommandLineTable rankRentersCity(Connection c, Date from, Date to) {
+        Date currDate = new Date();
+        String currYear = Helpers.utilDatetoString(currDate);
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
-        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate >= ? AND toDate <= ? GROUP BY renterID (HAVING COUNT(bookingID) >= 2) ORDER BY COUNT(bookingID) DESC";
+        String q = String.format("SELECT renterID, city, count(bookingID) FROM ((SELECT distinct renterID FROM bookings where year(fromDate) = year('%s') or year(toDate) = year('%s') GROUP by (renterID) having count(bookingID) >= 2) as GB2 natural join bookings) inner join listing using(listingID) WHERE fromDate >= '%s' AND toDate <= '%s' GROUP by renterID, city ORDER BY COUNT(bookingID) DESC",
+                currYear, currYear, fromString, toString);
         CommandLineTable info = new CommandLineTable();
-        info.setHeaders("renterID", "# of Bookings");
+        info.setHeaders("renterID", "city", "# of Bookings");
         info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ps.setString(1, fromString);
-            ps.setString(2, toString);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int renterID = rs.getInt("renterID");
-                int count = rs.getInt(2);
-                info.addRow(Integer.toString(renterID), Integer.toString(count));
+                String city = rs.getString("city");
+                int count = rs.getInt(3);
+                info.addRow(Integer.toString(renterID), city, Integer.toString(count));
             }
             rs.close();
             ps.close();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return info;
     }
