@@ -891,8 +891,8 @@ public class Queries {
             ps.setInt(4, b.hostID);
             ps.setString(5, listingreview);
             ps.setInt(6, listingrating);
-            ps.setString(7, hostreview);
-            ps.setInt(8, hostrating);
+            ps.setInt(7, hostrating);
+            ps.setString(8, hostreview);
             r = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             rs.close();
@@ -904,15 +904,15 @@ public class Queries {
     }
     public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating){
     	int r = -1;
-    	String q = "INSERT INTO renterReviews (hosterID, renterID, listingID, listingComment ,listingRating, bookingID) values(?,?,?,?,?,?)";
+    	String q = "INSERT INTO renterReviews (renterID, hosterID, bookingID, listingID, renterComment ,renterRating) values(?,?,?,?,?,?)";
     	try {
     		PreparedStatement ps = c.prepareStatement(q);
-    		ps.setInt(1, u.id);
-    		ps.setInt(2, b.renterID);
-    		ps.setInt(3, b.listingID);
-    		ps.setString(4, review);
-    		ps.setInt(5, rating);
-            ps.setInt(6, b.bookingID);
+    		ps.setInt(1, b.renterID);
+    		ps.setInt(2, u.id);
+            ps.setInt(3, b.bookingID);
+    		ps.setInt(4, b.listingID);
+    		ps.setString(5, review);
+    		ps.setInt(6, rating);
     		r = ps.executeUpdate();
     		ResultSet rs = ps.getGeneratedKeys();
     		rs.close();
@@ -953,7 +953,7 @@ public class Queries {
 		
 	}
 	public static int checkReviewsExistForHost(Connection c, int listingID) {
-		String q = "select * from reviews where listingID = ? ";
+		String q = "select * from listingReviews where listingID = ? ";
 		int countrows = 0;
 		try {
 			PreparedStatement ps = c.prepareStatement(q);
@@ -963,6 +963,24 @@ public class Queries {
 	        	  countrows++;
 	          }
 	        rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkReviewsExistForHostDeletion(Connection c, int hostID) {
+		String q = "select * from listingReviews where hostID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hostID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
 			ps.close();
 		}catch (SQLException e){
 			
@@ -988,12 +1006,90 @@ public class Queries {
 		return (countrows);
 		
 	}
+	public static int checkBookingsExistForHostDeletion(Connection c, int hostID) {
+		String q = "select * from bookings where hostID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hostID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	
+	
+	
+	
+	
+	
+	public static int checkBookingsExistForRenter(Connection c, int renterID) {
+		String q = "select * from bookings where renterID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, renterID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
 	public static int checkAvailBookingsExistForHost(Connection c, int listingID) {
 		String q = "select * from bookings where listingID = ? AND and isBooked = 1";
 		int countrows = 0;
 		try {
 			PreparedStatement ps = c.prepareStatement(q);
 			ps.setInt(1, listingID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkAvailBookingsExistForHostDeletion(Connection c, int hostID) {
+		String q = "select * from bookings where hostID = ? AND and isBooked = 1";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hostID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
+	public static int checkListingExistForHostDeletion(Connection c, int hostID) {
+		String q = "select * from listing where hosterid = ?";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, hostID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				countrows++;
@@ -1148,7 +1244,8 @@ public class Queries {
 	      
 	      
 	      
-	      System.out.println(checkSINTaken(application.getconn(),"0"));
+	      
+	      
 
 	      
 	      

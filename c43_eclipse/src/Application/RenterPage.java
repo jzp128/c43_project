@@ -52,6 +52,12 @@ public class RenterPage extends UserPage {
                     renterPageMenu(c, u);
                     break;
                 case 3:
+                	int count = Queries.checkBookingsExistForRenter(c, u.id);
+            		if (count > 0){
+            			System.out.println("Sorry, you have existing bookings, you cannot delete your account");
+                        renterPageMenu(c, u);
+                        break;
+            		}
                     super.deleteAccount(c, u);
                     break;
                 case 4:
@@ -314,6 +320,7 @@ public class RenterPage extends UserPage {
 
                         } catch (Exception e) {
                             System.out.println("Please Try Again!");
+                            ratingWrong = true;
                         }
 
 						System.out.println("Provide a rating from [0-5] for the host:");
@@ -330,6 +337,7 @@ public class RenterPage extends UserPage {
 
 						} catch (Exception e) {
 							System.out.println("Please Try Again!");
+							ratingWrong = true;
 						}
 
                     }
@@ -380,7 +388,7 @@ public class RenterPage extends UserPage {
                         System.out.println("You cannot rate/review a canceled booking.");
                         renterbooking(c, u);
                         break;
-                    } else if (CheckersGeneric.range(0, 30, recent)) {
+                    } else if (!CheckersGeneric.range(0, 30, recent)) {
                         System.out.println("You can only rate/review a recent booking after 30 days.");
                         renterbooking(c, u);
                         break;

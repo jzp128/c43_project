@@ -49,6 +49,10 @@ public class UserPage {
 				Queries.deleteUser(c, u.loginname);
 				Queries.deleteRenter(c, u.id );
 				
+				
+				
+				//delete everything related to them as well
+				
 				App.application.welcome();
 				break;
 			default:
@@ -68,6 +72,8 @@ public class UserPage {
 		
 		int iterate = 1;
 		for (Listing x: list) {
+			
+			
 			System.out.println("=================================");
 			System.out.println("Listing Choice ["+iterate+"]");
 			System.out.println("Listing:" + x.id +" " );
@@ -126,7 +132,7 @@ public class UserPage {
 			
 			System.out.println("Type NO to cancel or any other key to continue!");
 			String tooloption2 = keyboard.nextLine();
-			if (tooloption.equalsIgnoreCase("no")){
+			if (tooloption2.equalsIgnoreCase("no")){
 				return false;
 			}
 
@@ -134,7 +140,13 @@ public class UserPage {
 			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,choiceindex);
 			//System.out.println(availlist.toString());
 			int availistingno = 1;
+			boolean nothingPrinted = true;
+			
 			for (Available x: availlist) {
+				if (CheckersGeneric.betweenDays(CheckersGeneric.currentDate(),x.availDate) < 0){
+					;
+				} else {
+				nothingPrinted = false;
 				System.out.println("=================================");
 				System.out.println("["+availistingno+"]");
 				availistingno++;
@@ -142,6 +154,7 @@ public class UserPage {
 				System.out.println("Date:" + x.availDate+ " ");
 				System.out.println("Price:" + x.price +" ");
 				System.out.println("=================================");	
+				}
 			}
 			
 			int optionstartchoice = 0;
@@ -153,8 +166,8 @@ public class UserPage {
 			while(!optionb){ 
 				//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
 				
-				if (availlist.isEmpty()){
-					System.out.println("Sorry this Listing is fully booked!");
+				if (availlist.isEmpty() || nothingPrinted== true){
+					System.out.println("Sorry this Listing is either: was availabe but now expired, fully booked or unavailable now!");
 					return false;
 				}
 				
@@ -220,9 +233,18 @@ public class UserPage {
 	
 	public void renterBooking(Connection c, Listing l, User u, Date from, Date to){
 		
-		Queries.updateListingAvailibility(c, l.id, from , to);
-		
-		Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
+		try {			
+			Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
+		} catch (Exception e){
+			System.out.println("An error has appeared to occur, please try again later.");
+			return;
+		}
+		try {			
+			Queries.updateListingAvailibility(c, l.id, from , to);
+		} catch (Exception e){
+			System.out.println("An error has appeared to occur, please try again later.");
+			return;
+		}
 		
 	}
 	
@@ -236,6 +258,8 @@ public class UserPage {
         Double latitude = 0.00;
         Double range = 0.00;
 
+        System.out.println("Note: If you do not chose any of the below filters, at minimum, all the");
+        System.out.println("lisings that have or had availabilities will be listed (which may include expired dates).");
         System.out.print("Search by LOCATION? (Y/N):");
         choice = keyboard.nextLine();
         String in = "";
