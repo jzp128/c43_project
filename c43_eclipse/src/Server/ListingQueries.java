@@ -30,12 +30,12 @@ public class ListingQueries {
      */
 
     public static String filterByAddress(String address) {
-        String q = String.format("(SELECT listingID FROM listing WHERE address LIKE %s) AS FADD", address);
+        String q = String.format("(SELECT listingID FROM listing WHERE address LIKE '%s') AS FADD", address);
         return q;
     }
 
     public static String filterByPostalCode(String postcode) {
-        String q = String.format("(SELECT listingID FROM listing WHERE postal_code LIKE %s) AS FPC", postcode);
+        String q = String.format("(SELECT listingID FROM listing WHERE postal_code LIKE '%s') AS FPC", postcode);
         return q;
     }
 
