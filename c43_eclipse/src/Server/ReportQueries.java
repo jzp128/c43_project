@@ -255,7 +255,7 @@ public class ReportQueries {
     public static CommandLineTable reportMaxCancelRenter(Connection c) {
         Date currDate = new Date();
         String cDateString = Helpers.utilDatetoString(currDate);
-        String q = "SELECT renterID, COUNT(bookingID) FROM SELECT bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY renterID ORDER BY DESC";
+        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY renterID ORDER BY COUNT(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Cancellations");
         info.setShowVerticalLines(true);
@@ -272,7 +272,7 @@ public class ReportQueries {
             rs.close();
             ps.close();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return info;
     }
@@ -280,7 +280,7 @@ public class ReportQueries {
     public static CommandLineTable reportMaxCancelHost(Connection c) {
         Date currDate = new Date();
         String cDateString = Helpers.utilDatetoString(currDate);
-        String q = "SELECT hosterID, COUNT(bookingID) FROM SELECT bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY hosterID ORDER BY DESC";
+        String q = "SELECT hosterID, COUNT(bookingID) FROM bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY hosterID ORDER BY count(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("hostID", "# of Bookings");
         info.setShowVerticalLines(true);

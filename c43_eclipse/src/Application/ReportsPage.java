@@ -34,8 +34,8 @@ public class ReportsPage {
             System.out.println("8. find commercial hosts");
             System.out.println("9. rank renters by number of bookings");
             System.out.println("10. rank renters by number of bookings per city");
-            System.out.println("11. find the renter with the maximum amount of cancels this year");
-            System.out.println("12. find the host with the maximum amount of cancels this year");
+            System.out.println("11. find the host with the maximum amount of cancels this year");
+            System.out.println("12. find the renter with the maximum amount of cancels this year");
             System.out.println("13. get Report for the top 5 used words in each listing review");
             System.out.println("-1 To exit");
             System.out.print("Choose your option [0-13]:");
