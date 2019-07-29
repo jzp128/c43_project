@@ -116,7 +116,7 @@ public class Queries {
 
     public static int checkAddress(Connection c, String city, String postal_code, String country, String street_name, String building_number, String unit_number) {
         int id = -1;
-        String q = "SELECT userID FROM address WHERE city='?', postal_code='?', country='?', street_name='?', building_number='?', unit_number='?'";
+        String q = "SELECT userID FROM address WHERE city=?, postal_code=?, country=?, street_name=?, building_number=?, unit_number=?";
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ps.setString(1, city);

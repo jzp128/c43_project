@@ -282,7 +282,7 @@ public class ReportQueries {
     public static CommandLineTable reportMaxCancelHost(Connection c) {
         Date currDate = new Date();
         String cDateString = Helpers.utilDatetoString(currDate);
-        String q = "SELECT hosterID, COUNT(bookingID) FROM bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY hosterID ORDER BY count(bookingID) DESC";
+        String q = "SELECT hostID, COUNT(bookingID) FROM bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY hostID ORDER BY count(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("hostID", "# of Bookings");
         info.setShowVerticalLines(true);
@@ -293,14 +293,14 @@ public class ReportQueries {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int renterID = rs.getInt("hosterID");
+                int renterID = rs.getInt("hostID");
                 int count = rs.getInt(2);
                 info.addRow(Integer.toString(renterID), Integer.toString(count));
             }
             rs.close();
             ps.close();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return info;
     }
