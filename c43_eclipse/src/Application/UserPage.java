@@ -72,6 +72,8 @@ public class UserPage {
 		
 		int iterate = 1;
 		for (Listing x: list) {
+			
+			
 			System.out.println("=================================");
 			System.out.println("Listing Choice ["+iterate+"]");
 			System.out.println("Listing:" + x.id +" " );
@@ -138,7 +140,13 @@ public class UserPage {
 			ArrayList<Available> availlist = Queries.getAvailListingsDates(c,choiceindex);
 			//System.out.println(availlist.toString());
 			int availistingno = 1;
+			boolean nothingPrinted = true;
+			
 			for (Available x: availlist) {
+				if (CheckersGeneric.betweenDays(CheckersGeneric.currentDate(),x.availDate) < 0){
+					;
+				} else {
+				nothingPrinted = false;
 				System.out.println("=================================");
 				System.out.println("["+availistingno+"]");
 				availistingno++;
@@ -146,6 +154,7 @@ public class UserPage {
 				System.out.println("Date:" + x.availDate+ " ");
 				System.out.println("Price:" + x.price +" ");
 				System.out.println("=================================");	
+				}
 			}
 			
 			int optionstartchoice = 0;
@@ -157,8 +166,8 @@ public class UserPage {
 			while(!optionb){ 
 				//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
 				
-				if (availlist.isEmpty()){
-					System.out.println("Sorry this Listing is fully booked!");
+				if (availlist.isEmpty() || nothingPrinted== true){
+					System.out.println("Sorry this Listing is fully booked or unavailable now!");
 					return false;
 				}
 				
