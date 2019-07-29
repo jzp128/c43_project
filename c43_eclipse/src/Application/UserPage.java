@@ -167,7 +167,7 @@ public class UserPage {
 				//IF THERE IS NO AVIL, THEN MAKE OPTIONB FALSE TODO
 				
 				if (availlist.isEmpty() || nothingPrinted== true){
-					System.out.println("Sorry this Listing is fully booked or unavailable now!");
+					System.out.println("Sorry this Listing is either: was availabe but now expired, fully booked or unavailable now!");
 					return false;
 				}
 				
@@ -259,7 +259,7 @@ public class UserPage {
         Double range = 0.00;
 
         System.out.println("Note: If you do not chose any of the below filters, at minimum, all the");
-        System.out.println("lisings that have availabilities will be listed.");
+        System.out.println("lisings that have or had availabilities will be listed (which may include expired dates).");
         System.out.print("Search by LOCATION? (Y/N):");
         choice = keyboard.nextLine();
         String in = "";
