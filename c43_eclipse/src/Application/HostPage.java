@@ -400,7 +400,7 @@ public class HostPage extends UserPage{
 		System.out.println("");
 		System.out.println("=========LISTING=========");
 		System.out.println("0. View Rental History Bookings");
-		System.out.println("1. Change the availible days");
+		System.out.println("1. Change the available days");
 		System.out.println("2. Delete this listing");
 		System.out.println("3. View the reviews for this listing");
 		System.out.println("4. Go Back to the Main Listing Page");
