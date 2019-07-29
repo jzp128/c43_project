@@ -193,6 +193,7 @@ public class HostPage extends UserPage{
 				amenitiesPage(c, id);
 				
 				availibilityAndPrice(c, list);
+				Queries.updateListingAvgCost(c, list.id);
 
 				System.out.println("Listing Added!");
 				hostPageMenu(c,user);
@@ -562,6 +563,7 @@ public class HostPage extends UserPage{
 							System.out.println("Sorry this day is unavailible, you cannot change the date.");
 						} else {
 							Queries.updateAvailDate(c, chosenavail.availDate, chosenavail.listingID, sqlStartDate);
+							Queries.updateListingAvgCost(c, chosenavail.listingID);
 							System.out.println("Date updated!");
 						}
 						dateCheckfalse = false;
@@ -584,6 +586,7 @@ public class HostPage extends UserPage{
 					} else {
 						//avail = Integer.parseInt(availstring);
 						Queries.deleteAvailDate(c, chosenavail.availDate, chosenavail.listingID);
+						Queries.updateListingAvgCost(c, chosenavail.listingID);
 						System.out.println("Availibility changed, going back now...");
 					
 					}
