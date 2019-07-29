@@ -236,7 +236,8 @@ public class UserPage {
             return;
         }
         try {
-            Queries.updateListingAvailibility(c, l.id, from, to);
+			Queries.updateListingAvailibility(c, l.id, from, to);
+			Queries.updateListingAvgCost(c, l.id);
         } catch (Exception e) {
             System.out.println("An error has appeared to occur, please try again later.");
             return;
