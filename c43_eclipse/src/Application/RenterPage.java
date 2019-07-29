@@ -33,7 +33,7 @@ public class RenterPage extends UserPage {
         System.out.println("4. View all the Reviews I Made About Hosts & Listings.");
         System.out.println("5. View all the Reviews about Me");
         System.out.println("6. Log Out");
-        System.out.println("Choose one of the previous options [0 - 2]: ");
+        System.out.println("Choose one of the previous options [0 - 6]: ");
         String option = keyboard.nextLine();
 
         try {
@@ -79,6 +79,7 @@ public class RenterPage extends UserPage {
     				renterPageMenu(c,u);
     				break;
                 case 6:
+					System.out.println("Exiting...Logging out...");
                     super.logout();
                     break;
                 default:
