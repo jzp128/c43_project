@@ -260,12 +260,12 @@ public class HostPage extends UserPage{
 			HostToolKitAmenitiesPage temphostpage = new HostToolKitAmenitiesPage(c,amen);
 		}
 		
-		confirmamenitiesPage(c, listingid, amen, app.getconn());
+		confirmamenitiesPage(c, listingid, amen);
 		return amen;
 	}
 	
 	
-	public void confirmamenitiesPage(Connection c, int listingid, List<Amenity> amen, Connection conn){
+	public void confirmamenitiesPage(Connection c, int listingid, List<Amenity> amen){
 		System.out.println("0.Confirm amenities");
 		System.out.println("1.Restart");
 		String option = keyboard.nextLine();
@@ -275,7 +275,7 @@ public class HostPage extends UserPage{
 			case 0:
 				for (int i = 0; i < amen.size(); i++) {
 					if (amen.get(i).amenBool) {
-						Queries.insertAment(conn,listingid, amen.get(i).amenid);
+						Queries.insertAment(c,listingid, amen.get(i).amenid);
 					}
 				}
 				break;
