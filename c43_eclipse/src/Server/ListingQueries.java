@@ -81,7 +81,7 @@ public class ListingQueries {
     }
 
     private static String applyFilters(ArrayList<String> filters) {
-        String q = "(SELECT BASE.listingID FROM (SELECT listingID from listing) AS BASE";
+        String q = "(SELECT BASE.listingID FROM (SELECT DISTINCT listingID from available) AS BASE";
         int i = 0;
         for (String f : filters) {
             q = q + " INNER JOIN " + f + " USING(listingID)";
