@@ -328,51 +328,31 @@ public class UserPage {
         }
 
         System.out.print("Filter by Amenities? (Y/N):");
-        //TODO FIX THIS
-		choice = keyboard.nextLine();
-		if (choice.toLowerCase().equals("y")) {
-			ListingQueries.getAllAments(c).print();
-			
-			int input = 0;
-			ArrayList<Integer> ids = new ArrayList<>();
-			
-			boolean loop = true;
-			
-			while(loop){
-				System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
-				String amentIdStr = keyboard.nextLine();
-				input = Integer.parseInt(amentIdStr);
-				if(input >= 1 && input <= 18){
-					if (ids.contains(input)){
-						System.out.println("Already chosen! Try again!");
-					}else{
-						ids.add(input);
-					}
-				}else if (input == -1){
-					loop = false;
-				}else {
-					System.out.println("Not in range! Try again.");
-				}
+        choice = keyboard.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            ListingQueries.getAllAments(c).print();
 
             int input = 0;
             ArrayList<Integer> ids = new ArrayList<>();
-            while (true) {
+
+            boolean loop = true;
+
+            while (loop) {
                 System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
                 String amentIdStr = keyboard.nextLine();
                 input = Integer.parseInt(amentIdStr);
-                if (input == -1) {
-                    break;
-                } else if (input >= 1 && input <= 18) {
+                if (input >= 1 && input <= 18) {
                     if (ids.contains(input)) {
                         System.out.println("Already chosen! Try again!");
                     } else {
                         ids.add(input);
                     }
+                } else if (input == -1) {
+                    loop = false;
                 } else {
                     System.out.println("Not in range! Try again.");
                 }
             }
-
             filters.add(ListingQueries.filterByAmendities(ids));
         }
 
