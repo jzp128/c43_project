@@ -988,6 +988,24 @@ public class Queries {
 		return (countrows);
 		
 	}
+	public static int checkBookingsExistForRenter(Connection c, int renterID) {
+		String q = "select * from bookings where renterID = ? ";
+		int countrows = 0;
+		try {
+			PreparedStatement ps = c.prepareStatement(q);
+			ps.setInt(1, renterID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				countrows++;
+			}
+			rs.close();
+			ps.close();
+		}catch (SQLException e){
+			
+		}
+		return (countrows);
+		
+	}
 	public static int checkAvailBookingsExistForHost(Connection c, int listingID) {
 		String q = "select * from bookings where listingID = ? AND and isBooked = 1";
 		int countrows = 0;

@@ -52,6 +52,12 @@ public class RenterPage extends UserPage {
                     renterPageMenu(c, u);
                     break;
                 case 3:
+                	int count = Queries.checkBookingsExistForRenter(c, u.id);
+            		if (count > 0){
+            			System.out.println("Sorry, you have existing bookings, you cannot delete your account");
+                        renterPageMenu(c, u);
+                        break;
+            		}
                     super.deleteAccount(c, u);
                     break;
                 case 4:
