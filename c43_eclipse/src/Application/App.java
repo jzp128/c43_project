@@ -409,6 +409,10 @@ public class App {
 	}
 
 	public void initListings(){
-		Queries.updateAllListingPrices(this.conn);
+		ArrayList<Integer> ids = new ArrayList<>();
+		ids = Queries.updateAllListingPrices(this.conn);
+		for (Integer id : ids){
+			Queries.updateListingAvgCost(this.conn, id);
+		}
 	}
 }
