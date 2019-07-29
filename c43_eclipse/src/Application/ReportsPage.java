@@ -40,99 +40,102 @@ public class ReportsPage {
             System.out.println("-1 To exit");
             System.out.print("Choose your option [0-13]:");
             choice = keyboard.nextLine();
-            choiceInt = Integer.parseInt(choice);
-            switch (choiceInt) {
-                case 1:
-                    getNumBookingsDateRangeCity(c);
-                    break;
-                case 2:
-                    getNumBookingsDateRangeCityPostCode(c);
-                    break;
-                case 3:
-                    ReportQueries.getNumberListingsPerCountry(c).print();
-                    break;
-                case 4:
-                    ReportQueries.getNumberListingsPerCountryCity(c).print();
-                    break;
-                case 5:
-                    ReportQueries.getNumberListingsPerCountryCityPostCode(c).print();
-                    break;
-                case 6:
-                    ReportQueries.getRankedHostByNumListings(c).print();
-                    break;
-                case 7:
-                    ReportQueries.getRankedHostByNumListingsCity(c).print();
-                    break;
-                case 8:
-                    ReportQueries.getFindOverLimitHosts(c).print();
-                    break;
-                case 9:
-                    rankRentersA(c);
-                    break;
-                case 10:
-                    rankRentersB(c);
-                    break;
-                case 11:
-                    ReportQueries.reportMaxCancelHost(c).print();
-                    break;
-                case 12:
-                    ReportQueries.reportMaxCancelRenter(c).print();
-                    break;
-                case 13:
-                    ReportQueries.reviewKeyword(c).print();
-                case -1:
-                    stop = true;
-                    this.logout();
-                    break;
-                default:
-                    System.out.println("wrong input!");
+            if (choice != null || choice.isEmpty()) {
+                choiceInt = Integer.parseInt(choice);
+                switch (choiceInt) {
+                    case 1:
+                        getNumBookingsDateRangeCity(c);
+                        break;
+                    case 2:
+                        getNumBookingsDateRangeCityPostCode(c);
+                        break;
+                    case 3:
+                        ReportQueries.getNumberListingsPerCountry(c).print();
+                        break;
+                    case 4:
+                        ReportQueries.getNumberListingsPerCountryCity(c).print();
+                        break;
+                    case 5:
+                        ReportQueries.getNumberListingsPerCountryCityPostCode(c).print();
+                        break;
+                    case 6:
+                        ReportQueries.getRankedHostByNumListings(c).print();
+                        break;
+                    case 7:
+                        ReportQueries.getRankedHostByNumListingsCity(c).print();
+                        break;
+                    case 8:
+                        ReportQueries.getFindOverLimitHosts(c).print();
+                        break;
+                    case 9:
+                        rankRentersA(c);
+                        break;
+                    case 10:
+                        rankRentersB(c);
+                        break;
+                    case 11:
+                        ReportQueries.reportMaxCancelHost(c).print();
+                        break;
+                    case 12:
+                        ReportQueries.reportMaxCancelRenter(c).print();
+                        break;
+                    case 13:
+                        ReportQueries.reviewKeyword(c).print();
+                        break;
+                    case -1:
+                        stop = true;
+                        this.logout();
+                        break;
+                    default:
+                        System.out.println("wrong input!");
+                }
+                System.out.print("Enter Anything to continue");
+                keyboard.nextLine();
             }
-            System.out.print("Enter Anything to continue");
-            keyboard.nextLine();
         }
     }
 
     public void getNumBookingsDateRangeCity(Connection c){
         System.out.print("Enter from date:");
         String from = keyboard.nextLine();
-        System.out.print("Enter to Date");
+        System.out.print("Enter to Date:");
         String to = keyboard.nextLine();
-        Date dto = Helpers.stringToUtilDate(from);
+        Date dto = Helpers.stringToUtilDate(to);
         Date dfrom = Helpers.stringToUtilDate(from);
-        CommandLineTable t = ReportQueries.getNumBookingsInDateRangeByCity(c, dto, dfrom);
+        CommandLineTable t = ReportQueries.getNumBookingsInDateRangeByCity(c, dfrom, dto);
         t.print();
     }
 
     public void getNumBookingsDateRangeCityPostCode(Connection c){
         System.out.print("Enter from date:");
         String from = keyboard.nextLine();
-        System.out.print("Enter to Date");
+        System.out.print("Enter to Date:");
         String to = keyboard.nextLine();
-        Date dto = Helpers.stringToUtilDate(from);
+        Date dto = Helpers.stringToUtilDate(to);
         Date dfrom = Helpers.stringToUtilDate(from);
-        CommandLineTable t = ReportQueries.getNumberBookingsByPostalCode(c, dto, dfrom);
+        CommandLineTable t = ReportQueries.getNumberBookingsByPostalCode(c, dfrom, dto);
         t.print();
     }
 
     public void rankRentersA(Connection c){
         System.out.print("Enter from date:");
         String from = keyboard.nextLine();
-        System.out.print("Enter to Date");
+        System.out.print("Enter to Date:");
         String to = keyboard.nextLine();
-        Date dto = Helpers.stringToUtilDate(from);
+        Date dto = Helpers.stringToUtilDate(to);
         Date dfrom = Helpers.stringToUtilDate(from);
-        CommandLineTable t = ReportQueries.rankRenters(c, dto, dfrom);
+        CommandLineTable t = ReportQueries.rankRenters(c, dfrom, dto);
         t.print();
     }
 
     public void rankRentersB(Connection c){
         System.out.print("Enter from date:");
         String from = keyboard.nextLine();
-        System.out.print("Enter to Date");
+        System.out.print("Enter to Date:");
         String to = keyboard.nextLine();
-        Date dto = Helpers.stringToUtilDate(from);
+        Date dto = Helpers.stringToUtilDate(to);
         Date dfrom = Helpers.stringToUtilDate(from);
-        CommandLineTable t = ReportQueries.rankRentersCity(c, dto, dfrom);
+        CommandLineTable t = ReportQueries.rankRentersCity(c, dfrom, dto);
         t.print();
     }
 

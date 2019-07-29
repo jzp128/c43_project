@@ -7,7 +7,7 @@ public class RestrictedWords {
     public static HashSet<String> restrictedList = new HashSet<>();
     public RestrictedWords(){
         // initializes
-        String[] res = {"and", "or", "for", "but", "nor", "yet", "so", "is", "so", "was", "are"};
+        String[] res = {"and", "or", "for", "but", "nor", "yet", "so", "is", "so", "was", "are", "am", "a"};
         String[] pron = {"he", "she", "they", "him", "her", "you", "them", "i", "me", "who"};
         this.restrictedList.addAll(Arrays.asList(res));
         this.restrictedList.addAll(Arrays.asList(pron));

@@ -186,7 +186,7 @@ VALUES (5,7,1,0,1,'2010-12-01','2010-12-05'),
 
 INSERT INTO listingReviews (renterID ,bookingID ,listingID ,hosterID ,listingComment ,listingRating ,hostRating ,hosterComment ) 
 VALUES (4,8,7,25, 'This is jimmys review',0,5,'this host was good this is jimmy hi'),
-(3,7,7,25, 'I am a TA, you get a rating of 0', 0,1, 'this host was garbo');
+(3,7,7,25, 'I am a TA, you get a rating of 0 test test test tes test a a a a a a a free free free smell smell smell smell smell', 0,1, 'this host was garbo');
 
 
 INSERT INTO renterReviews (renterID, hosterID, bookingID, listingID, renterComment, renterRating)

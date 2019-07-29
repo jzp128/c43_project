@@ -18,11 +18,13 @@ public class ReportQueries {
         info.setShowVerticalLines(true);
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
-        String q = "SELECT city, COUNT(bookingID) FROM bookings INNER JOIN listing USING(listingID) as A WHERE fromDate >= ? AND toDate <= ? GROUP BY city";
+        String q = "SELECT city, COUNT(bookingID) FROM bookings INNER JOIN listing USING(listingID) WHERE fromDate >= ? AND toDate <= ? GROUP BY city ORDER BY COUNT(bookingID) DESC";
         try {
             PreparedStatement ps = c.prepareStatement(q);
+
             ps.setString(1, fromString);
             ps.setString(2, toString);
+//            System.out.println(ps);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -44,7 +46,7 @@ public class ReportQueries {
         info.setShowVerticalLines(true);
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
-        String q = "SELECT city, postal_code ,COUNT(city) FROM bookings INNER JOIN listing USING(listingID) as A WHERE fromDate <= ? AND toDate >= ? GROUP BY city, postal_code";
+        String q = "SELECT city, postal_code ,COUNT(city) FROM bookings INNER JOIN listing USING(listingID) WHERE fromDate >= ? AND toDate <= ? GROUP BY city, postal_code ORDER BY COUNT(bookingID) DESC";
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ps.setString(1, fromString);
@@ -203,15 +205,15 @@ public class ReportQueries {
     public static CommandLineTable rankRenters(Connection c, Date from, Date to) {
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
-        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate <= ? AND toDate >= ? GROUP BY renterID ORDER BY COUNT(bookingID) DESC";
+        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate >= ? AND toDate <= ? GROUP BY renterID ORDER BY COUNT(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Bookings");
         info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ResultSet rs = ps.executeQuery();
             ps.setString(1, fromString);
             ps.setString(2, toString);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int renterID = rs.getInt("renterID");
                 int count = rs.getInt(2);
@@ -220,7 +222,7 @@ public class ReportQueries {
             rs.close();
             ps.close();
         } catch (SQLException e) {
-
+            System.out.println("oh no");
         }
         return info;
     }
@@ -228,15 +230,15 @@ public class ReportQueries {
     public static CommandLineTable rankRentersCity(Connection c, Date from, Date to) {
         String toString = Helpers.utilDatetoString(to);
         String fromString = Helpers.utilDatetoString(from);
-        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate <= ? AND toDate >= ? GROUP BY renterID (HAVING COUNT(bookingID) >= 2) ORDER BY COUNT(bookingID) DESC";
+        String q = "SELECT renterID, COUNT(bookingID) FROM bookings WHERE fromDate >= ? AND toDate <= ? GROUP BY renterID (HAVING COUNT(bookingID) >= 2) ORDER BY COUNT(bookingID) DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Bookings");
         info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ResultSet rs = ps.executeQuery();
             ps.setString(1, fromString);
             ps.setString(2, toString);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int renterID = rs.getInt("renterID");
                 int count = rs.getInt(2);
@@ -253,15 +255,15 @@ public class ReportQueries {
     public static CommandLineTable reportMaxCancelRenter(Connection c) {
         Date currDate = new Date();
         String cDateString = Helpers.utilDatetoString(currDate);
-        String q = "SELECT renterID, COUNT(bookingID) FROM SELECT bookings WHERE fromDate <= ? AND toDate >= ? AND isCanceled = 1 GROUP BY renterID ORDER BY DESC";
+        String q = "SELECT renterID, COUNT(bookingID) FROM SELECT bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY renterID ORDER BY DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("renterID", "# of Cancellations");
         info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ResultSet rs = ps.executeQuery();
             ps.setString(1, cDateString);
             ps.setString(2, cDateString);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int renterID = rs.getInt("renterID");
                 int count = rs.getInt(2);
@@ -278,15 +280,16 @@ public class ReportQueries {
     public static CommandLineTable reportMaxCancelHost(Connection c) {
         Date currDate = new Date();
         String cDateString = Helpers.utilDatetoString(currDate);
-        String q = "SELECT hosterID, COUNT(bookingID) FROM SELECT bookings WHERE fromDate <= ? AND toDate >= ? AND isCanceled = 1 GROUP BY hosterID ORDER BY DESC";
+        String q = "SELECT hosterID, COUNT(bookingID) FROM SELECT bookings WHERE year(fromDate) = year(?) OR year(toDate) = year(?) AND isCanceled = 1 GROUP BY hosterID ORDER BY DESC";
         CommandLineTable info = new CommandLineTable();
         info.setHeaders("hostID", "# of Bookings");
         info.setShowVerticalLines(true);
         try {
             PreparedStatement ps = c.prepareStatement(q);
-            ResultSet rs = ps.executeQuery();
             ps.setString(1, cDateString);
             ps.setString(2, cDateString);
+            ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 int renterID = rs.getInt("hosterID");
                 int count = rs.getInt(2);
@@ -342,7 +345,7 @@ public class ReportQueries {
                     if(!wordChecker.restricted(s)){
                         String l = s.toLowerCase();
                         wordCount.putIfAbsent(l, 0);
-                        wordCount.put(l, wordCount.get(s) + 1);
+                        wordCount.put(l, wordCount.get(l) + 1);
                     }
                 }
             }
