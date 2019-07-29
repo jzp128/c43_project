@@ -42,6 +42,7 @@ public class HostPage extends UserPage{
 		System.out.println("4. View all the Reviews about Me and my Listings");
 		System.out.println("5. Log Out");
 		System.out.print("Choose one of the previous options [0 - 2]: ");
+		System.out.print("Another option will exit the app:");
 		String option = keyboard.nextLine();
 		
 		try {
@@ -118,14 +119,37 @@ public class HostPage extends UserPage{
 			listingtype = "Room";
 		}
 		
-		System.out.println("ENTER the longitude of the location:");
-		String longitudestring = keyboard.nextLine();
-		Double longitude = Double.parseDouble(longitudestring);
+		Double longitude = 0.00;
+		Double latitude = 0.00;
 		
-		System.out.println("ENTER the latitude of the location:");
-		String latitudestring = keyboard.nextLine();
-		Double latitude = Double.parseDouble(latitudestring);
+		boolean locationdoubleFalse = true;
+		while (locationdoubleFalse) {
+			
+			System.out.println("ENTER the longitude of the location:");
+			String longitudestring = keyboard.nextLine();
+			System.out.println("ENTER the latitude of the location:");
+			String latitudestring = keyboard.nextLine();
+			
+			if(!CheckersGeneric.isNumeric(longitudestring)){
+				System.out.println("Please enter a different longitude!");
+				locationdoubleFalse = true;
+			} else if (!CheckersGeneric.isNumeric(latitudestring)){
+				System.out.println("Please enter a different latitude!");
+				locationdoubleFalse = true;
+			} else {
+				longitude = Double.parseDouble(longitudestring);
+				latitude = Double.parseDouble(latitudestring);
+				locationdoubleFalse = false;
+			}
 
+		} 
+		
+		
+		
+		
+		
+		
+		
 		
 		System.out.print("Address:");
 		String address = keyboard.nextLine();

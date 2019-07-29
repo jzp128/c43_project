@@ -12,6 +12,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -34,7 +35,7 @@ public class App {
 
 	//Database credentials
 	final String USER = "root";
-	final String PASS = "root";
+	final String PASS = "chanja51";
 	private static final String dbClassName = "com.mysql.cj.jdbc.Driver";
 	//private static final String CONNECTION = "jdbc:mysql://localhost:3306/airbnb";
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/airbnb?serverTimezone=America/New_York";
@@ -196,8 +197,10 @@ public class App {
 		
 		boolean dateCheckfalse = true;
 		
+		String dob = "";
+		Date dobsqldate = new Date();
+		
 		while (dateCheckfalse){
-			String dob = "";
 			try {
 				System.out.print("Date of Birth Format (yyyy-MM-dd):");
 				dob = keyboard.nextLine();
@@ -206,6 +209,7 @@ public class App {
 				date = sdf1.parse(dob);
 				java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 				user.dob = sqlStartDate;
+				dobsqldate = sqlStartDate;
 				dateCheckfalse = false;
 			} catch (ParseException e1) {
 				System.out.println("Incorrect birth day format. Please try again!");
@@ -319,6 +323,17 @@ public class App {
 			choice2 = Integer.parseInt(option);
 			switch (choice2) { //Activate the desired functionality
 			case 0:
+				
+				
+				//Date first, Date last
+				if (CheckersGeneric.getDiffYears(dobsqldate,CheckersGeneric.currentDate()) < 18){
+					System.out.println("Sorry! You are not old enough!");
+					System.out.println("Exiting...");
+					this.welcome();
+					return;
+
+				}
+				
 				user.makeUser(conn);
 				try {
 					boolean success;
@@ -338,6 +353,7 @@ public class App {
 					}
 				break;
 			default:
+				this.welcome();
 				break;
 			case 1:
 				this.welcome();
