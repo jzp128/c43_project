@@ -258,6 +258,8 @@ public class UserPage {
         Double latitude = 0.00;
         Double range = 0.00;
 
+        System.out.println("Note: If you do not chose any of the below filters, at minimum, all the");
+        System.out.println("lisings that have availabilities will be listed.");
         System.out.print("Search by LOCATION? (Y/N):");
         choice = keyboard.nextLine();
         String in = "";

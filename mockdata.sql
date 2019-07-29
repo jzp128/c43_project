@@ -152,4 +152,5 @@ VALUES
 
 INSERT INTO bookings (hostID,renterID,listingID,isCanceled,isHistory,fromDate,toDate) 
 VALUES (5,7,1,0,1,'2010-12-01','2010-12-05'),
-(5,7,1,0,1,'2010-12-06','2010-12-10');
+(5,7,1,0,1,'2010-12-06','2010-12-10'),
+(13,7,6,0,0,'2019-10-02','2019-10-11');
