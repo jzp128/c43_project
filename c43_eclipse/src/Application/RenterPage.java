@@ -388,7 +388,7 @@ public class RenterPage extends UserPage {
                         System.out.println("You cannot rate/review a canceled booking.");
                         renterbooking(c, u);
                         break;
-                    } else if (CheckersGeneric.range(0, 30, recent)) {
+                    } else if (!CheckersGeneric.range(0, 30, recent)) {
                         System.out.println("You can only rate/review a recent booking after 30 days.");
                         renterbooking(c, u);
                         break;
