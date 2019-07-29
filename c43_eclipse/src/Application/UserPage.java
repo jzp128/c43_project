@@ -336,11 +336,11 @@ public class UserPage {
 		choice = keyboard.nextLine();
 		if (choice.toLowerCase().equals("y")) {
 			ListingQueries.getAllAments(c).print();
-			System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
-
+			
 			int input = 0;
 			ArrayList<Integer> ids = new ArrayList<>();
 			while(true){
+				System.out.print("Enter all amenities you want by their ids, enter -1 to finish and submit.");
 				String amentIdStr = keyboard.nextLine();
 				input = Integer.parseInt(amentIdStr);
 				if(input >= 1 && input <= 18){
