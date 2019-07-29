@@ -4,7 +4,7 @@ VALUES
 ('987654321','Jacqueline-Chan','1990-01-17','Programmer','jacqueline','chan','22 Mum Court','Canada','Markham','L6C158',1),
 ('123456789','Haque-Yas','1991-01-17','Artist','haquey','asdf','22 Ber Court','Canada','Markham','L6C158',1),
 ('234567890','Andrew-Leung','1992-03-17','Driver','andrewl','sdfg','22 Son Court','Canada','Markham','L6C158',0),
-('345678901','Jimmy-P','1993-06-17','Teacher','jimmy','pang','9 Courtway Street','Canada','Toronto','L8V2R7',1),
+('345678901','Jimmy-P','1993-06-17','Teacher','jimmy','pang','9 Courtway Street','Canada','Toronto','L8V2R7',0),
 ('456789012','Kevin-B','1994-05-17','Engineer','kevinb','qwe','2 House Street','Canada','Toronto','L8V2R5',1),
 ('567890123','Harsh-P','1995-08-17','Librarian','harshp','chan','21 Kigh Street','Canada','Toronto','L8V304',1),
 ('678901234','Pat-Li','1996-02-17','Animator','patl','123','20 Land Street','Canada','Toronto','L8V304',0),

@@ -250,8 +250,7 @@ public class UserPage {
             longitude = Double.parseDouble(in);
             System.out.print("Enter range (will default to 5KM if nothing is entered):");
             in = keyboard.nextLine();
-            range = 0.00;
-            if (in == "") {
+            if (in == null) {
                 range = 5.00;
             } else {
                 range = Double.parseDouble(in);
