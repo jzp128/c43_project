@@ -63,6 +63,7 @@ public class HostToolKitAmenitiesPage {
 		
 		
 		ArrayList<AmenityToolKit> list = HostToolKitQueries.groupAmenityBookingsNotCanceled(c);
+		ArrayList<AmenityToolKit> listc = HostToolKitQueries.groupAmenityBookingsNotCanceledComplement(c);
 		int denominator = HostToolKitQueries.countBookingsNotCanceled(c);
 		
 		double accumulator = 0;
@@ -126,6 +127,35 @@ public class HostToolKitAmenitiesPage {
 				}
 			}
 		}
+		for (AmenityToolKit x: listc){
+			
+			for (Amenity x2: data) {
+				if ((x2.amenBool==false) && (x.id == x2.amenid)){
+					System.out.println("===========================");
+					
+					if (whitelist.contains(x.id)){
+						System.out.println("This amenity is determined as a very popular demand !!!");
+						System.out.println("Our team definitely suggest this!!!!");
+					}
+					
+					System.out.println("Amenity" + "[ "+x.id+ " ]"); // amneitiy name
+					System.out.print(x.item); // amneitiy name
+					System.out.print(" : "); // amneitiy name
+					System.out.println(x.desc); // amneitiy description
+					
+					double fraction = (double)x.count/(double)denominator;
+					double finalfraction = round((double)x.count/(double)denominator,2) + 2;
+					
+					accumulator += finalfraction;
+					
+					
+					System.out.println("A 2% + " +round(fraction,2)+ "% =" + finalfraction +"% revenue increase is to be expected if added");
+					System.out.println("===========================");
+					
+					break;
+				}
+			}
+		}
 		return accumulator;
 	}
 	
@@ -134,6 +164,7 @@ public class HostToolKitAmenitiesPage {
 	public double selectedAllprintAmenities(Connection c, List<Amenity> data){
 		
 		ArrayList<AmenityToolKit> list = HostToolKitQueries.groupAmenityBookingsNotCanceled(c);
+		ArrayList<AmenityToolKit> listc = HostToolKitQueries.groupAmenityBookingsNotCanceledComplement(c);
 		int denominator = HostToolKitQueries.countBookingsNotCanceled(c);
 		
 		double accumulator = 0;
@@ -146,6 +177,20 @@ public class HostToolKitAmenitiesPage {
 					double fraction = (double)x.count/(double)denominator;
 					double finalfraction = round(fraction,2) + 2;
 
+					accumulator += round(finalfraction,2);			
+					
+					break;
+				}
+			}
+		}
+		for (AmenityToolKit x: listc){
+			
+			for (Amenity x2: data) {
+				if (x.id == x2.amenid){
+					
+					double fraction = (double)x.count/(double)denominator;
+					double finalfraction = round(fraction,2) + 2;
+					
 					accumulator += round(finalfraction,2);			
 					
 					break;

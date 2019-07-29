@@ -243,6 +243,34 @@ public class HostToolKitQueries {
     	}
     	return list;
     }
+    /*
+     * the compliment query to get the number of uncanceled bookings have each amenity
+     * 
+     */
+    public static ArrayList<AmenityToolKit> groupAmenityBookingsNotCanceledComplement(Connection c){
+    	String q = "select * from amenities j where j.amentid not in (select c.amentid from amenities c inner join (select count(*),amentID from amenitiesList a inner join (select DISTINCT listingID from bookings where isCanceled = 0) as b on  a.listingID = b.listingID  group by amentID order by amentID ) as d where c.amentID = d.amentID);";
+    	ArrayList<AmenityToolKit> list = new ArrayList<AmenityToolKit>();
+    	
+    	try {
+    		PreparedStatement ps = c.prepareStatement(q);
+    		ps.execute();
+    		ResultSet rs = ps.getResultSet();
+    		while (rs.next()) {
+    			AmenityToolKit amen = new AmenityToolKit();
+    			amen.id = rs.getInt(1);
+    			amen.item = rs.getString(2);
+    			amen.desc = rs.getString(3);
+    			amen.count = 0;
+    			list.add(amen);
+    		}
+    		rs.close();
+    		ps.close();
+    	} catch (SQLException e) {
+    		// TODO: ADD ERROR MESSAGE
+    		e.printStackTrace();
+    	}
+    	return list;
+    }
 
 
 	public static void main(String[] args) {
