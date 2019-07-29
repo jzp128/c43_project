@@ -153,8 +153,9 @@ public class App {
 				this.welcome();
 				break;
 			}
-		} catch (NumberFormatException e) {
-			option = "-1";
+		} catch (Exception e) {
+			this.welcome();
+			return;
 		}
 	}
 	

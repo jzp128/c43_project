@@ -314,6 +314,7 @@ public class RenterPage extends UserPage {
 
                         } catch (Exception e) {
                             System.out.println("Please Try Again!");
+                            ratingWrong = true;
                         }
 
 						System.out.println("Provide a rating from [0-5] for the host:");
@@ -330,6 +331,7 @@ public class RenterPage extends UserPage {
 
 						} catch (Exception e) {
 							System.out.println("Please Try Again!");
+							ratingWrong = true;
 						}
 
                     }

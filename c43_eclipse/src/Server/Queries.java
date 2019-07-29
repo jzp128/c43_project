@@ -891,8 +891,8 @@ public class Queries {
             ps.setInt(4, b.hostID);
             ps.setString(5, listingreview);
             ps.setInt(6, listingrating);
-            ps.setString(7, hostreview);
-            ps.setInt(8, hostrating);
+            ps.setInt(7, hostrating);
+            ps.setString(8, hostreview);
             r = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             rs.close();

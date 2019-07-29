@@ -198,9 +198,9 @@ public class ReviewPageQueries {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			System.out.println("Content: " + x.listingcontent);
-			System.out.print("Rating: " + x.listingrating);
+			System.out.println("Rating: " + x.listingrating);
 			System.out.println("Host Comment: " + x.hostcomment);
-			System.out.print("Host Rating: " + x.hostrating);
+			System.out.println("Host Rating: " + x.hostrating);
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("Made by User: " + x.renterid);
 			System.out.println("References booking: " + x.bookingid);
@@ -230,7 +230,7 @@ public class ReviewPageQueries {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			System.out.println("Renter Comment: " + x.rentercomment);
-			System.out.print("Renter Rating: " + x.renterrating);
+			System.out.println("Renter Rating: " + x.renterrating);
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			System.out.println("Made by User: " + x.hosterid);
 			System.out.println("References booking: " + x.bookingid);

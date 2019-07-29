@@ -49,6 +49,10 @@ public class UserPage {
 				Queries.deleteUser(c, u.loginname);
 				Queries.deleteRenter(c, u.id );
 				
+				
+				
+				//delete everything related to them as well
+				
 				App.application.welcome();
 				break;
 			default:
@@ -126,7 +130,7 @@ public class UserPage {
 			
 			System.out.println("Type NO to cancel or any other key to continue!");
 			String tooloption2 = keyboard.nextLine();
-			if (tooloption.equalsIgnoreCase("no")){
+			if (tooloption2.equalsIgnoreCase("no")){
 				return false;
 			}
 
@@ -220,9 +224,18 @@ public class UserPage {
 	
 	public void renterBooking(Connection c, Listing l, User u, Date from, Date to){
 		
-		Queries.updateListingAvailibility(c, l.id, from , to);
-		
-		Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
+		try {			
+			Queries.insertSingleBooking(c,l.hostID,u.id,l.id,from,to);
+		} catch (Exception e){
+			System.out.println("An error has appeared to occur, please try again later.");
+			return;
+		}
+		try {			
+			Queries.updateListingAvailibility(c, l.id, from , to);
+		} catch (Exception e){
+			System.out.println("An error has appeared to occur, please try again later.");
+			return;
+		}
 		
 	}
 	

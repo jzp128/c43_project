@@ -108,6 +108,7 @@ public class HostPage extends UserPage{
 				optionb = CheckersGeneric.range(0,2,housingchoice);
 			} catch (Exception e) {
 				System.out.println("Invalid Option!");
+				makeListingPage(c);
 			}
 		}
 		
