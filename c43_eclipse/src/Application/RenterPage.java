@@ -28,7 +28,7 @@ public class RenterPage extends UserPage {
         System.out.println("====RENTER'S HOME PAGE====");
         System.out.println("0  View my Bookings.");
         System.out.println("1. Search for a Listing.");
-        System.out.println("2. Look at Availible Listings.");
+        System.out.println("2. Look at all Listings.");
         System.out.println("3. Delete My Account.");
         System.out.println("4. View all the Reviews I Made About Hosts & Listings.");
         System.out.println("5. View all the Reviews about Me");
