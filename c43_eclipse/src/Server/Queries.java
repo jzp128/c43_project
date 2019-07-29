@@ -1338,12 +1338,13 @@ public class Queries {
 
     }
 
-    public static void updateAllListingPrices(Connection c){
+    public static ArrayList<Integer> updateAllListingPrices(Connection c){
         String q = "SELECT DISTINCT listingID from available";
+        ArrayList<Integer> ids = new ArrayList<>();
         try {
             PreparedStatement ps = c.prepareStatement(q);
             ResultSet rs = ps.executeQuery();
-            ArrayList<Integer> ids = new ArrayList<>();
+
             while (rs.next()){
                int id = rs.getInt("listingID");
                ids.add(id);
@@ -1351,11 +1352,10 @@ public class Queries {
             ps.close();
             rs.close();
 
-            for (Integer a : ids){
-                updateListingAvgCost(c, a);
-            }
+
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return ids;
     }
 }
