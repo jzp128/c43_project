@@ -55,8 +55,19 @@ public class HostPage extends UserPage{
 				this.hostlisting(c,u);
 				break;
 			case 2:
-				super.deleteAccount(c,user);
-				break;
+				
+				if (Queries.checkListingExistForHostDeletion(c,u.id) > 0) {
+					System.out.println("Listings exists under your account, you cannot delete your account!");
+					hostPageMenu(c,u);
+					break;
+				} else if (Queries.checkReviewsExistForHostDeletion(c,u.id) > 0 || Queries.checkBookingsExistForHostDeletion(c,u.id) > 0 || Queries.checkAvailBookingsExistForHostDeletion(c,u.id) > 0){
+					System.out.println("Bookings exists under your account, you cannot delete your account!");
+					hostPageMenu(c,u);
+					break;
+				} else {				
+					super.deleteAccount(c,user);
+					break;
+				}
 			case 3:
 				ArrayList<RenterReview> reviewlist = ReviewPageQueries.getReviewsAboutRentersMadeByAHost(c, u.id);
 				if (reviewlist.isEmpty()){
@@ -224,8 +235,9 @@ public class HostPage extends UserPage{
 					amen.get(i).amenBool = false;
 					break;
 				}
-			} catch (NumberFormatException e) {
-				option = "-1";
+			} catch (Exception e) {
+				amen.get(i).amenBool = false;
+				break;
 			}
 		}
 		
@@ -233,6 +245,17 @@ public class HostPage extends UserPage{
 		System.out.println("Press anyother key to continue!");
 		String tooloption = keyboard.nextLine();
 		if (tooloption.equalsIgnoreCase("yes")){
+			
+//			
+//			System.out.println("this is the amen list from passing into hosttoolkit");//todo remove this
+//			System.out.println(amen);
+//			
+//			for (Amenity x: amen){
+//				System.out.println(x.amenDescription);
+//				System.out.println(x.amenid);
+//				System.out.println(x.amenBool);
+//			}
+			
 			HostToolKitAmenitiesPage temphostpage = new HostToolKitAmenitiesPage(c,amen);
 		}
 		

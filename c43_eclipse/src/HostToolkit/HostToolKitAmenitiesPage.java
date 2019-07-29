@@ -37,6 +37,12 @@ public class HostToolKitAmenitiesPage {
 			if (x.amenBool == false){
 				missing = true;
 			}
+			
+//			System.out.println("this is the data list"); //TODO erase this
+//
+//			System.out.println(data); //TODO erase this
+//
+//			System.out.println(x.amenDescription); //TODO erase this
 		}
 		
 		if (missing) {
@@ -55,10 +61,41 @@ public class HostToolKitAmenitiesPage {
 	
 	public double printAmenities(Connection c, List<Amenity> data){
 		
+		
 		ArrayList<AmenityToolKit> list = HostToolKitQueries.groupAmenityBookingsNotCanceled(c);
 		int denominator = HostToolKitQueries.countBookingsNotCanceled(c);
 		
 		double accumulator = 0;
+		
+		if (list.isEmpty() || denominator == 0){
+			System.out.println("As of right now, you are the first to contribute to a non canceled listing ");
+			
+			for (Amenity x0: data) {
+				if ((x0.amenBool==false)){
+					System.out.println("===========================");
+					
+					if (whitelist.contains(x0.amenid)){
+						System.out.println("This amenity is determined as a very popular demand !!!");
+						System.out.println("Our team definitely suggest this!!!!");
+					}
+					
+					System.out.println("Amenity" + "[ "+x0.amenid+ " ]"); // amneitiy name
+					System.out.print(x0.amenName); // amneitiy name
+					System.out.print(" : "); // amneitiy name
+					System.out.println(x0.amenDescription); // amneitiy description
+					
+					double finalfraction = 2;
+					
+					accumulator += finalfraction;
+					
+					
+					System.out.println("A 2% revenue increase is to be expected if added");
+					System.out.println("===========================");
+
+				}
+			}	
+			return accumulator;
+		}
 		
 		for (AmenityToolKit x: list){
 			
