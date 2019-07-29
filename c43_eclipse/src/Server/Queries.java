@@ -904,15 +904,15 @@ public class Queries {
     }
     public static int writeRenterReview(Connection c, User u, Booking b,String review, int rating){
     	int r = -1;
-    	String q = "INSERT INTO renterReviews (hosterID, renterID, listingID, listingComment ,listingRating, bookingID) values(?,?,?,?,?,?)";
+    	String q = "INSERT INTO renterReviews (renterID, hosterID, bookingID, listingID, renterComment ,renterRating) values(?,?,?,?,?,?)";
     	try {
     		PreparedStatement ps = c.prepareStatement(q);
-    		ps.setInt(1, u.id);
-    		ps.setInt(2, b.renterID);
-    		ps.setInt(3, b.listingID);
-    		ps.setString(4, review);
-    		ps.setInt(5, rating);
-            ps.setInt(6, b.bookingID);
+    		ps.setInt(1, b.renterID);
+    		ps.setInt(2, u.id);
+            ps.setInt(3, b.bookingID);
+    		ps.setInt(4, b.listingID);
+    		ps.setString(5, review);
+    		ps.setInt(6, rating);
     		r = ps.executeUpdate();
     		ResultSet rs = ps.getGeneratedKeys();
     		rs.close();
@@ -1244,7 +1244,8 @@ public class Queries {
 	      
 	      
 	      
-	      System.out.println(checkSINTaken(application.getconn(),"0"));
+	      
+	      
 
 	      
 	      
